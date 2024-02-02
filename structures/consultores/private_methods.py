@@ -16,6 +16,13 @@ class PrivateMethods(
         ]
 
         super().__init__(dataframe = self.dataframe)
+
+    def __get_nunique__months__(self) -> int:
+        dataframe = self.dataframe.copy()
+        dataframe['DATA'] = dataframe['MÊS'] + dataframe['ANO'].astype(str)
+
+        return dataframe['DATA'].nunique()
+
     
     def __formatar_nomes__(self) -> None:
         # Função para formatar o nome dos consultores 
@@ -130,7 +137,7 @@ class PrivateMethods(
         if retorno == 'QUANTIDADE':
             quantidade_ou_receita = self.quantidade()
 
-        media_mensal = quantidade_ou_receita / len(meses)
+        media_mensal = quantidade_ou_receita / self.__get_nunique__months__()
 
         return int(media_mensal)
     

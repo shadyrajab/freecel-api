@@ -1,8 +1,6 @@
 import pandas as pd
 
-dataframe_movel = pd.read_excel('database/dataframes/vendas concluidas - fixa - 2023 e 2022.xlsx')
-dataframe_fixa = pd.read_excel('database/dataframes/vendas concluidas - movel - 2023 e 2022.xlsx')
-dataframe_geral = pd.concat([dataframe_movel, dataframe_fixa])
+dataframe_geral = pd.read_excel('database/dataframes/df_full.xlsx')
 
 dataframe_geral.replace({
     'JÁ CLIENTE': 'ALTAS', 

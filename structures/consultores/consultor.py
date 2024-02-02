@@ -1,7 +1,10 @@
 import pandas as pd
 from structures.consultores.private_methods import PrivateMethods
+from dataframe.dataframe import DataFrame
 
-class Consultor(PrivateMethods):
+class Consultor(
+    PrivateMethods,
+    ):
     def __init__(self, name):
         super().__init__(name = name)
 
@@ -238,7 +241,7 @@ class Consultor(PrivateMethods):
 
         return quantidade_media_diaria
     
-    def group_by_meses(self, ano: int) -> pd.DataFrame:
+    def groupby_mes(self, ano: int) -> pd.DataFrame:
 
         """
             Agrupa o total de vendas de cada mês realizadas por um determinado consultor
@@ -281,14 +284,24 @@ class Consultor(PrivateMethods):
 
         return vendas_mensais
     
-    def group_by_ano(self) -> pd.DataFrame:
+    def groupby_ano(self) -> pd.DataFrame:
 
         """
-            Agrupa o total de vendas de cada ano realizadas por um determinado consultor
-
+            Retorna um dataframe com a receita de cada ano deum determinado consultor
         """
 
         dataframe_grouped = self.dataframe.groupby('ANO', as_index = False).sum(numeric_only = True)
         vendas_anuais = dataframe_grouped.sort_values(by = 'ANO', ascending = True)
 
         return vendas_anuais
+    
+    def groupby_produto(self) -> pd.DataFrame:
+
+        """
+            Retorna um dataframe com a receita total vendida por cada produto
+        """
+
+        dataframe_grouped = self.dataframe.groupby('TIPO', as_index = False).sum(numeric_only = True)
+        receita_por_produto = dataframe_grouped.sort_values(by = 'VALOR ACUMULADO', ascending = False)
+
+        return receita_por_produto

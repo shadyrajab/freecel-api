@@ -1,4 +1,5 @@
 from structures.consultores.consultor import Consultor
+from structures.rankings.ranking import Rankings
 from dataframe.dataframe import DataFrame
 import pandas as pd
     
@@ -13,7 +14,8 @@ class Client(
             password
         )
 
-        self.Consultor = Consultor
+    def Consultor(self, nome):
+        return Consultor(nome)
 
     def quantidade_de_vendas(self, ano: int = None, mes: str = None) -> int:
 
