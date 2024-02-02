@@ -7,17 +7,14 @@ client = Client(
     password='@sH^2004_'
 )
 
-
-flavio_ticket_medio = client.Consultor('FLAVIO HENRIQUE').ticket_medio
-
-print(flavio_ticket_medio)
+client.consultor_do_mes(2023, 'JAN')
 
 """
     Client -> {
-        CONSULTORES,
-        ESCRITORIO,
-        PRODUTOS,
-        RANKINGS
+        CONSULTORES[PRIVATE_METHODS],
+        ESCRITORIO[PRIVATE_METHODS],
+        PRODUTOS[PRIVATE_METHODS],
+        RANKINGS[PRIVATE_METHODS]
     } -> {
         DATAFRAME -> {
             CONNECTION
