@@ -27,6 +27,10 @@ class Consultor(
         dias_trabalhados = len(meses_trabalhados) * 22
 
         return dias_trabalhados
+    
+    @property
+    def quantidade_clientes(self):
+        return self.dataframe.shape[0]
 
     @property
     def years(self) -> list:

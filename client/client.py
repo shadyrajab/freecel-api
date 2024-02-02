@@ -16,6 +16,9 @@ class Client(
 
     def Consultor(self, nome):
         return Consultor(nome)
+    
+    def Ranking(self):
+        return Rankings()
 
     def quantidade_de_vendas(self, ano: int = None, mes: str = None) -> int:
 
