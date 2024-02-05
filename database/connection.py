@@ -1,6 +1,6 @@
 import psycopg2
 
-class DataBaseConnection:
+class DataBase:
     def __init__(self, host, database, user, password):
         self.host = host
         self.database = database
@@ -14,13 +14,7 @@ class DataBaseConnection:
             Realizando a conexão com o banco de dados da Freecel.
         """
         
-        connection = psycopg2.connect(
-            host = 'localhost', 
-            database = 'freecel', 
-            user = 'postgres', 
-            password = '@sH^2004_'
-        )
-
+        connection = psycopg2.connect(self.host, self.database, self.user, self.password)
         cursor = connection.cursor()
 
         return cursor

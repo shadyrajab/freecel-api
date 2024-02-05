@@ -1,11 +1,11 @@
 import pandas as pd
 from database.objects import dataframe_geral, meses
-from database.connection import DataBaseConnection
+from database.connection import DataBase
 
 from typing import Optional
 
 class DataFrame(
-    DataBaseConnection
+    DataBase
 ):
     def __init__(self, host, database, user, password):
         super().__init__(
@@ -14,8 +14,7 @@ class DataFrame(
             user = user, 
             password = password
         )
-    
-        self.cursor = self.__create_connection__()
+        
         self.dataframe = self.get_full_dataframe()
 
     def get_full_dataframe(self):
