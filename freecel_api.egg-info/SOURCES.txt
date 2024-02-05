@@ -1,5 +1,0 @@
-setup.py
-freecel_api.egg-info/PKG-INFO
-freecel_api.egg-info/SOURCES.txt
-freecel_api.egg-info/dependency_links.txt
-freecel_api.egg-info/top_level.txt

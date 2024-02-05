@@ -1,0 +1,6 @@
+setup.py
+freecel.egg-info/PKG-INFO
+freecel.egg-info/SOURCES.txt
+freecel.egg-info/dependency_links.txt
+freecel.egg-info/requires.txt
+freecel.egg-info/top_level.txt

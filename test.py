@@ -1,14 +1,14 @@
-from client.client import Client
+from client.client import Freecel
 
-client = Client(
+client = Freecel(
     host='localhost', 
     database='freecel', 
     user='postgres', 
     password='@sH^2004_'
 )
 
-doidao = client.Consultor('FLAVIO HENRIQUE').receita_media_mensal
-print(doidao)
+doidao = client.Ranking().ranking_produtos(2023, 'Janeiro')
+print(doidao.sort_values(by= 'QUANTIDADE DE PRODUTOS', ascending=True))
 
 """
 
