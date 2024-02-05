@@ -21,6 +21,7 @@ class DataFrame(
         # query = 'SELECT * FROM VENDAS_CONCLUIDAS'
         # dataframe = pd.read_sql(self.cursor, query)
 
+        dataframe_geral['DATA'] = dataframe_geral['ANO'].astype(str) + '/' + dataframe_geral['MÊS']
         return dataframe_geral
 
     @staticmethod

@@ -373,8 +373,6 @@ class Consultor():
         # Retorna o último ano que o consultor realizou uma venda.
         ultimo_ano = max(self.years)
 
-        self.dataframe['DATA'] = self.dataframe['ANO'].astype(str) + '/' + self.dataframe['MÊS']
-
         for mes in meses:
             static = pd.DataFrame({
                 'UF': [None],
