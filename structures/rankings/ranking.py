@@ -1,16 +1,45 @@
+import pandas as pd
+from typing import Optional
+
 from dataframe.dataframe import DataFrame
 
-class Rankings(
-    DataFrame
-):
-    def __init__(self, ranking, host, database, user, password):
-        super().__init__(
-            host,
-            database,
-            user,
-            password
-        )
-        self.ranking = ranking
+class Rankings:
+    def __init__(self, dataframe):
+        self.dataframe = dataframe
 
-    def ranking_consultores(self):
-        pass
+    def filter_by(self, ano, mes, tipo):
+        return DataFrame.filter_by(self.dataframe, ano, mes, tipo)
+
+    def ranking_consultores(self, ano: Optional[int] = None, mes: Optional[str] = None, tipo: Optional[int] = None) -> pd.DataFrame:
+        """ 
+            Retorna um ``DataFrame`` com o ranking dos consultores que mais venderam em um determinado 
+            período.
+
+            Parâmetros:
+            -----------
+            ano : int | None
+                Parâmetro opcional para filtrar as vendas por base no ano. Se fornecido, o ranking
+                será para esse ano. 
+
+            mes : str | None
+                Parâmetro opcional para filtrar as vendas por base no mês. Se fornecido, o ranking 
+                será para esse mês. O parâmetro ano deve ser fornecido caso o mês seja especificado.
+
+            tipo: str | None
+                Parâmetro opcional para gerar o ranking baseado no tipo de venda. Se fornecido, será
+                gerado um ranking para um tipo de venda específico 
+
+            Retorna:
+            -----------
+            pd.DataFrame
+                Um DataFrame contendo o ranking dos consultores com base na quantidade total de vendas.
+         """
+        
+        if tipo not in {'FIXA', 'AVANÇADA', 'VVN', 'MIGRAÇÃO PRÉ-PÓS'}:
+            raise ValueError("O tipo de venda deve ser {'ALTAS', 'FIXA' | 'AVANÇADA' | 'VVN' | 'MIGRAÇÃO PRÉ-PÓS'}")
+        
+        ranking_consultores = self.filter_by(ano, mes, tipo).groupby('CONSULTOR', as_index = False).sum(numeric_only = True)
+        ranking_consultores.drop(['ANO', 'VALOR DO PLANO'], axis = 1, inplace = True)
+
+        return ranking_consultores
+
