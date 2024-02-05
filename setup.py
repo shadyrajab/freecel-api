@@ -1,7 +1,4 @@
 from setuptools import setup, find_packages
-from client.client import Client
-
-Client = Client
 
 setup(
     name = 'freecel',
