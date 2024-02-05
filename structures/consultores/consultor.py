@@ -4,11 +4,15 @@ from dataframe.dataframe import DataFrame
 meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
 
 class Consultor():
-    def __init__(self, name, dataframe):
+    def __init__(self, name, dataframe, filtro):
         self.name = name
         self.dataframe = dataframe[
             (dataframe['CONSULTOR'] == name)
         ]
+
+        if filtro:
+            ano, mes = filtro
+            self.dataframe = DataFrame.filter_by(self.dataframe, ano, mes)
 
         self.__add_static_values__()
 
@@ -100,9 +104,9 @@ class Consultor():
                 total daquele mês. Deve informar o ano caso utilize-o.
         """
             
-        dataframe = self.filter_by(ano, mes, self.name)
+        dataframe = self.filter_by(ano, mes)
 
-        return dataframe['QUANTIDADADE DE PRODUTOS'].sum()
+        return dataframe['QUANTIDADE DE PRODUTOS'].sum()
     
     @property
     def ticket_medio(self) -> int:
@@ -116,10 +120,7 @@ class Consultor():
             ``receita_total / quantidade_de_vendas ``
         """
 
-        receita_total = self.receita()
-        quantidade_de_vendas = self.dataframe.shape[0]
-
-        ticket_medio = receita_total / quantidade_de_vendas
+        ticket_medio = self.receita() / self.quantidade_clientes
 
         return ticket_medio
     
@@ -135,7 +136,7 @@ class Consultor():
             ``receita_total / (anos * 12)``
         """
 
-        receita_media_mensal = self.__get_media_mensal_receita_ou_quantidade__('RECEITA')
+        receita_media_mensal = self.receita() / self.meses_trabalhados
 
         return receita_media_mensal
     
@@ -151,7 +152,7 @@ class Consultor():
             ``quantidade_total / (anos * 12)
         """
 
-        quantidade_media_mensal = self.__get_media_mensal_receita_ou_quantidade__('QUANTIDADE')
+        quantidade_media_mensal = self.quantidade() / self.meses_trabalhados
 
         return quantidade_media_mensal
     
@@ -369,6 +370,8 @@ class Consultor():
 
         # Retorna o último ano que o consultor realizou uma venda.
         ultimo_ano = max(self.years)
+
+        self.dataframe['DATA'] = self.dataframe['ANO'].astype(str) + '/' + self.dataframe['MÊS']
 
         for mes in meses:
             static = pd.DataFrame({
