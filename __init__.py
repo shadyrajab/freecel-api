@@ -1,0 +1,1 @@
+print("Módulo instalado com sucesso")
