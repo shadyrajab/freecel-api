@@ -102,7 +102,7 @@ class Consultor():
             
         dataframe = self.filter_by(ano, mes, self.name)
 
-        return dataframe['QUANTIDA DE PRODUTOS'].sum()
+        return dataframe['QUANTIDADADE DE PRODUTOS'].sum()
     
     @property
     def ticket_medio(self) -> int:
