@@ -4,6 +4,8 @@ from dataframe.dataframe import DataFrame
 import pandas as pd
 
 from typing import Optional
+
+meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
     
 class Freecel(
     DataFrame
@@ -46,7 +48,30 @@ class Freecel(
         """
 
         return list(self.filter_by(ano)['MÊS'].unique())
-    
+
+    def delta_ticket_medio(self, ano: int = None, mes: str = None) -> int:
+        """
+            Retorna o ``delta`` do ticket médio de um determinado período.
+            O valor é utilizado como parâmetro para a função ``st.metrics`` do streamlit.
+        """
+
+        return self.__calculate_delta_metric__(self.ticket_medio, ano, mes)
+
+    def delta_media_diaria(self, ano: int = None, mes: str = None) -> int:
+        """
+            Retorna o ``delta`` da média diária de vendas de um determinado período.
+            O valor é utilizado como parâmetro para a função ``st.metrics`` do streamlit.
+        """
+        return self.__calculate_delta_metric__(self.receita_media_diaria, ano, mes)
+
+    def delta_media_por_consultor(self, ano: int = None, mes: str = None) -> int:
+        """
+            Retorna o ``delta`` da média por consultor de um determinado período.
+            O valor é utilizado como parâmetro para a função ``st.metrics`` do streamlit.
+        """
+        return self.__calculate_delta_metric__(self.media_por_consultor, ano, mes)
+
+
     def qtd_vendas_por_cnae(self, codg: str) -> pd.DataFrame:
         """
             Retorna um ``DataFrame`` com a quantidade de vendas por cada CNAE de empresa .
@@ -205,4 +230,19 @@ class Freecel(
 
         return media_por_consultor
 
+    def __calculate_delta_metric__(self, metric_function, ano: int = None, mes: str = None) -> int:
+        """
+            Retorna o ``delta`` da métrica calculada por consultor de um determinado período.
+            O valor é utilizado como parâmetro para a função ``st.metrics`` do streamlit.
+        """
+        
+        # Caso o ano e mês anterior ao informado seja o primeiro mês com ocorrências de venda. O valor retornado é 0 
+        if ano == min(self.years()) and mes == 'Janeiro':
+            return 0
+
+        ano_delta = ano - 1 if mes == 'Janeiro' else ano
+        index_mes_passado = meses.index(mes) - 1
+        mes_delta = meses[index_mes_passado]
+
+        return metric_function(ano, mes) - metric_function(ano_delta, mes_delta)
     
