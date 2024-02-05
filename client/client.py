@@ -48,6 +48,15 @@ class Freecel(
         """
 
         return list(self.filter_by(ano)['MÊS'].unique())
+    
+    def mes_que_mais_vendeu(self) -> int:
+        """
+            Retorna o valor do mês que teve a maior receita
+        """
+
+        dataframe = self.dataframe.groupby('DATA', as_index = False).sum(numeric_only = True)
+
+        return dataframe['VALOR ACUMULADO'].max()
 
     def delta_ticket_medio(self, ano: int = None, mes: str = None) -> int:
         """
