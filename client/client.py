@@ -19,19 +19,33 @@ class Freecel(
     def filter_by(self, ano, mes):
         return DataFrame.filter_by(self.dataframe, ano ,mes)
 
-    def Consultor(self, nome, filtro: Optional[list] = None):
+    def Consultor(self, nome, filtro: Optional[list] = None) -> Consultor:
         """
             Cria uma instância da classe ``Consultor``
         """
 
         return Consultor(nome, self.dataframe, filtro)
     
-    def Ranking(self):
+    def Ranking(self) -> Rankings:
         """
             Cria uma instância da classe ``Ranking``
         """
 
         return Rankings(self.dataframe)
+    
+    def years(self) -> list[int]:
+        """
+            Retorna uma lista com todos os anos com ocorrência de vendas
+        """
+
+        return list(self.dataframe['ANO'].unique())
+
+    def months(self, ano) -> list[str]:
+        """
+            Retorna uma lista com todos os meses de um determinado ano com ocorrência de vendas
+        """
+
+        return list(self.filter_by(ano)['MÊS'].unique())
     
     def qtd_vendas_por_cnae(self, codg: str) -> pd.DataFrame:
         """
