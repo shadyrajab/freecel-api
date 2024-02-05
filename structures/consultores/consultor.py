@@ -1,12 +1,19 @@
 import pandas as pd
-from structures.consultores.private_methods import PrivateMethods
 from dataframe.dataframe import DataFrame
 
-class Consultor(
-    PrivateMethods,
-    ):
-    def __init__(self, name):
-        super().__init__(name = name)
+meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+
+class Consultor():
+    def __init__(self, name, dataframe):
+        self.name = name
+        self.dataframe = dataframe[
+            (dataframe['CONSULTOR'] == name)
+        ]
+
+        self.__add_static_values__()
+
+    def filter_by(self, ano, mes):
+        return DataFrame.filter_by(self.dataframe, ano , mes)
 
     @property
     def dias_trabalhados(self) -> int:
@@ -16,21 +23,30 @@ class Consultor(
 
         """
 
-        dataframe = self.dataframe
-
-        # Concatena as colunas ``MÊS`` e ``ANO`` em uma única
-        dataframe['DATA'] = dataframe['MÊS'] + '/' + dataframe['ANO']
-
-        meses_trabalhados = list(dataframe['DATA'].unique())
-
         # Soma a quantidade de meses tabalhados com a quantidade de dias úteis de um mês
-        dias_trabalhados = len(meses_trabalhados) * 22
-
+        dias_trabalhados = len(self.meses_trabalhados) * 22
+        
         return dias_trabalhados
     
     @property
     def quantidade_clientes(self):
-        return self.dataframe.shape[0]
+        """
+            Retorna a quantidade de vendas de um determinado consultor.
+        """ 
+        
+        # Filtro para remover os valores estáticos
+        dataframe = self.dataframe[self.dataframe['VALOR ACUMULADO'] > 0]
+        return dataframe.shape[0]
+    
+    @property
+    def meses_trabalhados(self):
+        """
+            Retorna a quantidade de meses que um consultor trabalhor. Valor é utilizado apenas como métrica
+            para o cálculo de certas médias.
+        """
+        meses_trabalhados = self.dataframe['DATA'].nunique()
+
+        return meses_trabalhados
 
     @property
     def years(self) -> list:
@@ -61,11 +77,9 @@ class Consultor(
                 total daquele mês. Deve informar o ano caso utilize-o.
         """
             
-        receita_total = self.__get_receita_ou_quantidade__(
-            'VALOR ACUMULADO', ano, mes
-        )
+        dataframe = self.filter_by(ano, mes, self.name)
 
-        return receita_total
+        return dataframe['VALOR ACUMULADO'].sum()
 
     def quantidade(self, ano: int = None, mes: str = None) -> int:
 
@@ -86,11 +100,9 @@ class Consultor(
                 total daquele mês. Deve informar o ano caso utilize-o.
         """
             
-        quantidade_total = self.__get_receita_ou_quantidade__(
-            'QUANTIDADE DE PRODUTOS', ano, mes
-        )
+        dataframe = self.filter_by(ano, mes, self.name)
 
-        return quantidade_total
+        return dataframe['QUANTIDA DE PRODUTOS'].sum()
     
     @property
     def ticket_medio(self) -> int:
@@ -120,7 +132,7 @@ class Consultor(
             Cálculo utilizado
             -------
 
-            ``receita_total / (anos * 12)
+            ``receita_total / (anos * 12)``
         """
 
         receita_media_mensal = self.__get_media_mensal_receita_ou_quantidade__('RECEITA')
@@ -255,7 +267,7 @@ class Consultor(
 
             ano : int
 
-                O ano que você deseja analizar 
+                O ano que você deseja analisar 
         """
         meses_numeros = {
             'Janeiro': 1,
@@ -309,3 +321,74 @@ class Consultor(
         receita_por_produto = dataframe_grouped.sort_values(by = 'VALOR ACUMULADO', ascending = False)
 
         return receita_por_produto
+    
+    def __get_delta_receita_ou_quantidade_mensal__(self, ano: int, mes: str, key: str) -> int:
+        """
+        Calcula o delta entre a receita ou quantidade de vendas do mês de referência e o mês anterior.
+
+        Parâmetros
+        ----------
+        ano : int
+            O ano atual que servirá como referência para o cálculo do delta.
+        mes : str
+            O mês atual que servirá como referência para o cálculo do delta.
+        key : str
+            O nome da coluna para o qual deseja-se calcular o delta. Deve ser "RECEITA" ou "QUANTIDADE".
+
+        Retorna
+        -------
+        int
+            O valor do delta entre a média do mês atual e do mês passado.
+        """
+        if key not in {'RECEITA', 'QUANTIDADE'}:
+            raise ValueError('O valor do parâmetro key deve ser "RECEITA" ou "QUANTIDADE".')
+
+        primeiro_ano = min(self.years)
+
+        # Retorna 0 caso não haja venda anterior ao mês e ano referência.
+        if ano == primeiro_ano and mes == 'Janeiro':
+            return 0 
+
+        # Se o mês referência for Janeiro, então o ano referência será o ano passado.
+        ano_delta = ano - 1 if mes == 'Janeiro' else ano
+
+        index_mes_passado = meses.index(mes) - 1
+        mes_delta = meses[index_mes_passado]
+
+        media_atual = self.receita(ano=ano, mes=mes) if key == 'RECEITA' else self.quantidade(ano=ano, mes=mes)
+        media_mes_passado = self.receita(ano_delta, mes_delta) if key == 'RECEITA' else self.quantidade(ano_delta, mes_delta)
+
+        return media_atual - media_mes_passado
+
+    def __add_static_values__(self):
+        """
+            Adiciona vendas estáticas ao dataframe de determinado consultor.
+            A função foi criada para ajudar na plotagem dos gráficos, fazendo com 
+            que fique visível os meses cujo consultor não tenha vendido produtos.
+        """
+
+        # Retorna o último ano que o consultor realizou uma venda.
+        ultimo_ano = max(self.years)
+
+        for mes in meses:
+            static = pd.DataFrame({
+                'UF': [None],
+                'CNPJ': [None],
+                'MÊS': [mes],
+                'ANO': [ultimo_ano],
+                'PLANO': [None],
+                'TIPO': [None],
+                'VALOR DO PLANO': [0],
+                'QUANTIDADE DE PRODUTOS': [0],
+                'VALOR ACUMULADO': [0],
+                'CONSULTOR': [None],
+                'GESTOR': [None],
+                'REVENDA': [None],
+                'FATURAMENTO': [None],
+                'COLABORADORES': [None],
+                'COD CNAE': [None],
+                'NOME CNAE': [None],
+            })
+
+            # Concatena o dataframe original com o dataframe estático.
+            self.dataframe = pd.concat([static, self.dataframe])
