@@ -77,7 +77,7 @@ class Consultor():
                 total daquele mês. Deve informar o ano caso utilize-o.
         """
             
-        dataframe = self.filter_by(ano, mes, self.name)
+        dataframe = self.filter_by(ano, mes)
 
         return dataframe['VALOR ACUMULADO'].sum()
 
