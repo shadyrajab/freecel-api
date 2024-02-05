@@ -2,6 +2,8 @@ from structures.consultores.consultor import Consultor
 from structures.rankings.ranking import Rankings
 from dataframe.dataframe import DataFrame
 import pandas as pd
+
+from typing import Optional
     
 class Freecel(
     DataFrame
@@ -15,14 +17,14 @@ class Freecel(
         )
 
     def filter_by(self, ano, mes):
-        return super().filter_by(self.dataframe, ano ,mes)
+        return DataFrame.filter_by(self.dataframe, ano ,mes)
 
-    def Consultor(self, nome):
+    def Consultor(self, nome, filtro: Optional[list] = None):
         """
             Cria uma instância da classe ``Consultor``
         """
 
-        return Consultor(nome, self.dataframe)
+        return Consultor(nome, self.dataframe, filtro)
     
     def Ranking(self):
         """
@@ -77,7 +79,7 @@ class Freecel(
                 ``ano`` é obrigatório caso ``mes`` seja passado. 
         """
 
-        return self.filter_by(ano, mes).dataframe.shape[0]
+        return self.filter_by(ano, mes).shape[0]
 
     def receita_total(self, ano: int = None, mes: str = None) -> int:
 
@@ -94,7 +96,24 @@ class Freecel(
                 ``ano`` é obrigatório caso ``mes`` seja passado. 
         """
 
-        return self.filter_by(ano, mes).dataframe['VALOR ACUMULADO'].sum()
+        return self.filter_by(ano, mes)['VALOR ACUMULADO'].sum()
+    
+    def qtd_de_produtos_vendidos(self, ano: int = None, mes: str = None) -> int:
+
+        """
+            Retorna a receita total de vendas em um determinado período.
+
+            #### Parâmetros 
+
+            ano : int | None
+                Parâmetro opcional, caso informado, retornará a receita do ano inteiro
+
+            mes : str | None
+                Parâmetro opcional, caso informado, retornará a receita daquele mês. O parâmetro 
+                ``ano`` é obrigatório caso ``mes`` seja passado. 
+        """
+
+        return self.filter_by(ano, mes)['QUANTIDADE DE PRODUTOS'].sum()
     
     def ticket_medio(self, ano: int = None, mes: str = None) -> int:
 
@@ -128,9 +147,9 @@ class Freecel(
                 O parâmetro ``ano`` é obrigatório caso ``mes`` seja passado. 
         """
 
-        dataframe: pd.DataFrame = self.filter_by(ano, mes).dataframe
+        dataframe: pd.DataFrame = self.filter_by(ano, mes)
         consultor_nome: str = dataframe.groupby('CONSULTOR')['VALOR ACUMULADO'].sum().idxmax()
-        consultor_do_mes: Consultor = self.Consultor(consultor_nome)
+        consultor_do_mes: Consultor = self.Consultor(consultor_nome, [ano, mes])
 
         return consultor_do_mes
         
@@ -166,7 +185,7 @@ class Freecel(
                 ``ano`` é obrigatório caso ``mes`` seja passado. 
         """
 
-        dataframe: pd.DataFrame = self.filter_by(ano, mes).dataframe
+        dataframe: pd.DataFrame = self.filter_by(ano, mes)
         consultores: int = dataframe['CONSULTOR'].nunique() # -> Quantidade de consultores
         media_por_consultor: int = self.receita_total(ano, mes) / consultores
 
