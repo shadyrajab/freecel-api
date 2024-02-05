@@ -1,10 +1,12 @@
 import pandas as pd
 from dataframe.dataframe import DataFrame
 
+from typing import Optional
+
 meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
 
 class Consultor():
-    def __init__(self, name, dataframe, filtro):
+    def __init__(self, name, dataframe, filtro: Optional[list] = None):
         self.name = name
         self.dataframe = dataframe[
             (dataframe['CONSULTOR'] == name)
