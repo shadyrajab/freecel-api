@@ -4,7 +4,7 @@ from client.client import Client
 Client = Client
 
 setup(
-    name = 'freecel-api',
+    name = 'freecel',
     version = '0.1',
     packages = find_packages(),
     author = 'Shady Rajab',
