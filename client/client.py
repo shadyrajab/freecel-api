@@ -3,7 +3,7 @@ from structures.rankings.ranking import Rankings
 from dataframe.dataframe import DataFrame
 import pandas as pd
     
-class Client(
+class Freecel(
     DataFrame
 ):
     def __init__(self, host, database, user, password):
@@ -14,11 +14,52 @@ class Client(
             password
         )
 
+    def filter_by(self, ano, mes):
+        return super().filter_by(self.dataframe, ano ,mes)
+
     def Consultor(self, nome):
-        return Consultor(nome)
+        """
+            Cria uma instância da classe ``Consultor``
+        """
+
+        return Consultor(nome, self.dataframe)
     
     def Ranking(self):
-        return Rankings()
+        """
+            Cria uma instância da classe ``Ranking``
+        """
+
+        return Rankings(self.dataframe)
+    
+    def qtd_vendas_por_cnae(self, codg: str) -> pd.DataFrame:
+        """
+            Retorna um ``DataFrame`` com a quantidade de vendas por cada CNAE de empresa .
+
+            codg: 'COD CNAE' | 'NOME CNAE'
+                Se deseja agrupar pelo código do CNAE, ou pelo nome
+        """ 
+
+        qtd_vendas_por_cnae = self.dataframe[codg].value_counts().reset_index()
+
+        return pd.DataFrame(qtd_vendas_por_cnae)
+    
+    def qtd_vendas_por_faturamento(self) -> pd.DataFrame:
+        """
+            Retorna um ``DataFrame`` com a quantidade de vendas por faturamento de empresa
+        """
+
+        qtd_vendas_por_faturamento = self.dataframe['FATURAMENTO'].value_counts().reset_index()
+
+        return pd.DataFrame(qtd_vendas_por_faturamento)
+    
+    def qtd_vendas_por_colaboradores(self) -> pd.DataFrame:
+        """
+            Retorna um ``DataFrame`` com a quantidade de vendas por quantidade de colaboradores de empresa
+        """
+
+        qtd_vendas_colaboradores = self.dataframe['COLABORADORES'].value_counts().reset_index()
+
+        return pd.DataFrame(qtd_vendas_colaboradores)
 
     def quantidade_de_vendas(self, ano: int = None, mes: str = None) -> int:
 

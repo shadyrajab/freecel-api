@@ -2,6 +2,8 @@ import pandas as pd
 from database.objects import dataframe_geral, meses
 from database.connection import DataBaseConnection
 
+from typing import Optional
+
 class DataFrame(
     DataBaseConnection
 ):
@@ -22,21 +24,49 @@ class DataFrame(
 
         return dataframe_geral
 
-    def filter_by(self, ano: int = None, mes: str = None):
-        # Gera uma exception caso seja passado um formato de mês inadequado
-        if mes.capitalize() not in meses:
-            raise ValueError('Formato de mês inválido, por favor escreva o nome do mês completo e com acentos.')
+    @staticmethod
+    def filter_by(
+        dataframe, ano: Optional[int] = None, mes: Optional[str] = None, consultor: Optional[str] = None,
+        tipo: Optional[int] = None):
+
+        """
+        Filtra um DataFrame com base nos parâmetros fornecidos.
+
+        Parâmetros
+        ----------
+        dataframe : pd.DataFrame
+            O DataFrame a ser filtrado.
+
+        ano : int | None
+            O ano para o qual deseja filtrar os dados.
+
+        mes : str | None
+            O mês para o qual deseja filtrar os dados.
+
+        consultor : str | None
+            O nome do consultor para o qual deseja filtrar os dados.
+
+        Retorna
+        -------
+        pd.DataFrame
+            O DataFrame filtrado.
+        """
+        # Verifica o formato do mês
+
+        if mes and mes.capitalize() not in meses:
+            raise ValueError('Formato de mês inválido. Por favor, escreva o nome do mês completo com acentos.')
         
-        dataframe = self.dataframe.copy()
-        if ano:
-            dataframe = dataframe[dataframe['ANO'] == ano]
+        # Aplica os filtros
+        filters = {
+            'ANO': ano,
+            'MÊS': mes,
+            'CONSULTOR': consultor,
+            'TIPO': tipo
+        }
 
-        if mes and ano:
-            dataframe = dataframe[
-                (dataframe['ANO'] == ano) &
-                (dataframe['MÊS'] == mes)
-            ]
+        for column, value in filters.items():
+            if value is not None:
+                dataframe = dataframe[dataframe[column] == value]
 
-        self.dataframe = dataframe
+        return dataframe
 
-        return self
