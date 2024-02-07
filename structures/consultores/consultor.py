@@ -9,7 +9,7 @@ class Consultor():
     def __init__(self, name, dataframe, filtro: Optional[list] = None):
         self.name = name
         self.dataframe = dataframe[
-            (dataframe['CONSULTOR'] == name)
+            (dataframe['consultor'] == name)
         ]
 
         if filtro:
@@ -41,7 +41,7 @@ class Consultor():
         """ 
         
         # Filtro para remover os valores estáticos
-        dataframe = self.dataframe[self.dataframe['VALOR ACUMULADO'] > 0]
+        dataframe = self.dataframe[self.dataframe['valor_acumulado'] > 0]
         return dataframe.shape[0]
     
     @property
@@ -50,7 +50,7 @@ class Consultor():
             Retorna a quantidade de meses que um consultor trabalhor. Valor é utilizado apenas como métrica
             para o cálculo de certas médias.
         """
-        meses_trabalhados = self.dataframe['DATA'].nunique()
+        meses_trabalhados = self.dataframe['data'].nunique()
 
         return meses_trabalhados
 
@@ -60,7 +60,7 @@ class Consultor():
             Retorna em formato de lista todos os anos em que 
             determinado consultor concluiu vendas.
         """
-        years = list(self.dataframe['ANO'].unique())
+        years = list(self.dataframe['ano'].unique())
 
         return years
     
@@ -85,7 +85,7 @@ class Consultor():
             
         dataframe = self.filter_by(ano, mes)
 
-        return dataframe['VALOR ACUMULADO'].sum()
+        return dataframe['valor_acumulado'].sum()
 
     def quantidade(self, ano: int = None, mes: str = None) -> int:
 
@@ -108,7 +108,7 @@ class Consultor():
             
         dataframe = self.filter_by(ano, mes)
 
-        return dataframe['QUANTIDADE DE PRODUTOS'].sum()
+        return dataframe['quantidade_de_produtos'].sum()
     
     @property
     def ticket_medio(self) -> int:
@@ -177,7 +177,7 @@ class Consultor():
                 O mês atual que servirá como referência para o ``delta`` 
         """
 
-        delta_receita_mensal = self.__get_delta_receita_ou_quantidade_mensal__(ano, mes, 'RECEITA')
+        delta_receita_mensal = self.__get_delta_receita_ou_quantidade_mensal__(ano, mes, 'receita')
 
         return delta_receita_mensal
     
@@ -200,7 +200,7 @@ class Consultor():
                 O mês atual que servirá como referência para o ``delta`` 
         """
 
-        delta_quantidade_mensal = self.__get_delta_receita_ou_quantidade_mensal__(ano, mes, 'QUANTIDADE')
+        delta_quantidade_mensal = self.__get_delta_receita_ou_quantidade_mensal__(ano, mes, 'quantidade')
 
         return delta_quantidade_mensal
     
@@ -227,7 +227,7 @@ class Consultor():
         """
 
         receita_media_diaria = self.__get_media_receita_ou_quantidade_diaria__(
-            self, 'RECEITA', ano, mes
+            self, 'receita', ano, mes
         )
 
         return receita_media_diaria
@@ -255,7 +255,7 @@ class Consultor():
         """
 
         quantidade_media_diaria = self.__get_media_receita_ou_quantidade_diaria__(
-            self, 'QUANTIDADE', ano, mes
+            self, 'quantidade', ano, mes
         )
 
         return quantidade_media_diaria
@@ -288,10 +288,10 @@ class Consultor():
         }
 
         dataframe = self.dataframe[
-            (self.dataframe['ANO'] == ano)
+            (self.dataframe['ano'] == ano)
         ]
 
-        dataframe_grouped = dataframe.groupby('MÊS').sum(numeric_only = True)
+        dataframe_grouped = dataframe.groupby('mês').sum(numeric_only = True)
 
         # Transforma o index do dataframe em coluna, dessa forma é possível colocar a coluna MÊS em ordem.
         vendas_mensais_T = dataframe_grouped.T
@@ -309,8 +309,8 @@ class Consultor():
             Retorna um dataframe com a receita de cada ano deum determinado consultor
         """
 
-        dataframe_grouped = self.dataframe.groupby('ANO', as_index = False).sum(numeric_only = True)
-        vendas_anuais = dataframe_grouped.sort_values(by = 'ANO', ascending = True)
+        dataframe_grouped = self.dataframe.groupby('ano', as_index = False).sum(numeric_only = True)
+        vendas_anuais = dataframe_grouped.sort_values(by = 'ano', ascending = True)
 
         return vendas_anuais
     
@@ -320,8 +320,8 @@ class Consultor():
             Retorna um dataframe com a receita total vendida por cada produto
         """
 
-        dataframe_grouped = self.dataframe.groupby('TIPO', as_index = False).sum(numeric_only = True)
-        receita_por_produto = dataframe_grouped.sort_values(by = 'VALOR ACUMULADO', ascending = False)
+        dataframe_grouped = self.dataframe.groupby('tipo', as_index = False).sum(numeric_only = True)
+        receita_por_produto = dataframe_grouped.sort_values(by = 'valor_acumulado', ascending = False)
 
         return receita_por_produto
     
@@ -343,8 +343,8 @@ class Consultor():
         int
             O valor do delta entre a média do mês atual e do mês passado.
         """
-        if key not in {'RECEITA', 'QUANTIDADE'}:
-            raise ValueError('O valor do parâmetro key deve ser "RECEITA" ou "QUANTIDADE".')
+        if key not in {'receita', 'quantidade'}:
+            raise ValueError('O valor do parâmetro key deve ser "receita" ou "quantidade".')
 
         primeiro_ano = min(self.years)
 
@@ -358,8 +358,8 @@ class Consultor():
         index_mes_passado = meses.index(mes) - 1
         mes_delta = meses[index_mes_passado]
 
-        media_atual = self.receita(ano=ano, mes=mes) if key == 'RECEITA' else self.quantidade(ano=ano, mes=mes)
-        media_mes_passado = self.receita(ano_delta, mes_delta) if key == 'RECEITA' else self.quantidade(ano_delta, mes_delta)
+        media_atual = self.receita(ano=ano, mes=mes) if key == 'receita' else self.quantidade(ano=ano, mes=mes)
+        media_mes_passado = self.receita(ano_delta, mes_delta) if key == 'receita' else self.quantidade(ano_delta, mes_delta)
 
         return media_atual - media_mes_passado
 
@@ -375,22 +375,23 @@ class Consultor():
 
         for mes in meses:
             static = pd.DataFrame({
-                'UF': [None],
-                'CNPJ': [None],
-                'MÊS': [mes],
-                'ANO': [ultimo_ano],
-                'PLANO': [None],
-                'TIPO': [None],
-                'VALOR DO PLANO': [0],
-                'QUANTIDADE DE PRODUTOS': [0],
-                'VALOR ACUMULADO': [0],
-                'CONSULTOR': [None],
-                'GESTOR': [None],
-                'REVENDA': [None],
-                'FATURAMENTO': [None],
-                'COLABORADORES': [None],
-                'COD CNAE': [None],
-                'NOME CNAE': [None],
+                'uf': [None],
+                'cpnj': [None],
+                'mês': [mes],
+                'ano': [ultimo_ano],
+                'plano': [None],
+                'tipo': [None],
+                'valor_do_plano': [0],
+                'quantidade_de_produtos': [0],
+                'valor_acumulado': [0],
+                'consultor': [None],
+                'gestor': [None],
+                'revenda': [None],
+                'faturamento': [None],
+                'colaboradores': [None],
+                'cod_cnae': [None],
+                'nome_cnae': [None],
+                'data': [None]
             })
 
             # Concatena o dataframe original com o dataframe estático.

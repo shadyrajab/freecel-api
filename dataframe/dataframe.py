@@ -1,8 +1,9 @@
 import pandas as pd
-from database.objects import dataframe_geral, meses
 from database.connection import DataBase
 
 from typing import Optional
+
+meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
 
 class DataFrame(
     DataBase
@@ -16,13 +17,76 @@ class DataFrame(
         )
         
         self.dataframe = self.get_full_dataframe()
+        self.dataframe_replace()
+        self.formatar_nomes()
+        self.formatar_datas()
+        self.formatar_tipo_colunas()
+
+    def formatar_tipo_colunas(self) -> None:
+        self.dataframe[['valor_acumulado', 'valor_do_plano', 'quantidade_de_produtos']] = self.dataframe[
+                ['valor_acumulado', 'valor_do_plano', 'quantidade_de_produtos']
+            ].apply(pd.to_numeric, errors='coerce', downcast='integer')
+
+    def formatar_datas(self) -> None:
+        def get_mes(mes):
+            return meses[mes - 1]
+
+        self.dataframe['ano'] = pd.to_datetime(self.dataframe['data']).dt.year
+        self.dataframe['mês'] = pd.to_datetime(self.dataframe['data']).dt.month.apply(lambda mes: get_mes(mes))
+
+
+    def formatar_nomes(self):
+        def formatar_nome(nome):
+            nome_splited = nome.split(' ')
+            try:
+                if nome_splited[1] == 'DE' or nome_splited[1] == 'DOS':
+                    nome = nome_splited[0] + ' ' + nome_splited[1] + ' ' + nome_splited[2]
+                else:
+                    nome = nome_splited[0] + ' ' + nome_splited[1]
+            except:
+                pass
+
+            return nome
+
+        self.dataframe['consultor'] = self.dataframe['consultor'].apply(lambda n: formatar_nome(n))
+
+    def dataframe_replace(self) -> None:
+        self.dataframe.replace({
+            'JÁ CLIENTE': 'ALTAS', 
+            'NOVO': 'ALTAS', 
+            'PORTABILIDADE': 'ALTAS',
+            'PORTABILIDADE PF + TT PF/PJ - VIVO TOTAL': 'ALTAS',
+            'INTERNET': 'ALTAS',
+            'PORTABILIDADE - VIVO TOTAL': 'ALTAS',
+            'PORTABILIDADE PF + TT PF/PJ': 'ALTAS',
+            'NOVO - VIVO TOTAL': 'ALTAS',
+            'PORTABILIDADE CNPJ – CNPJ': 'ALTAS',
+
+            'MIGRAÇÃO PRÉ/PÓS': 'MIGRAÇÃO PRÉ-PÓS',
+            'MIGRAÇÃO PRÉ/PÓS - VIVO TOTAL': 'MIGRAÇÃO PRÉ-PÓS',
+
+            'MIGRAÇÃO': 'MIGRAÇÃO PRÉ-PÓS',
+            'MIGRAÇÃO PRÉ/PÓS_TOTALIZACAO': 'MIGRAÇÃO PRÉ-PÓS',
+
+            'INTERNET_TOTALIZACAO': 'ALTAS',
+            'MIGRAÇÃO+TROCA': 'MIGRAÇÃO PRÉ-PÓS',
+            'NOVO_TOTALIZACAO': 'ALTAS',
+
+            'JÁ CLIENTE - VIVO TOTAL': 'ALTAS',
+            'MIGRAÇÃO PRÉ/PÓS + TROCA': 'MIGRAÇÃO PRÉ-PÓS'
+
+        }, inplace=True)
 
     def get_full_dataframe(self):
-        # query = 'SELECT * FROM VENDAS_CONCLUIDAS'
-        # dataframe = pd.read_sql(self.cursor, query)
+        self.cursor.execute('SELECT * FROM vendas_concluidas')
+        data = self.cursor.fetchall()
 
-        dataframe_geral['DATA'] = dataframe_geral['ANO'].astype(str) + '/' + dataframe_geral['MÊS']
-        return dataframe_geral
+        dataframe = pd.DataFrame(data, columns=[desc[0] for desc in self.cursor.description])
+
+        self.cursor.close()
+        self.connection.close()
+        
+        return dataframe
 
     @staticmethod
     def filter_by(
@@ -58,10 +122,10 @@ class DataFrame(
         
         # Aplica os filtros
         filters = {
-            'ANO': ano,
-            'MÊS': mes,
-            'CONSULTOR': consultor,
-            'TIPO': tipo
+            'ano': ano,
+            'mês': mes,
+            'consultor': consultor,
+            'tipo': tipo
         }
 
         for column, value in filters.items():

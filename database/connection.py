@@ -2,9 +2,8 @@ import psycopg2
 
 class DataBase:
     def __init__(self, host, database, user, password):
-        self.cursor = self.__create_connection__(
-            host, database, user, password
-        )
+        self.connection = self.__create_connection__(host, database, user, password)
+        self.cursor = self.connection.cursor()
     
     def __create_connection__(self, host, database, user, password):
         """
@@ -17,6 +16,5 @@ class DataBase:
             user = user, 
             password = password
         )
-        cursor = connection.cursor()
 
-        return cursor
+        return connection

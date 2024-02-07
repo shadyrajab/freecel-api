@@ -40,23 +40,23 @@ class Freecel(
             Retorna uma lista com todos os anos com ocorrência de vendas
         """
 
-        return list(self.dataframe['ANO'].unique())
+        return list(self.dataframe['ano'].unique())
 
     def months(self, ano) -> list[str]:
         """
             Retorna uma lista com todos os meses de um determinado ano com ocorrência de vendas
         """
 
-        return list(self.filter_by(ano)['MÊS'].unique())
+        return list(self.filter_by(ano)['mês'].unique())
     
     def mes_que_mais_vendeu(self) -> int:
         """
             Retorna o valor do mês que teve a maior receita
         """
 
-        dataframe = self.dataframe.groupby('DATA', as_index = False).sum(numeric_only = True)
+        dataframe = self.dataframe.groupby('data', as_index = False).sum(numeric_only = True)
 
-        return dataframe['VALOR ACUMULADO'].max()
+        return dataframe['valor_acumulado'].max()
 
     def delta_ticket_medio(self, ano: int = None, mes: str = None) -> int:
         """
@@ -98,7 +98,7 @@ class Freecel(
             Retorna um ``DataFrame`` com a quantidade de vendas por faturamento de empresa
         """
 
-        qtd_vendas_por_faturamento = self.dataframe['FATURAMENTO'].value_counts().reset_index()
+        qtd_vendas_por_faturamento = self.dataframe['faturamento'].value_counts().reset_index()
 
         return pd.DataFrame(qtd_vendas_por_faturamento)
     
@@ -107,7 +107,7 @@ class Freecel(
             Retorna um ``DataFrame`` com a quantidade de vendas por quantidade de colaboradores de empresa
         """
 
-        qtd_vendas_colaboradores = self.dataframe['COLABORADORES'].value_counts().reset_index()
+        qtd_vendas_colaboradores = self.dataframe['colaboradores'].value_counts().reset_index()
 
         return pd.DataFrame(qtd_vendas_colaboradores)
 
@@ -144,7 +144,7 @@ class Freecel(
                 ``ano`` é obrigatório caso ``mes`` seja passado. 
         """
 
-        return self.filter_by(ano, mes)['VALOR ACUMULADO'].sum()
+        return self.filter_by(ano, mes)['valor_acumulado'].sum()
     
     def qtd_de_produtos_vendidos(self, ano: int = None, mes: str = None) -> int:
 
@@ -161,7 +161,7 @@ class Freecel(
                 ``ano`` é obrigatório caso ``mes`` seja passado. 
         """
 
-        return self.filter_by(ano, mes)['QUANTIDADE DE PRODUTOS'].sum()
+        return self.filter_by(ano, mes)['quantidade_de_produtos'].sum()
     
     def ticket_medio(self, ano: int = None, mes: str = None) -> int:
 
@@ -196,7 +196,7 @@ class Freecel(
         """
 
         dataframe: pd.DataFrame = self.filter_by(ano, mes)
-        consultor_nome: str = dataframe.groupby('CONSULTOR')['VALOR ACUMULADO'].sum().idxmax()
+        consultor_nome: str = dataframe.groupby('consultor')['valor_acumulado'].sum().idxmax()
         consultor_do_mes: Consultor = self.Consultor(consultor_nome, [ano, mes])
 
         return consultor_do_mes
@@ -234,7 +234,7 @@ class Freecel(
         """
 
         dataframe: pd.DataFrame = self.filter_by(ano, mes)
-        consultores: int = dataframe['CONSULTOR'].nunique() # -> Quantidade de consultores
+        consultores: int = dataframe['consultor'].nunique() # -> Quantidade de consultores
         media_por_consultor: int = self.receita_total(ano, mes) / consultores
 
         return media_por_consultor
