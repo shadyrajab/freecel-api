@@ -71,3 +71,9 @@ def consultor(nome_consultor: str):
 @app.get("/consultor/{nome_consultor}/{ano}/{mes}")
 def consultor(nome_consultor: str, ano: int, mes: str):
     return get_consultor_data(nome_consultor, ano, mes)
+
+@app.get("/consultores")
+def consultores():
+    return {
+        "consultores": client.consultores()
+    }

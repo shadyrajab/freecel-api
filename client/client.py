@@ -49,6 +49,13 @@ class Freecel(
 
         return list(self.filter_by(ano)['mês'].unique())
     
+    def consultores(self) -> list[str]:
+        """
+            Retorna uma lista com o nome de todos os consultores com ocorrências de venda         
+        """
+
+        return list(self.dataframe['consultor'].unique())
+    
     def mes_que_mais_vendeu(self) -> int:
         """
             Retorna o valor do mês que teve a maior receita
