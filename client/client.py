@@ -1,5 +1,5 @@
-from structures.consultores.consultor import Consultor
-from structures.rankings.ranking import Rankings
+from structures.consultor import Consultor
+from structures.ranking import Rankings
 from dataframe.dataframe import DataFrame
 import pandas as pd
 
@@ -19,7 +19,7 @@ class Freecel(
         )
 
     def filter_by(self, ano, mes):
-        return DataFrame.filter_by(self.dataframe, ano ,mes)
+        return DataFrame.__filter_by__(self.dataframe, ano ,mes)
 
     def Consultor(self, nome, filtro: Optional[list] = None) -> Consultor:
         """
@@ -161,7 +161,7 @@ class Freecel(
                 ``ano`` é obrigatório caso ``mes`` seja passado. 
         """
 
-        return self.filter_by(ano, mes)['quantidade_de_produtos'].sum()
+        return int(self.filter_by(ano, mes)['quantidade_de_produtos'].sum())
     
     def ticket_medio(self, ano: int = None, mes: str = None) -> int:
 
@@ -218,7 +218,7 @@ class Freecel(
 
         return self.receita_total(ano, mes) / 22
     
-    def media_por_consultor(self, ano: int = None, mes: str = None) -> int:
+    def media_por_consultor(self, ano: int = None, mes: str = None) -> float:
 
         """
             Retorna a receita média vendida por cada consultor em um determinado período.

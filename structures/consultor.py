@@ -19,7 +19,7 @@ class Consultor():
         self.__add_static_values__()
 
     def filter_by(self, ano, mes):
-        return DataFrame.filter_by(self.dataframe, ano , mes)
+        return DataFrame.__filter_by__(self.dataframe, ano , mes)
 
     @property
     def dias_trabalhados(self) -> int:
@@ -30,7 +30,7 @@ class Consultor():
         """
 
         # Soma a quantidade de meses tabalhados com a quantidade de dias úteis de um mês
-        dias_trabalhados = len(self.meses_trabalhados) * 22
+        dias_trabalhados = self.meses_trabalhados * 22
         
         return dias_trabalhados
     
@@ -60,11 +60,12 @@ class Consultor():
             Retorna em formato de lista todos os anos em que 
             determinado consultor concluiu vendas.
         """
+
         years = list(self.dataframe['ano'].unique())
 
         return years
     
-    def receita(self, ano: int = None, mes: str = None) -> int:
+    def receita(self, ano: int = None, mes: str = None) -> float:
 
         """
             Retorna a receita total vendida pelo consultor
@@ -85,7 +86,7 @@ class Consultor():
             
         dataframe = self.filter_by(ano, mes)
 
-        return dataframe['valor_acumulado'].sum()
+        return float(dataframe['valor_acumulado'].sum())
 
     def quantidade(self, ano: int = None, mes: str = None) -> int:
 
@@ -108,7 +109,7 @@ class Consultor():
             
         dataframe = self.filter_by(ano, mes)
 
-        return dataframe['quantidade_de_produtos'].sum()
+        return int(dataframe['quantidade_de_produtos'].sum())
     
     @property
     def ticket_medio(self) -> int:
@@ -204,7 +205,7 @@ class Consultor():
 
         return delta_quantidade_mensal
     
-    def media_receita_diaria(self, ano: int = None, mes: str = None) -> int:
+    def media_receita_diaria(self, ano: int = None, mes: str = None) -> float:
 
         """
             Retorna a média da receita total diária de um determinado consultor 
@@ -226,9 +227,7 @@ class Consultor():
             ``receita_total`` / ``dias_trabalhados``
         """
 
-        receita_media_diaria = self.__get_media_receita_ou_quantidade_diaria__(
-            self, 'receita', ano, mes
-        )
+        receita_media_diaria = self.receita() / self.dias_trabalhados
 
         return receita_media_diaria
     
@@ -254,9 +253,7 @@ class Consultor():
             ``quantidade_total`` / ``dias_trabalhados``
         """
 
-        quantidade_media_diaria = self.__get_media_receita_ou_quantidade_diaria__(
-            self, 'quantidade', ano, mes
-        )
+        quantidade_media_diaria = self.quantidade() / self.dias_trabalhados
 
         return quantidade_media_diaria
     

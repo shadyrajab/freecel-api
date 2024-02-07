@@ -16,18 +16,18 @@ class DataFrame(
             password = password
         )
         
-        self.dataframe = self.get_full_dataframe()
-        self.dataframe_replace()
-        self.formatar_nomes()
-        self.formatar_datas()
-        self.formatar_tipo_colunas()
+        self.dataframe = self.__get_full_dataframe__()
+        self.__dataframe_replace__()
+        self.__formatar_nomes__()
+        self.__formatar_datas__()
+        self.__formatar_tipo_colunas__()
 
-    def formatar_tipo_colunas(self) -> None:
+    def __formatar_tipo_colunas__(self) -> None:
         self.dataframe[['valor_acumulado', 'valor_do_plano', 'quantidade_de_produtos']] = self.dataframe[
                 ['valor_acumulado', 'valor_do_plano', 'quantidade_de_produtos']
             ].apply(pd.to_numeric, errors='coerce', downcast='integer')
 
-    def formatar_datas(self) -> None:
+    def __formatar_datas__(self) -> None:
         def get_mes(mes):
             return meses[mes - 1]
 
@@ -35,7 +35,7 @@ class DataFrame(
         self.dataframe['mês'] = pd.to_datetime(self.dataframe['data']).dt.month.apply(lambda mes: get_mes(mes))
 
 
-    def formatar_nomes(self):
+    def __formatar_nomes__(self):
         def formatar_nome(nome):
             nome_splited = nome.split(' ')
             try:
@@ -50,7 +50,7 @@ class DataFrame(
 
         self.dataframe['consultor'] = self.dataframe['consultor'].apply(lambda n: formatar_nome(n))
 
-    def dataframe_replace(self) -> None:
+    def __dataframe_replace__(self) -> None:
         self.dataframe.replace({
             'JÁ CLIENTE': 'ALTAS', 
             'NOVO': 'ALTAS', 
@@ -77,7 +77,7 @@ class DataFrame(
 
         }, inplace=True)
 
-    def get_full_dataframe(self):
+    def __get_full_dataframe__(self):
         self.cursor.execute('SELECT * FROM vendas_concluidas')
         data = self.cursor.fetchall()
 
@@ -89,7 +89,7 @@ class DataFrame(
         return dataframe
 
     @staticmethod
-    def filter_by(
+    def __filter_by__(
         dataframe, ano: Optional[int] = None, mes: Optional[str] = None, consultor: Optional[str] = None,
         tipo: Optional[int] = None):
 

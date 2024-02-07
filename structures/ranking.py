@@ -8,7 +8,7 @@ class Rankings:
         self.dataframe = dataframe
 
     def filter_by(self, ano: Optional[int] = None, mes: Optional[str] = None, tipo: Optional[str] = None):
-        return DataFrame.filter_by(self.dataframe, ano, mes, tipo)
+        return DataFrame.__filter_by__(self.dataframe, ano, mes, tipo)
     
     def ranking_produtos(self, ano: Optional[int] = None, mes: Optional[str] = None):
         """ 

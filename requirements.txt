@@ -1,1 +1,4 @@
 pandas
+uvicorn
+fastapi 
+python-dotenv
