@@ -12,11 +12,12 @@ def home():
 
 @app.get("/freecel")
 def freecel(
+        display_vendas: bool = Query(None, description = 'Mostrar vendas (opcional)'), 
         ano: int = Query(None, description = "Ano (opcional)"), 
         mes: str = Query(None, description = "Mês (opcional)")
     ):
 
-    freecel = Freecel(ano, mes)
+    freecel = Freecel(display_vendas, ano, mes)
 
     return jsonable_encoder(freecel)
 

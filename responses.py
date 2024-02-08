@@ -25,7 +25,8 @@ def jsonfy(dataframe):
     return load(StringIO(df))
 
 class Freecel:
-    def __init__(self, ano: Optional[int] = None, mes: Optional[str] = None):
+    def __init__(
+            self, display_vendas: Optional[bool] = None, ano: Optional[int] = None, mes: Optional[str] = None):
         consultor_do_mes_nome = client.consultor_do_mes(ano, mes).name
         self.receita_total = client.receita_total(ano, mes)
         self.quantidade_vendida = client.qtd_de_produtos_vendidos(ano, mes)
@@ -44,7 +45,6 @@ class Freecel:
             self.delta_media_por_consultor = client.delta_media_por_consultor(ano, mes)
             self.consultor_do_mes = Consultor(consultor_do_mes_nome, False, ano, mes)
 
-
         self.qtd_vendas_por_cnae = jsonfy(client.qtd_vendas_por_cnae(ano, mes))
         self.qtd_vendas_por_faturamento = jsonfy(client.qtd_vendas_por_faturamento(ano, mes))
         self.qtd_vendas_por_colaboradores = jsonfy(client.qtd_vendas_por_colaboradores(ano, mes))
@@ -52,7 +52,9 @@ class Freecel:
         self.ufs = client.ufs(ano, mes)
         self.ranking_consultores = jsonfy(client.Ranking().ranking_consultores(ano, mes))
         self.ranking_produtos = jsonfy(client.Ranking().ranking_produtos(ano, mes))
-        self.vendas = jsonfy(client.filter_by(ano, mes))
+
+        if display_vendas:
+            self.vendas = jsonfy(client.filter_by(ano, mes))
 
 class Consultor:
     def __init__(
