@@ -14,7 +14,7 @@ class Consultor():
 
         if filtro:
             ano, mes = filtro
-            self.dataframe = DataFrame.filter_by(self.dataframe, ano, mes)
+            self.dataframe = DataFrame.__filter_by__(self.dataframe, ano, mes)
 
         self.__add_static_values__()
 
