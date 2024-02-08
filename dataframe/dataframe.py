@@ -117,7 +117,19 @@ class DataFrame(
         """
         # Verifica o formato do mês
 
-        if mes and mes.capitalize() not in meses:
+        if mes:
+            mes = mes.capitalize()
+
+        if ano:
+            ano = int(ano)
+
+        if tipo:
+            tipo = tipo.upper()
+
+        if consultor:
+            consultor = consultor.upper()
+
+        if mes and mes not in meses:
             raise ValueError('Formato de mês inválido. Por favor, escreva o nome do mês completo com acentos.')
         
         # Aplica os filtros
