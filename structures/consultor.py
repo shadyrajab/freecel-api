@@ -18,7 +18,7 @@ class Consultor():
 
         self.__add_static_values__()
 
-    def filter_by(self, ano, mes):
+    def filter_by(self, ano: Optional[int] = None, mes: Optional[str] = None):
         return DataFrame.__filter_by__(self.dataframe, ano , mes)
 
     @property
@@ -34,14 +34,14 @@ class Consultor():
         
         return dias_trabalhados
     
-    @property
-    def quantidade_clientes(self):
+    def quantidade_clientes(self, ano: Optional[int] = None, mes: Optional[str] = None):
         """
             Retorna a quantidade de vendas de um determinado consultor.
         """ 
         
         # Filtro para remover os valores estáticos
-        dataframe = self.dataframe[self.dataframe['valor_acumulado'] > 0]
+        dataframe = self.filter_by(ano, mes)
+        dataframe = dataframe[dataframe['valor_acumulado'] > 0]
         return dataframe.shape[0]
     
     @property
@@ -83,12 +83,11 @@ class Consultor():
                 Parâmetro opcional, caso informado, irá retornar a receita
                 total daquele mês. Deve informar o ano caso utilize-o.
         """
-            
         dataframe = self.filter_by(ano, mes)
 
         return float(dataframe['valor_acumulado'].sum())
 
-    def quantidade(self, ano: int = None, mes: str = None) -> int:
+    def quantidade(self, ano: Optional[int] = None, mes: Optional[str] = None) -> int:
 
         """
             Retorna a quantidade de produtos vendida pelo consultor
@@ -123,7 +122,7 @@ class Consultor():
             ``receita_total / quantidade_de_vendas ``
         """
 
-        ticket_medio = self.receita() / self.quantidade_clientes
+        ticket_medio = self.receita() / self.quantidade_clientes()
 
         return ticket_medio
     
@@ -200,12 +199,11 @@ class Consultor():
 
                 O mês atual que servirá como referência para o ``delta`` 
         """
-
         delta_quantidade_mensal = self.__get_delta_receita_ou_quantidade_mensal__(ano, mes, 'quantidade')
 
         return delta_quantidade_mensal
     
-    def media_receita_diaria(self, ano: int = None, mes: str = None) -> float:
+    def receita_media_diaria(self, ano: int = None, mes: str = None) -> float:
 
         """
             Retorna a média da receita total diária de um determinado consultor 
@@ -227,11 +225,11 @@ class Consultor():
             ``receita_total`` / ``dias_trabalhados``
         """
 
-        receita_media_diaria = self.receita() / self.dias_trabalhados
+        receita_media_diaria = self.receita(ano, mes) / self.dias_trabalhados
 
         return receita_media_diaria
     
-    def media_quantidade_diaria(self, ano: int = None, mes: str = None) -> int:
+    def quantidade_media_diaria(self, ano: int = None, mes: str = None) -> int:
 
         """
             Retorna a média da quantidade de produtos vendidos diariamente de um determinado consultor 
@@ -253,7 +251,7 @@ class Consultor():
             ``quantidade_total`` / ``dias_trabalhados``
         """
 
-        quantidade_media_diaria = self.quantidade() / self.dias_trabalhados
+        quantidade_media_diaria = self.quantidade(ano, mes) / self.dias_trabalhados
 
         return quantidade_media_diaria
     
@@ -340,6 +338,9 @@ class Consultor():
         int
             O valor do delta entre a média do mês atual e do mês passado.
         """
+        ano = int(ano)
+        mes = mes.capitalize()
+
         if key not in {'receita', 'quantidade'}:
             raise ValueError('O valor do parâmetro key deve ser "receita" ou "quantidade".')
 
@@ -373,7 +374,7 @@ class Consultor():
         for mes in meses:
             static = pd.DataFrame({
                 'uf': [None],
-                'cpnj': [None],
+                'cnpj': [None],
                 'mês': [mes],
                 'ano': [ultimo_ano],
                 'plano': [None],
@@ -392,4 +393,4 @@ class Consultor():
             })
 
             # Concatena o dataframe original com o dataframe estático.
-            self.dataframe = pd.concat([static, self.dataframe])
+            self.dataframe = pd.concat([self.dataframe, static])

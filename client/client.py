@@ -49,14 +49,14 @@ class Freecel(
 
         return list(self.filter_by(ano)['mês'].unique())
     
-    def consultores(self) -> list[str]:
+    def consultores(self, ano: int = None, mes: str = None) -> list[str]:
         """
             Retorna uma lista com o nome de todos os consultores com ocorrências de venda         
         """
-
-        return list(self.dataframe['consultor'].unique())
+        dataframe = self.filter_by(ano, mes)
+        return list(dataframe['consultor'].unique())
     
-    def mes_que_mais_vendeu(self) -> int:
+    def maior_venda_mes(self) -> int:
         """
             Retorna o valor do mês que teve a maior receita
         """
@@ -88,33 +88,36 @@ class Freecel(
         return self.__calculate_delta_metric__(self.media_por_consultor, ano, mes)
 
 
-    def qtd_vendas_por_cnae(self, codg: str) -> pd.DataFrame:
+    def qtd_vendas_por_cnae(self, ano: int = None, mes: str = None) -> pd.DataFrame:
         """
             Retorna um ``DataFrame`` com a quantidade de vendas por cada CNAE de empresa .
 
             codg: 'COD CNAE' | 'NOME CNAE'
                 Se deseja agrupar pelo código do CNAE, ou pelo nome
-        """ 
+        """         
 
-        qtd_vendas_por_cnae = self.dataframe[codg].value_counts().reset_index()
+        dataframe = self.filter_by(ano, mes)
+        qtd_vendas_por_cnae = dataframe['nome_cnae'].value_counts().reset_index()
 
         return pd.DataFrame(qtd_vendas_por_cnae)
     
-    def qtd_vendas_por_faturamento(self) -> pd.DataFrame:
+    def qtd_vendas_por_faturamento(self, ano: int = None, mes: str = None) -> pd.DataFrame:
         """
             Retorna um ``DataFrame`` com a quantidade de vendas por faturamento de empresa
         """
 
-        qtd_vendas_por_faturamento = self.dataframe['faturamento'].value_counts().reset_index()
+        dataframe = self.filter_by(ano, mes)
+        qtd_vendas_por_faturamento = dataframe['faturamento'].value_counts().reset_index()
 
         return pd.DataFrame(qtd_vendas_por_faturamento)
     
-    def qtd_vendas_por_colaboradores(self) -> pd.DataFrame:
+    def qtd_vendas_por_colaboradores(self, ano: int = None, mes: str = None) -> pd.DataFrame:
         """
             Retorna um ``DataFrame`` com a quantidade de vendas por quantidade de colaboradores de empresa
         """
 
-        qtd_vendas_colaboradores = self.dataframe['colaboradores'].value_counts().reset_index()
+        dataframe = self.filter_by(ano, mes)
+        qtd_vendas_colaboradores = dataframe['colaboradores'].value_counts().reset_index()
 
         return pd.DataFrame(qtd_vendas_colaboradores)
 
@@ -253,6 +256,10 @@ class Freecel(
         """
         
         # Caso o ano e mês anterior ao informado seja o primeiro mês com ocorrências de venda. O valor retornado é 0 
+        
+        ano = int(ano)
+        mes = mes.capitalize()
+        
         if ano == min(self.years()) and mes == 'Janeiro':
             return 0
 
