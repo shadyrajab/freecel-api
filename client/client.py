@@ -1,6 +1,6 @@
 from structures.consultor import Consultor
 from structures.ranking import Rankings
-from dataframe.dataframe import DataFrame
+from database.dataframe import DataFrame
 import pandas as pd
 
 from typing import Optional

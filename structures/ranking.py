@@ -1,7 +1,7 @@
 import pandas as pd
 from typing import Optional
 
-from dataframe.dataframe import DataFrame
+from database.dataframe import DataFrame
 
 class Rankings:
     def __init__(self, dataframe):
