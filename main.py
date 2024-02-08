@@ -1,6 +1,8 @@
 from fastapi import FastAPI, Query
 from fastapi.encoders import jsonable_encoder
 from client.client import Freecel
+import asyncio
+from crm.index_crm import request_crm
 
 from responses import Consultor, Freecel, Crm
 
@@ -37,4 +39,5 @@ def consultor(
 @app.get('/crm')
 def crm():
     return Crm
-    
+
+asyncio.run(request_crm())
