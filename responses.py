@@ -28,16 +28,20 @@ class Freecel:
     def __init__(self, ano: Optional[int] = None, mes: Optional[str] = None):
         self.receita_total = client.receita_total(ano, mes)
         self.quantidade_vendida = client.qtd_de_produtos_vendidos(ano, mes)
-        self.quantidade_clientes = client.quantidade_de_vendas(ano, mes)
+        self.quantidade_clientes = client.quantidade_clientes(ano, mes)
         self.ticket_medio = client.ticket_medio(ano, mes)
         self.receita_media_diaria = client.receita_media_diaria(ano, mes)
         self.media_por_consultor = client.media_por_consultor(ano, mes)
         self.maior_venda_mes = client.maior_venda_mes()
 
         if ano and mes:
+            self.delta_receita_total = client.delta_receita_total(ano, mes)
+            self.delta_quantidade_produtos = client.delta_quantidade_produtos(ano, mes)
+            self.quantidade_clientes = client.quantidade_clientes(ano, mes)
             self.delta_ticket_medio = client.delta_ticket_medio(ano, mes)
             self.delta_media_diaria = client.delta_media_diaria(ano, mes)
-            self.delta_medio_por_consultor = client.delta_media_por_consultor(ano, mes)
+            self.delta_media_por_consultor = client.delta_media_por_consultor(ano, mes)
+
 
         self.qtd_vendas_por_cnae = jsonfy(client.qtd_vendas_por_cnae(ano, mes))
         self.qtd_vendas_por_faturamento = jsonfy(client.qtd_vendas_por_faturamento(ano, mes))
@@ -69,3 +73,5 @@ class Consultor:
             self.delta_quantidade_mensal = consultor.delta_quantidade_mensal(ano, mes)
 
         self.vendas = jsonfy(consultor.filter_by(ano, mes))
+
+Crm = jsonfy(client.crm)

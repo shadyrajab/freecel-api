@@ -2,7 +2,7 @@ from fastapi import FastAPI, Query
 from fastapi.encoders import jsonable_encoder
 from client.client import Freecel
 
-from responses import Consultor, Freecel
+from responses import Consultor, Freecel, Crm
 
 app = FastAPI()
 
@@ -31,3 +31,8 @@ def consultor(
     consultor = Consultor(nome_consultor, ano, mes)
 
     return jsonable_encoder(consultor)
+
+@app.get('/crm')
+def crm():
+    return Crm
+    

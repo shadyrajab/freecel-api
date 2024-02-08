@@ -64,7 +64,31 @@ class Freecel(
         dataframe = self.dataframe.groupby('data', as_index = False).sum(numeric_only = True)
 
         return dataframe['valor_acumulado'].max()
+    
+    def delta_receita_total(self, ano: int = None, mes: str = None) -> int:
+        """
+            Retorna o ``delta`` da receita total de um determinado período.
+            O valor é utilizado como parâmetro para a função ``st.metrics`` do streamlit.
+        """
 
+        return self.__calculate_delta_metric__(self.receita_total, ano, mes)
+
+    def delta_quantidade_produtos(self, ano: int = None, mes: str = None) -> int:
+        """
+            Retorna o ``delta`` da quantidade vendida de um determinado período.
+            O valor é utilizado como parâmetro para a função ``st.metrics`` do streamlit.
+        """
+
+        return self.__calculate_delta_metric__(self.qtd_de_produtos_vendidos, ano, mes)
+
+    def delta_quantidade_clientes(self, ano: int = None, mes: str = None) -> int:
+        """
+            Retorna o ``delta`` da quantidade vendida de um determinado período.
+            O valor é utilizado como parâmetro para a função ``st.metrics`` do streamlit.
+        """
+
+        return self.__calculate_delta_metric__(self.quantidade_clientes, ano, mes)
+    
     def delta_ticket_medio(self, ano: int = None, mes: str = None) -> int:
         """
             Retorna o ``delta`` do ticket médio de um determinado período.
@@ -121,7 +145,7 @@ class Freecel(
 
         return pd.DataFrame(qtd_vendas_colaboradores)
 
-    def quantidade_de_vendas(self, ano: int = None, mes: str = None) -> int:
+    def quantidade_clientes(self, ano: int = None, mes: str = None) -> int:
 
         """
             Retorna a quantidade de vendas em um determinado período. Função costuma ser utilizada
@@ -188,7 +212,7 @@ class Freecel(
                 ``ano`` é obrigatório caso ``mes`` seja passado. 
         """
 
-        return self.receita_total(ano, mes) / self.quantidade_de_vendas(ano, mes)
+        return self.receita_total(ano, mes) / self.quantidade_clientes(ano, mes)
 
     def consultor_do_mes(self, ano: int = None, mes: str = None) -> Consultor:
 
@@ -259,7 +283,7 @@ class Freecel(
         
         ano = int(ano)
         mes = mes.capitalize()
-        
+
         if ano == min(self.years()) and mes == 'Janeiro':
             return 0
 
