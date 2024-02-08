@@ -17,10 +17,14 @@ class DataFrame(
         )
         
         self.dataframe = self.__get_full_dataframe__()
+        self.crm = self.__get_crm_dataframe__()
         self.__dataframe_replace__()
         self.__formatar_nomes__()
         self.__formatar_datas__()
         self.__formatar_tipo_colunas__()
+        
+        self.cursor.close()
+        self.connection.close()
 
     def __formatar_tipo_colunas__(self) -> None:
         self.dataframe[['valor_acumulado', 'valor_do_plano', 'quantidade_de_produtos']] = self.dataframe[
@@ -82,9 +86,13 @@ class DataFrame(
         data = self.cursor.fetchall()
 
         dataframe = pd.DataFrame(data, columns=[desc[0] for desc in self.cursor.description])
-
-        self.cursor.close()
-        self.connection.close()
+        
+        return dataframe
+    
+    def __get_crm_dataframe__(self):
+        self.cursor.execute('SELECT * from crm')
+        data = self.cursor.fetchall()
+        dataframe = pd.DataFrame(data, columns=[desc[0] for desc in self.cursor.description])
         
         return dataframe
 
