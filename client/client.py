@@ -51,10 +51,18 @@ class Freecel(
     
     def consultores(self, ano: int = None, mes: str = None) -> list[str]:
         """
-            Retorna uma lista com o nome de todos os consultores com ocorrências de venda         
+            Retorna uma lista com o nome de todos os consultores com ocorrências de vendas       
         """
         dataframe = self.filter_by(ano, mes)
         return list(dataframe['consultor'].unique())
+    
+    def ufs(self, ano: int = None, mes: str = None):
+        """
+            Retorna uma lista com todos as UF's com ocorrÊncias de vendas
+        """
+
+        dataframe = self.filter_by(ano, mes)
+        return list(dataframe['uf'].unique())
     
     def maior_venda_mes(self) -> int:
         """

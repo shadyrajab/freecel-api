@@ -31,8 +31,8 @@ class Rankings:
                 Um DataFrame contendo o ranking dos produtos com base na quantidade total de vendas.
          """
         
-        ranking_produtos = self.filter_by(ano, mes).groupby('TIPO', as_index = False).sum(numeric_only = True)
-        ranking_produtos.drop(['ANO', 'VALOR DO PLANO'], axis = 1, inplace = True)
+        ranking_produtos = self.filter_by(ano, mes).groupby('tipo', as_index = False).sum(numeric_only = True)
+        ranking_produtos.drop(['ano', 'valor_do_plano'], axis = 1, inplace = True)
 
         return ranking_produtos
 
@@ -64,8 +64,8 @@ class Rankings:
         if tipo and tipo not in {'FIXA', 'AVANÇADA', 'VVN', 'MIGRAÇÃO PRÉ-PÓS'}:
             raise ValueError("O tipo de venda deve ser {'ALTAS', 'FIXA' | 'AVANÇADA' | 'VVN' | 'MIGRAÇÃO PRÉ-PÓS'}")
         
-        ranking_consultores = self.filter_by(ano, mes, tipo).groupby('CONSULTOR', as_index = False).sum(numeric_only = True)
-        ranking_consultores.drop(['ANO', 'VALOR DO PLANO'], axis = 1, inplace = True)
+        ranking_consultores = self.filter_by(ano, mes, tipo).groupby('consultor', as_index = False).sum(numeric_only = True)
+        ranking_consultores.drop(['ano', 'valor_do_plano'], axis = 1, inplace = True)
 
         return ranking_consultores
 
