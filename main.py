@@ -3,6 +3,7 @@ from fastapi.encoders import jsonable_encoder
 from client.client import Freecel
 from crm.index_crm import request_crm
 import threading
+import os
 
 import uvicorn
 import asyncio
@@ -51,4 +52,4 @@ def run_periodic_request():
 if __name__ == "__main__":
     thread = threading.Thread(target=run_periodic_request)
     thread.start()
-    uvicorn.run(app, host="0.0.0.0", port=5000)
+    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
