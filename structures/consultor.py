@@ -354,7 +354,7 @@ class Consultor():
         ano = int(ano)
         mes = mes.capitalize()
 
-        if ano == min(self.years()) and mes == 'Janeiro':
+        if ano == min(self.years) and mes == 'Janeiro':
             return 0
 
         ano_delta = ano - 1 if mes == 'Janeiro' else ano
