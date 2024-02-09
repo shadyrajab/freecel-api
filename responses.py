@@ -81,7 +81,7 @@ class Consultor:
         if ano and mes:
             self.delta_receita_mensal = consultor.delta_receita_mensal(ano, mes)
             self.delta_quantidade_mensal = consultor.delta_quantidade_mensal(ano, mes)
-            self.delta_quantidade_mensal = consultor.delta_quantidade_mensal(ano, mes)
+            self.delta_quantidade_clientes = consultor.delta_quantidade_clientes(ano, mes)
 
         if display_vendas:
             self.vendas = jsonfy(consultor.filter_by(ano, mes))
