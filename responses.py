@@ -39,6 +39,7 @@ class Freecel:
         if ano and mes:
             self.delta_receita_total = client.delta_receita_total(ano, mes)
             self.delta_quantidade_produtos = client.delta_quantidade_produtos(ano, mes)
+            self.delta_quantidade_clientes = client.delta_quantidade_clientes(ano, mes)
             self.quantidade_clientes = client.quantidade_clientes(ano, mes)
             self.delta_ticket_medio = client.delta_ticket_medio(ano, mes)
             self.delta_media_diaria = client.delta_media_diaria(ano, mes)

@@ -81,6 +81,14 @@ class Freecel(
 
         return self.__calculate_delta_metric__(self.receita_total, ano, mes)
 
+    def delta_quantidade_clientes(self, ano: int = None, mes: str = None) -> int:
+        """
+            Retorna o ``delta`` da receita total de um determinado período.
+            O valor é utilizado como parâmetro para a função ``st.metrics`` do streamlit.
+        """
+
+        return self.__calculate_delta_metric__(self.quantidade_clientes, ano, mes)
+
     def delta_quantidade_produtos(self, ano: int = None, mes: str = None) -> int:
         """
             Retorna o ``delta`` da quantidade vendida de um determinado período.
