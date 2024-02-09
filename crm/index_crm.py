@@ -11,8 +11,10 @@ async def request_crm():
         now = datetime.now(fuso_horario_brasil)
         if now.hour == 23 and now.minute == 59:
             print('Função executada')
-            dataHoraInicioCarga = f'{now.year}-{now.month}-{now.day} 00:00:00'
-            dataHoraFimCarga = f'{now.year}-{now.month}-{now.day} 23:59:00'
+            dataHoraInicioCarga = f'{now.year}-{str(now.month).zfill(2)}-{str(now.day).zfill(2)} 00:00:00'
+            dataHoraFimCarga = f'{now.year}-{str(now.month).zfill(2)}-{str(now.day).zfill(2)} 23:59:00'
+
+            print(dataHoraInicioCarga, dataHoraFimCarga)
             dataframe = get_crm(dataHoraInicioCarga, dataHoraFimCarga)
             update_crm(dataframe)
 

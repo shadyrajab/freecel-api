@@ -2,6 +2,10 @@ from fastapi import FastAPI, Query
 from fastapi.encoders import jsonable_encoder
 from client.client import Freecel
 from crm.index_crm import request_crm
+import threading
+
+import uvicorn
+import asyncio
 
 from responses import Consultor, Freecel, Crm
 
@@ -39,4 +43,12 @@ def consultor(
 def crm():
     return Crm
 
-request_crm()
+def run_periodic_request():
+    asyncio.set_event_loop(asyncio.new_event_loop())
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(request_crm())
+
+if __name__ == "__main__":
+    thread = threading.Thread(target=run_periodic_request)
+    thread.start()
+    uvicorn.run(app, host="0.0.0.0", port=8000)
