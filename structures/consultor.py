@@ -178,7 +178,7 @@ class Consultor():
                 O mês atual que servirá como referência para o ``delta`` 
         """
 
-        delta_receita_mensal = self.__get_delta_receita_ou_quantidade_mensal__(ano, mes, 'receita')
+        delta_receita_mensal = self.__calculate_delta_metric__(self.receita, ano, mes)
 
         return delta_receita_mensal
     
@@ -200,9 +200,31 @@ class Consultor():
 
                 O mês atual que servirá como referência para o ``delta`` 
         """
-        delta_quantidade_mensal = self.__get_delta_receita_ou_quantidade_mensal__(ano, mes, 'quantidade')
+        delta_quantidade_mensal = self.__calculate_delta_metric__(self.quantidade, ano, mes)
 
         return delta_quantidade_mensal
+    
+    def delta_quantidade_clientes(self, ano: int, mes: str) -> int:
+        """
+            Retorna o valor do parâmetro ``delta`` para a função ``col.metric`` do streamlit
+
+            O ``delta_receita_mensal`` é a diferença entre a quantidade de vendas do mês referência 
+            comparado com a quantidade de vendas do mês passado.
+
+            Parâmetros
+            ---------
+
+            ano : int
+            
+                O ano atual que servirá como referência para o ``delta``
+
+            mes : str
+
+                O mês atual que servirá como referência para o ``delta`` 
+        """
+        delta_quantidade_clientes = self.__calculate_delta_metric__(self.quantidade_clientes, ano, mes)
+
+        return delta_quantidade_clientes
     
     def receita_media_diaria(self, ano: int = None, mes: str = None) -> float:
 
@@ -321,46 +343,25 @@ class Consultor():
 
         return receita_por_produto
     
-    def __get_delta_receita_ou_quantidade_mensal__(self, ano: int, mes: str, key: str) -> int:
+    def __calculate_delta_metric__(self, metric_function, ano: int = None, mes: str = None) -> int:
         """
-        Calcula o delta entre a receita ou quantidade de vendas do mês de referência e o mês anterior.
-
-        Parâmetros
-        ----------
-        ano : int
-            O ano atual que servirá como referência para o cálculo do delta.
-        mes : str
-            O mês atual que servirá como referência para o cálculo do delta.
-        key : str
-            O nome da coluna para o qual deseja-se calcular o delta. Deve ser "RECEITA" ou "QUANTIDADE".
-
-        Retorna
-        -------
-        int
-            O valor do delta entre a média do mês atual e do mês passado.
+            Retorna o ``delta`` da métrica calculada por consultor de um determinado período.
+            O valor é utilizado como parâmetro para a função ``st.metrics`` do streamlit.
         """
+        
+        # Caso o ano e mês anterior ao informado seja o primeiro mês com ocorrências de venda. O valor retornado é 0 
+        
         ano = int(ano)
         mes = mes.capitalize()
 
-        if key not in {'receita', 'quantidade'}:
-            raise ValueError('O valor do parâmetro key deve ser "receita" ou "quantidade".')
+        if ano == min(self.years()) and mes == 'Janeiro':
+            return 0
 
-        primeiro_ano = min(self.years)
-
-        # Retorna 0 caso não haja venda anterior ao mês e ano referência.
-        if ano == primeiro_ano and mes == 'Janeiro':
-            return 0 
-
-        # Se o mês referência for Janeiro, então o ano referência será o ano passado.
         ano_delta = ano - 1 if mes == 'Janeiro' else ano
-
         index_mes_passado = meses.index(mes) - 1
         mes_delta = meses[index_mes_passado]
 
-        media_atual = self.receita(ano=ano, mes=mes) if key == 'receita' else self.quantidade(ano=ano, mes=mes)
-        media_mes_passado = self.receita(ano_delta, mes_delta) if key == 'receita' else self.quantidade(ano_delta, mes_delta)
-
-        return media_atual - media_mes_passado
+        return metric_function(ano, mes) - metric_function(ano_delta, mes_delta)
 
     def __add_static_values__(self):
         """
