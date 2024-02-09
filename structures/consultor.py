@@ -1,5 +1,6 @@
 import pandas as pd
 from database.dataframe import DataFrame
+from datetime import datetime
 
 from typing import Optional
 
@@ -371,7 +372,15 @@ class Consultor():
         # Retorna o último ano que o consultor realizou uma venda.
         ultimo_ano = max(self.years)
 
+        meses = {
+            'Janeiro': 1, 'Fevereiro': 2, 'Março': 3, 'Abril': 4,
+            'Maio': 5, 'Junho': 6, 'Julho': 7, 'Agosto': 8,
+            'Setembro': 9, 'Outubro': 10, 'Novembro': 11, 'Dezembro': 12
+        }
+
         for mes in meses:
+            data = datetime(int(ultimo_ano), meses[mes], 1)
+            data = data.strftime('%Y-%m-%d %H:%M:%S')
             static = pd.DataFrame({
                 'uf': [None],
                 'cnpj': [None],
@@ -389,7 +398,7 @@ class Consultor():
                 'colaboradores': [None],
                 'cod_cnae': [None],
                 'nome_cnae': [None],
-                'data': [None]
+                'data': data
             })
 
             # Concatena o dataframe original com o dataframe estático.
