@@ -17,8 +17,6 @@ def to_data_frame(response) -> pd.DataFrame:
             StringIO(response.text), sep=';', header=0, encoding='utf-8'
         )
 
-        # dataframe.to_excel('doidao.xlsx')
-
         # Remover colunas desnecessárias
         columns_to_drop = [
             'Pedido Vinculado',

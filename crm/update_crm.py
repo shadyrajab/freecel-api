@@ -10,21 +10,24 @@ USER = getenv('user')
 PASSWORD = getenv('password')
 
 def update_crm(dataframe):
-    connection = psycopg2.connect(
-        host = HOST,
-        database = DATABASE,
-        user = USER,
-        password = PASSWORD
-    )
+    try:
+        with psycopg2.connect(
+            host = HOST,
+            database = DATABASE,
+            user = USER,
+            password = PASSWORD
+        ) as connection:
+            
+            with connection.cursor() as cursor:
+                cursor.execute('DELETE FROM crm')
+                connection.commit()
 
-    cursor = connection.cursor()
+            with connection.cursor() as cursor:
+                for _indice, linha in dataframe.iterrows():
+                    cursor.execute(f"INSERT INTO crm VALUES (%s);" % ','.join("'" + str(x) + "'" for x in linha))
+                connection.commit()
+    except:
+        connection.rollback()
 
-    cursor.execute('DELETE FROM crm')
-    
-    for _indice, linha in dataframe.iterrows():
-        cursor.execute(f"INSERT INTO crm VALUES (%s);" % ','.join("'" + str(x) + "'" for x in linha))
-
-    connection.commit()
-
-    cursor.close()
-    connection.close()
+    finally:
+        connection.close()
