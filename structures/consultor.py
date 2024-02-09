@@ -17,8 +17,6 @@ class Consultor():
             ano, mes = filtro
             self.dataframe = DataFrame.__filter_by__(self.dataframe, ano, mes)
 
-        self.__add_static_values__()
-
     def filter_by(self, ano: Optional[int] = None, mes: Optional[str] = None):
         return DataFrame.__filter_by__(self.dataframe, ano , mes)
 
@@ -362,45 +360,3 @@ class Consultor():
         mes_delta = meses[index_mes_passado]
 
         return metric_function(ano, mes) - metric_function(ano_delta, mes_delta)
-
-    def __add_static_values__(self):
-        """
-            Adiciona vendas estáticas ao dataframe de determinado consultor.
-            A função foi criada para ajudar na plotagem dos gráficos, fazendo com 
-            que fique visível os meses cujo consultor não tenha vendido produtos.
-        """
-
-        # Retorna o último ano que o consultor realizou uma venda.
-        ultimo_ano = max(self.years)
-
-        meses = {
-            'Janeiro': 1, 'Fevereiro': 2, 'Março': 3, 'Abril': 4,
-            'Maio': 5, 'Junho': 6, 'Julho': 7, 'Agosto': 8,
-            'Setembro': 9, 'Outubro': 10, 'Novembro': 11, 'Dezembro': 12
-        }
-
-        for mes in meses:
-            data = datetime(int(ultimo_ano), meses[mes], 1)
-            data = data.strftime('%Y-%m-%d %H:%M:%S')
-            static = pd.DataFrame({
-                'uf': [None],
-                'cnpj': [None],
-                'mês': [mes],
-                'ano': [ultimo_ano],
-                'plano': [None],
-                'tipo': [None],
-                'valor_do_plano': [0],
-                'quantidade_de_produtos': [0],
-                'valor_acumulado': [0],
-                'consultor': [None],
-                'gestor': [None],
-                'revenda': [None],
-                'faturamento': [None],
-                'colaboradores': [None],
-                'cod_cnae': [None],
-                'nome_cnae': [None],
-                'data': data
-            })
-
-            # Concatena o dataframe original com o dataframe estático.
-            self.dataframe = pd.concat([self.dataframe, static])
