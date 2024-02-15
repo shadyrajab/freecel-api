@@ -21,7 +21,7 @@ class DataBase:
     
     def add_consultor(self, nome: str):
         query = "INSERT INTO consultores (nome) VALUES (%s)"
-        values = (nome, )
+        values = (nome.upper(), )
 
         with self.connection.cursor() as cursor:
             cursor.execute(query, values)
@@ -42,7 +42,7 @@ class DataBase:
     
     def add_produto(self, nome: str, preco: int):
         query = "INSERT INTO produtos (nome, preco) VALUES (%s, %s)"
-        values = (nome, preco)  
+        values = (nome.upper(), preco)  
 
         with self.connection.cursor() as cursor:
             cursor.execute(query, values)
