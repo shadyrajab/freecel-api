@@ -54,7 +54,7 @@ def get_produtos():
     return jsonfy(client.get_produtos(to_dataframe = True))
 
 def token_authenticate(token: TokenModel):
-    return client.jwt_aunthenticate(token)
+    return client.jwt_authenticate(token)
 
 class Freecel:
     def __init__(
