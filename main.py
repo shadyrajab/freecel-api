@@ -65,7 +65,7 @@ def consultores():
 @app.put("/consultores")
 def add_consultor(consultor: ConsultorModel):
     print(consultor)
-    add_consultor(consultor)
+    add_consultor(consultor.nome)
 
     return { 'message': 'Consultor adicionado com sucesso'}
 
