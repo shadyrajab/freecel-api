@@ -53,12 +53,12 @@ def rankings(
 def crm():
     return Crm
 
-def run_periodic_request():
-    asyncio.set_event_loop(asyncio.new_event_loop())
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(request_crm())
+# def run_periodic_request():
+#     asyncio.set_event_loop(asyncio.new_event_loop())
+#     loop = asyncio.get_event_loop()
+#     loop.run_until_complete(request_crm())
 
 if __name__ == "__main__":
-    thread = threading.Thread(target=run_periodic_request)
-    thread.start()
+    # thread = threading.Thread(target=run_periodic_request)
+    # thread.start()
     uvicorn.run("main:app", host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
