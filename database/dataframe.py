@@ -139,7 +139,7 @@ class DataFrame(
 
         if mes and mes not in meses:
             raise ValueError('Formato de mês inválido. Por favor, escreva o nome do mês completo com acentos.')
-        
+    
         # Aplica os filtros
         filters = {
             'ano': ano,

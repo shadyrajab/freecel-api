@@ -8,7 +8,7 @@ import os
 import uvicorn
 import asyncio
 
-from responses import Consultor, Freecel, Crm
+from responses import Consultor, Freecel, Crm, Rankings
 
 app = FastAPI()
 
@@ -39,6 +39,15 @@ def consultor(
     consultor = Consultor(nome_consultor, display_vendas, ano, mes)
 
     return jsonable_encoder(consultor)
+
+@app.get("/rankings")
+def rankings(
+    ano: int = Query(None, description = "Ano (opcional)"), 
+    mes: str = Query(None, description = "Mês (opcional)")
+):
+    rankings = Rankings(ano, mes)
+
+    return jsonable_encoder(rankings)
 
 @app.get('/crm')
 def crm():
