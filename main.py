@@ -64,8 +64,8 @@ def consultores():
 
 @app.put("/consultores")
 def add_consultor(nome: str):
-    print(consultor)
-    add_consultor(consultor)
+    print(nome)
+    add_consultor(nome)
 
     return { 'message': 'Consultor adicionado com sucesso'}
 
