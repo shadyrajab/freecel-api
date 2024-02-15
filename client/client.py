@@ -56,6 +56,14 @@ class Freecel(
         dataframe = self.filter_by(ano, mes)
         return list(dataframe['consultor'].unique())
     
+    @property
+    def tipo_venda(self) -> list[str]:
+        """
+            Retorna uma lista com o todos os tipos de venda existentes       
+        """
+
+        return list(self.dataframe['tipo'].unique())
+    
     def ufs(self, ano: int = None, mes: str = None):
         """
             Retorna uma lista com todos as UF's com ocorrÊncias de vendas
