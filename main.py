@@ -8,7 +8,13 @@ import os
 import uvicorn
 import asyncio
 
-from responses import Consultor, Freecel, Crm, Rankings
+from responses import (
+    Consultor, 
+    Freecel, 
+    Consultores, 
+    Rankings,
+    add_consultor
+)
 
 app = FastAPI()
 
@@ -49,9 +55,19 @@ def rankings(
 
     return jsonable_encoder(rankings)
 
-@app.get('/crm')
-def crm():
-    return Crm
+@app.get("/consultores")
+def consultores():
+    return jsonable_encoder(Consultores)
+
+@app.put("/consultores")
+def add_consultor(nome: str):
+    add_consultor(nome)
+    
+    return { 'message': 'Consultor adicionado com sucesso'}
+
+# @app.get('/crm')
+# def crm():
+#     return Crm
 
 # def run_periodic_request():
 #     asyncio.set_event_loop(asyncio.new_event_loop())
