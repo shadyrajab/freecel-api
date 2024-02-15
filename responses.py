@@ -6,6 +6,8 @@ from json import dumps, load
 from typing import Optional
 from io import StringIO
 
+from base_model import VendaModel, ConsultorModel
+
 load_dotenv()
 
 HOST = getenv('host')
@@ -27,8 +29,19 @@ def jsonfy(dataframe):
 
 Consultores = jsonfy(client.get_consultores(to_dataframe = True))
 
-def add_consultor_to_db(nome: str):
-    client.add_consultor(nome)
+def add_consultor_to_db(consultor: ConsultorModel):
+    client.add_consultor(consultor)
+
+def add_venda_to_db(venda: VendaModel):
+    client.add_venda(
+        cnpj = venda.cnpj, cod_cnae = venda.cod_cnae, colaboradores = venda.colaboradores, consultor = venda.consultor,
+        data = venda.data, faturamento = venda.faturamento, gestor = venda.gestor, nome_cnae = venda.nome_cnae, 
+        plano = venda.plano, quantidade_de_produtos = venda.quantidade_de_produtos, revenda = venda.revenda, 
+        tipo = venda.tipo, uf = venda.uf, valor_acumulado = venda.valor_acumulado, valor_do_plano = venda.valor_do_plano
+    )
+
+def get_vendas(ano: int, mes: str):
+    return jsonfy(client.filter_by(ano, mes))
 
 class Freecel:
     def __init__(

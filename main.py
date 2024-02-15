@@ -12,11 +12,14 @@ from responses import (
     Freecel, 
     Consultores, 
     Rankings,
-    add_consultor_to_db
+    add_consultor_to_db,
+    get_vendas,
+    add_venda_to_db
 )
 
 from base_model import (
-    ConsultorModel
+    ConsultorModel,
+    VendaModel
 )
 
 app = FastAPI()
@@ -35,6 +38,19 @@ def freecel(
     freecel = Freecel(display_vendas, ano, mes)
 
     return jsonable_encoder(freecel)
+
+@app.get("/vendas")
+def vendas(
+    ano: int = Query(None, description = "Ano (opcional)"), 
+    mes: str = Query(None, description = "Mês (opcional)")
+):
+    return jsonable_encoder(get_vendas(ano, mes))
+
+@app.put("/vendas")
+def add_venda(venda: VendaModel):
+    add_venda_to_db(venda)
+    
+    return { "message": 'Venda adicionada com sucesso' }
 
 @app.get("/consultor/{nome_consultor}")
 def consultor(
@@ -64,7 +80,7 @@ def consultores():
 
 @app.put("/consultores")
 def add_consultor(consultor: ConsultorModel):
-    add_consultor_to_db(consultor.nome)
+    add_consultor_to_db(consultor)
 
     return { 'message': 'Consultor adicionado com sucesso'}
 
