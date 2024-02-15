@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Query, HTTPException, Depends, Header
+from fastapi import FastAPI, Query, HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.encoders import jsonable_encoder
 from client.client import Freecel
@@ -30,12 +30,15 @@ from base_model import (
 app = FastAPI()
 security = HTTPBearer()
 
-def authenticate(token: str = Header(...)):
-    if token_authenticate(token):
-        return True
-    else:
-        raise HTTPException(status_code=401, detail="Autenticação necessária")
+def authenticate(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    if credentials:
+        token = credentials.credentials
+        print('def_authenticate_token ' + token)
+        if token_authenticate(token):
+            print('yes if authenticate')
+            return True
 
+    raise HTTPException(status_code=401, detail="Autenticação necessária")
 
 @app.get("/")
 def home():
