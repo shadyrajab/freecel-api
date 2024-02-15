@@ -6,7 +6,7 @@ from json import dumps, load
 from typing import Optional
 from io import StringIO
 
-from base_model import VendaModel, ConsultorModel
+from base_model import VendaModel, ConsultorModel, ProdutoModel
 
 load_dotenv()
 
@@ -27,7 +27,8 @@ def jsonfy(dataframe):
     df = dataframe.to_json(orient = 'records')
     return load(StringIO(df))
 
-Consultores = jsonfy(client.get_consultores(to_dataframe = True))
+def get_consultores():
+    return jsonfy(client.get_consultores(to_dataframe = True))
 
 def add_consultor_to_db(consultor: ConsultorModel):
     client.add_consultor(consultor)
@@ -40,8 +41,17 @@ def add_venda_to_db(venda: VendaModel):
         tipo = venda.tipo, uf = venda.uf, valor_acumulado = venda.valor_acumulado, valor_do_plano = venda.valor_do_plano
     )
 
+def add_produto_to_db(produto: ProdutoModel):
+    client.add_produto(
+        nome = produto.nome,
+        preco = produto.preco
+    )
+
 def get_vendas(ano: int, mes: str):
     return jsonfy(client.filter_by(ano, mes))
+
+def get_produtos():
+    return jsonfy(client.get_produtos(to_dataframe = True))
 
 class Freecel:
     def __init__(

@@ -40,7 +40,7 @@ class DataBase:
 
         return produtos
     
-    def add_produto(self, nome: str, preco: int):
+    def add_produto(self, nome: str, preco: float):
         query = "INSERT INTO produtos (nome, preco) VALUES (%s, %s)"
         values = (nome.upper(), preco)  
 

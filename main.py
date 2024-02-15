@@ -10,16 +10,19 @@ import uvicorn
 from responses import (
     Consultor, 
     Freecel, 
-    Consultores, 
+    get_consultores, 
     Rankings,
     add_consultor_to_db,
     get_vendas,
-    add_venda_to_db
+    add_venda_to_db,
+    add_produto_to_db,
+    get_produtos
 )
 
 from base_model import (
     ConsultorModel,
-    VendaModel
+    VendaModel,
+    ProdutoModel
 )
 
 app = FastAPI()
@@ -52,6 +55,16 @@ def add_venda(venda: VendaModel):
     
     return { "message": 'Venda adicionada com sucesso' }
 
+@app.get("/produtos")
+def produtos():
+    return jsonable_encoder(get_produtos())
+
+@app.put("/produtos")
+def add_produto(produto: ProdutoModel):
+    add_produto_to_db(produto)
+
+    return { "message": "Produto adicionado com sucesso" }
+
 @app.get("/consultor/{nome_consultor}")
 def consultor(
         nome_consultor: str,
@@ -76,7 +89,7 @@ def rankings(
 
 @app.get("/consultores")
 def consultores():
-    return jsonable_encoder(Consultores)
+    return jsonable_encoder(get_consultores())
 
 @app.put("/consultores")
 def add_consultor(consultor: ConsultorModel):

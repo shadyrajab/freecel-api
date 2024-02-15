@@ -19,3 +19,7 @@ class VendaModel(BaseModel):
     uf: str
     valor_acumulado: str
     valor_do_plano: str
+
+class ProdutoModel(BaseModel):
+    nome: str
+    preco: float
