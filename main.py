@@ -6,7 +6,6 @@ import threading
 import os
 
 import uvicorn
-import asyncio
 
 from responses import (
     Consultor, 
@@ -14,6 +13,10 @@ from responses import (
     Consultores, 
     Rankings,
     add_consultor
+)
+
+from base_model import (
+    ConsultorModel
 )
 
 app = FastAPI()
@@ -61,8 +64,9 @@ def consultores():
 
 @app.put("/consultores")
 def add_consultor(nome: str):
+    nome = ConsultorModel.nome
     add_consultor(nome)
-    
+
     return { 'message': 'Consultor adicionado com sucesso'}
 
 # @app.get('/crm')
