@@ -16,15 +16,11 @@ class DataFrame(
             password = password
         )
         
-        self.dataframe = self.__get_full_dataframe__()
-        self.crm = self.__get_crm_dataframe__()
+        self.dataframe = self.get_vendas(to_dataframe = True)
         self.__dataframe_replace__()
         self.__formatar_nomes__()
         self.__formatar_datas__()
         self.__formatar_tipo_colunas__()
-        
-        self.cursor.close()
-        self.connection.close()
 
     def __formatar_tipo_colunas__(self) -> None:
         self.dataframe[['valor_acumulado', 'valor_do_plano', 'quantidade_de_produtos']] = self.dataframe[
@@ -81,21 +77,6 @@ class DataFrame(
 
         }, inplace=True)
 
-    def __get_full_dataframe__(self):
-        self.cursor.execute('SELECT * FROM vendas_concluidas')
-        data = self.cursor.fetchall()
-
-        dataframe = pd.DataFrame(data, columns=[desc[0] for desc in self.cursor.description])
-        
-        return dataframe
-    
-    def __get_crm_dataframe__(self):
-        self.cursor.execute('SELECT * from crm')
-        data = self.cursor.fetchall()
-        dataframe = pd.DataFrame(data, columns=[desc[0] for desc in self.cursor.description])
-        
-        return dataframe
-
     @staticmethod
     def __filter_by__(
         dataframe, ano: Optional[int] = None, mes: Optional[str] = None, consultor: Optional[str] = None,
@@ -125,17 +106,10 @@ class DataFrame(
         """
         # Verifica o formato do mês
 
-        if mes:
-            mes = mes.capitalize()
-
-        if ano:
-            ano = int(ano)
-
-        if tipo:
-            tipo = tipo.upper()
-
-        if consultor:
-            consultor = consultor.upper()
+        mes = mes.capitalize() if mes else mes
+        ano = int(ano) if ano else ano
+        tipo = tipo.upper() if tipo else tipo
+        consultor = consultor.upper() if consultor else consultor
 
         if mes and mes not in meses:
             raise ValueError('Formato de mês inválido. Por favor, escreva o nome do mês completo com acentos.')
