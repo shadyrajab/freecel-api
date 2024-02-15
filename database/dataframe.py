@@ -99,7 +99,7 @@ class DataFrame(
     @staticmethod
     def __filter_by__(
         dataframe, ano: Optional[int] = None, mes: Optional[str] = None, consultor: Optional[str] = None,
-        tipo: Optional[int] = None):
+        tipo: Optional[str] = None):
 
         """
         Filtra um DataFrame com base nos parâmetros fornecidos.
