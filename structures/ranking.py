@@ -10,7 +10,7 @@ class Rankings:
     def filter_by(self, ano: Optional[int] = None, mes: Optional[str] = None, tipo: Optional[str] = None):
         return DataFrame.__filter_by__(self.dataframe, ano, mes, tipo)
     
-    def ranking_produtos(self, ano: Optional[int] = None, mes: Optional[str] = None):
+    def produtos(self, ano: Optional[int] = None, mes: Optional[str] = None):
         """ 
             Retorna um ``DataFrame`` com o ranking dos produtos que mais venderam em um determinado 
             período.
@@ -36,7 +36,7 @@ class Rankings:
 
         return ranking_produtos
 
-    def ranking_consultores(self, ano: Optional[int] = None, mes: Optional[str] = None, tipo: Optional[int] = None) -> pd.DataFrame:
+    def consultores(self, ano: Optional[int] = None, mes: Optional[str] = None, tipo: Optional[int] = None) -> pd.DataFrame:
         """ 
             Retorna um ``DataFrame`` com o ranking dos consultores que mais venderam em um determinado 
             período.
