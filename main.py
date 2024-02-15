@@ -63,9 +63,9 @@ def consultores():
     return jsonable_encoder(Consultores)
 
 @app.put("/consultores")
-def add_consultor(nome: str):
-    print(nome)
-    add_consultor(nome)
+def add_consultor(consultor: ConsultorModel):
+    print('nome consultor ' + consultor.nome)
+    add_consultor(consultor.nome)
 
     return { 'message': 'Consultor adicionado com sucesso'}
 
