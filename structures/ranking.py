@@ -8,7 +8,7 @@ class Rankings:
         self.dataframe = dataframe
 
     def filter_by(self, ano: Optional[int] = None, mes: Optional[str] = None, tipo: Optional[str] = None):
-        return DataFrame.__filter_by__(self.dataframe, ano, mes, tipo)
+        return DataFrame.__filter_by__(dataframe = self.dataframe, ano = ano, mes = mes, tipo = tipo)
     
     def produtos(self, ano: Optional[int] = None, mes: Optional[str] = None):
         """ 
@@ -54,14 +54,9 @@ class Rankings:
             tipo: str | None
                 Parâmetro opcional para gerar o ranking baseado no tipo de venda. Se fornecido, será
                 gerado um ranking para um tipo de venda específico 
-
-            Retorna:
-            -----------
-            pd.DataFrame
-                Um DataFrame contendo o ranking dos consultores com base na quantidade total de vendas.
-         """
+            """
         
-        if tipo and tipo not in {'FIXA', 'AVANÇADA', 'VVN', 'MIGRAÇÃO PRÉ-PÓS'}:
+        if tipo and tipo not in {'ALTAS', 'FIXA', 'AVANÇADA', 'VVN', 'MIGRAÇÃO PRÉ-PÓS'}:
             raise ValueError("O tipo de venda deve ser {'ALTAS', 'FIXA' | 'AVANÇADA' | 'VVN' | 'MIGRAÇÃO PRÉ-PÓS'}")
         
         ranking_consultores = self.filter_by(ano, mes, tipo).groupby('consultor', as_index = False).sum(numeric_only = True)

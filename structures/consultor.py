@@ -18,7 +18,7 @@ class Consultor():
             self.dataframe = DataFrame.__filter_by__(self.dataframe, ano, mes)
 
     def filter_by(self, ano: Optional[int] = None, mes: Optional[str] = None):
-        return DataFrame.__filter_by__(self.dataframe, ano , mes)
+        return DataFrame.__filter_by__(dataframe = self.dataframe, ano = ano , mes = mes)
 
     @property
     def dias_trabalhados(self) -> int:

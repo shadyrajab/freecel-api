@@ -19,7 +19,7 @@ class Freecel(
         )
 
     def filter_by(self, ano, mes):
-        return DataFrame.__filter_by__(self.dataframe, ano ,mes)
+        return DataFrame.__filter_by__(dataframe = self.dataframe, ano = ano ,mes = mes)
 
     def Consultor(self, nome, filtro: Optional[list] = None) -> Consultor:
         """
