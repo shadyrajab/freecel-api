@@ -21,7 +21,7 @@ class DataBase:
     
     def add_consultor(self, nome: str):
         query = "INSET INTO consultores (nome) VALUES (%s)"
-        values = (nome, )
+        values = (nome)
 
         with self.connection.cursor() as cursor:
             cursor.execute(query, values)
