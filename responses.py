@@ -53,7 +53,7 @@ def get_vendas(ano: int, mes: str):
 def get_produtos():
     return jsonfy(client.get_produtos(to_dataframe = True))
 
-def authenticate(token: TokenModel):
+def token_authenticate(token: TokenModel):
     return client.jwt_aunthenticate(token)
 
 class Freecel:

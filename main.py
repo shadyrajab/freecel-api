@@ -18,7 +18,7 @@ from responses import (
     add_venda_to_db,
     add_produto_to_db,
     get_produtos,
-    authenticate
+    token_authenticate
 )
 
 from base_model import (
@@ -34,7 +34,7 @@ def authenticate(credentials: HTTPAuthorizationCredentials = Depends(security)):
     if credentials:
         token = credentials.credentials
         print('def_authenticate_token ' + token)
-        if authenticate(token):
+        if token_authenticate(token):
             print('yes if authenticate')
             return True
 
