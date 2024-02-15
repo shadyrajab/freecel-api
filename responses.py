@@ -20,11 +20,12 @@ client = Freecel(
     password = PASSWORD
 )
 
-Consultores = client.get_consultores()
 
 def jsonfy(dataframe):
     df = dataframe.to_json(orient = 'records')
     return load(StringIO(df))
+
+Consultores = jsonfy(client.get_consultores(to_dataframe = True))
 
 def add_consultor_to_db(nome: str):
     client.add_consultor(nome)
