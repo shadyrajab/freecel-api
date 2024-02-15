@@ -36,7 +36,7 @@ class Rankings:
 
         return ranking_produtos
 
-    def consultores(self, ano: Optional[int] = None, mes: Optional[str] = None, tipo: Optional[int] = None) -> pd.DataFrame:
+    def consultores(self, ano: Optional[int] = None, mes: Optional[str] = None, tipo: Optional[str] = None) -> pd.DataFrame:
         """ 
             Retorna um ``DataFrame`` com o ranking dos consultores que mais venderam em um determinado 
             período.
