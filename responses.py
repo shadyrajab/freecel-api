@@ -26,7 +26,7 @@ def jsonfy(dataframe):
     df = dataframe.to_json(orient = 'records')
     return load(StringIO(df))
 
-def add_consultor(nome: str):
+def add_consultor_to_db(nome: str):
     client.add_consultor(nome)
 
 class Freecel:

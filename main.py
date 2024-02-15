@@ -12,7 +12,7 @@ from responses import (
     Freecel, 
     Consultores, 
     Rankings,
-    add_consultor
+    add_consultor_to_db
 )
 
 from base_model import (
@@ -64,8 +64,7 @@ def consultores():
 
 @app.put("/consultores")
 def add_consultor(consultor: ConsultorModel):
-    print('nome consultor ' + consultor.nome)
-    add_consultor(consultor.nome)
+    add_consultor_to_db(consultor.nome)
 
     return { 'message': 'Consultor adicionado com sucesso'}
 
