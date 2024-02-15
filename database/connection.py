@@ -61,7 +61,7 @@ class DataBase:
         
         return vendas
     
-    def add_venda(connection, cnpj: str, cod_cnae: str, colaboradores: str, consultor: str,
+    def add_venda(self, cnpj: str, cod_cnae: str, colaboradores: str, consultor: str,
             data: str, faturamento: str, gestor: str, nome_cnae: str, plano: str,
             quantidade_de_produtos: str, revenda: str, tipo: str, uf: str, valor_acumulado: str,
             valor_do_plano: str
@@ -81,9 +81,9 @@ class DataBase:
             plano, quantidade_de_produtos, revenda, tipo, uf, valor_acumulado, valor_do_plano
         )
 
-        with connection.cursor() as cursor:
+        with self.connection.cursor() as cursor:
             cursor.execute(query, values)
-            connection.commit()
+            self.connection.commit()
 
     
     def __create_connection__(self, host, database, user, password):
