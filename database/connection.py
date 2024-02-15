@@ -20,7 +20,7 @@ class DataBase:
         return consultores
     
     def add_consultor(self, nome: str):
-        query = "INSET INTO consultores (nome) VALUES (%s)"
+        query = "INSERT INTO consultores (nome) VALUES (%s)"
         values = (nome, )
 
         with self.connection.cursor() as cursor:
