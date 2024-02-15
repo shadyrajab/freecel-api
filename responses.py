@@ -78,6 +78,7 @@ class Freecel:
         self.qtd_vendas_por_cnae = jsonfy(client.qtd_vendas_por_cnae(ano, mes))
         self.qtd_vendas_por_faturamento = jsonfy(client.qtd_vendas_por_faturamento(ano, mes))
         self.qtd_vendas_por_colaboradores = jsonfy(client.qtd_vendas_por_colaboradores(ano, mes))
+        self.qtd_vendas_por_uf = jsonfy(client.qtd_vendas_por_uf(ano, mes))
         # self.consultores = client.consultores(ano, mes)
         self.ufs = client.ufs(ano, mes)
         self.tipo_venda = client.tipo_venda

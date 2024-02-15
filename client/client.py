@@ -134,20 +134,33 @@ class Freecel(
             O valor é utilizado como parâmetro para a função ``st.metrics`` do streamlit.
         """
         return self.__calculate_delta_metric__(self.media_por_consultor, ano, mes)
+    
+    def qtd_vendas_por_uf(self, ano: int = None, mes: str = None) -> pd.DataFrame:
+        dataframe = self.filter_by(ano, mes)
+        vendas_por_uf = dataframe.groupby('uf', as_index = False).sum(
+            numeric_only = True).drop(axis = 1, columns = {'ano', 'id', 'valor_do_plano'}
+        )
+
+        quantidade_de_vendas = dataframe['uf'].value_counts().reset_index()
+        quantidade_de_vendas.columns = ['uf', 'quantidade_de_vendas']
+
+        return pd.merge(vendas_por_uf, quantidade_de_vendas, on='uf')
 
 
     def qtd_vendas_por_cnae(self, ano: int = None, mes: str = None) -> pd.DataFrame:
         """
             Retorna um ``DataFrame`` com a quantidade de vendas por cada CNAE de empresa .
-
-            codg: 'COD CNAE' | 'NOME CNAE'
-                Se deseja agrupar pelo código do CNAE, ou pelo nome
-        """         
+        """
 
         dataframe = self.filter_by(ano, mes)
-        qtd_vendas_por_cnae = dataframe['nome_cnae'].value_counts().reset_index()
+        vendas_por_cnae = dataframe.groupby('nome_cnae', as_index = False).sum(
+            numeric_only = True).drop(axis = 1, columns = {'ano', 'id', 'valor_do_plano'}
+        )
 
-        return pd.DataFrame(qtd_vendas_por_cnae)
+        quantidade_de_vendas = dataframe['nome_cnae'].value_counts().reset_index()
+        quantidade_de_vendas.columns = ['nome_cnae', 'quantidade_de_vendas']
+
+        return pd.merge(vendas_por_cnae, quantidade_de_vendas, on='nome_cnae')
     
     def qtd_vendas_por_faturamento(self, ano: int = None, mes: str = None) -> pd.DataFrame:
         """
@@ -155,9 +168,14 @@ class Freecel(
         """
 
         dataframe = self.filter_by(ano, mes)
-        qtd_vendas_por_faturamento = dataframe['faturamento'].value_counts().reset_index()
+        vendas_por_faturamento = dataframe.groupby('faturamento', as_index = False).sum(
+            numeric_only = True).drop(axis = 1, columns = {'ano', 'id', 'valor_do_plano'}
+        )
 
-        return pd.DataFrame(qtd_vendas_por_faturamento)
+        quantidade_de_vendas = dataframe['faturamento'].value_counts().reset_index()
+        quantidade_de_vendas.columns = ['faturamento', 'quantidade_de_vendas']
+
+        return pd.merge(vendas_por_faturamento, quantidade_de_vendas, on='faturamento')
     
     def qtd_vendas_por_colaboradores(self, ano: int = None, mes: str = None) -> pd.DataFrame:
         """
@@ -165,9 +183,15 @@ class Freecel(
         """
 
         dataframe = self.filter_by(ano, mes)
-        qtd_vendas_colaboradores = dataframe['colaboradores'].value_counts().reset_index()
+        vendas_por_colaboradores = dataframe.groupby('colaboradores', as_index = False).sum(
+            numeric_only = True).drop(axis = 1, columns = {'ano', 'id', 'valor_do_plano'}
+        )
 
-        return pd.DataFrame(qtd_vendas_colaboradores)
+        quantidade_de_vendas = dataframe['colaboradores'].value_counts().reset_index()
+        quantidade_de_vendas.columns = ['colaboradores', 'quantidade_de_vendas']
+
+        return pd.merge(vendas_por_colaboradores, quantidade_de_vendas, on='colaboradores')
+
 
     def quantidade_clientes(self, ano: int = None, mes: str = None) -> int:
 
