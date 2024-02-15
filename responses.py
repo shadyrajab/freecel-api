@@ -51,12 +51,24 @@ class Freecel:
         self.qtd_vendas_por_colaboradores = jsonfy(client.qtd_vendas_por_colaboradores(ano, mes))
         self.consultores = client.consultores(ano, mes)
         self.ufs = client.ufs(ano, mes)
-        self.ranking_consultores = jsonfy(client.Ranking().ranking_consultores(ano, mes))
-        self.ranking_produtos = jsonfy(client.Ranking().ranking_produtos(ano, mes))
 
         if display_vendas:
             self.vendas = jsonfy(client.filter_by(ano, mes))
 
+class Rankings:
+    def __init__(
+        self, ano: Optional[int] = None, mes: Optional[str] = None
+    ):
+        
+        rankings = client.Ranking()
+        self.ranking_consultores = jsonfy(rankings.consultores(ano, mes))
+        self.ranking_produtos = jsonfy(client.Ranking().produtos(ano, mes))
+        self.ranking_fixa = jsonfy(client.Ranking().consultores(ano, mes, tipo = 'FIXA'))
+        self.ranking_avancada = jsonfy(client.Ranking().consultores(ano, mes, tipo = 'AVANÇADA'))
+        self.ranking_vvn = jsonfy(client.Ranking().consultores(ano, mes, tipo = 'VVN'))
+        self.ranking_migracao = jsonfy(client.Ranking().consultores(ano, mes, tipo  = 'MIGRAÇÃO PRÉ-PÓS'))
+        self.ranking_altas = jsonfy(client.Ranking().consultores(ano, mes, tipo = 'ALTAS'))
+        
 class Consultor:
     def __init__(
             self, name: str, display_vendas: Optional[bool] = None, 
