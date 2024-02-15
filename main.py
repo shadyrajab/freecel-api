@@ -1,4 +1,5 @@
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, HTTPException, Depends
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.encoders import jsonable_encoder
 from client.client import Freecel
 from crm.index_crm import request_crm
@@ -16,7 +17,8 @@ from responses import (
     get_vendas,
     add_venda_to_db,
     add_produto_to_db,
-    get_produtos
+    get_produtos,
+    authenticate
 )
 
 from base_model import (
@@ -26,12 +28,21 @@ from base_model import (
 )
 
 app = FastAPI()
+security = HTTPBearer()
+
+def authenticate(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    if credentials:
+        token = credentials.credentials
+        if authenticate(token):
+            return True
+
+    raise HTTPException(status_code=401, detail="Autenticação necessária")
 
 @app.get("/")
 def home():
     return {"message": "ghghggk"}
 
-@app.get("/freecel")
+@app.get("/freecel", dependencies = [Depends(authenticate)])
 def freecel(
         display_vendas: bool = Query(None, description = 'Mostrar vendas (opcional)'), 
         ano: int = Query(None, description = "Ano (opcional)"), 
@@ -42,30 +53,30 @@ def freecel(
 
     return jsonable_encoder(freecel)
 
-@app.get("/vendas")
+@app.get("/vendas", dependencies = [Depends(authenticate)])
 def vendas(
     ano: int = Query(None, description = "Ano (opcional)"), 
     mes: str = Query(None, description = "Mês (opcional)")
 ):
     return jsonable_encoder(get_vendas(ano, mes))
 
-@app.put("/vendas")
+@app.put("/vendas", dependencies = [Depends(authenticate)])
 def add_venda(venda: VendaModel):
     add_venda_to_db(venda)
     
     return { "message": 'Venda adicionada com sucesso' }
 
-@app.get("/produtos")
+@app.get("/produtos", dependencies = [Depends(authenticate)])
 def produtos():
     return jsonable_encoder(get_produtos())
 
-@app.put("/produtos")
+@app.put("/produtos", dependencies = [Depends(authenticate)])
 def add_produto(produto: ProdutoModel):
     add_produto_to_db(produto)
 
     return { "message": "Produto adicionado com sucesso" }
 
-@app.get("/consultor/{nome_consultor}")
+@app.get("/consultor/{nome_consultor}", dependencies = [Depends(authenticate)])
 def consultor(
         nome_consultor: str,
         display_vendas: bool = Query(None, description = 'Mostrar vendas (opcional)'), 
@@ -78,7 +89,7 @@ def consultor(
 
     return jsonable_encoder(consultor)
 
-@app.get("/rankings")
+@app.get("/rankings", dependencies = [Depends(authenticate)])
 def rankings(
     ano: int = Query(None, description = "Ano (opcional)"), 
     mes: str = Query(None, description = "Mês (opcional)")
@@ -87,11 +98,11 @@ def rankings(
 
     return jsonable_encoder(rankings)
 
-@app.get("/consultores")
+@app.get("/consultores", dependencies = [Depends(authenticate)])
 def consultores():
     return jsonable_encoder(get_consultores())
 
-@app.put("/consultores")
+@app.put("/consultores", dependencies = [Depends(authenticate)])
 def add_consultor(consultor: ConsultorModel):
     add_consultor_to_db(consultor)
 

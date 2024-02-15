@@ -6,6 +6,15 @@ class DataBase:
     def __init__(self, host, database, user, password):
         self.connection = self.__create_connection__(host, database, user, password)
 
+    def jwt_authenticate(self, uuid: str):
+        query = f"SELECT * FROM uuids WHERE uuid = '{uuid}'"
+
+        with self.connection.cursor() as cursor:
+            cursor.execute(query)
+            user = cursor.fetchall()
+
+        return user[0][2] if user else None
+
     def get_consultores(self, to_dataframe: Optional[bool] = False):
         query = "SELECT * FROM consultores"
 

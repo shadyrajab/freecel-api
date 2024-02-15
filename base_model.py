@@ -3,6 +3,9 @@ from pydantic import BaseModel
 class ConsultorModel(BaseModel):
     nome: str
 
+class TokenModel(BaseModel):
+    uuid: str
+
 class VendaModel(BaseModel):
     cnpj: str
     cod_cnae: str

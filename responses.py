@@ -6,7 +6,7 @@ from json import dumps, load
 from typing import Optional
 from io import StringIO
 
-from base_model import VendaModel, ConsultorModel, ProdutoModel
+from base_model import VendaModel, ConsultorModel, ProdutoModel, TokenModel
 
 load_dotenv()
 
@@ -52,6 +52,9 @@ def get_vendas(ano: int, mes: str):
 
 def get_produtos():
     return jsonfy(client.get_produtos(to_dataframe = True))
+
+def authenticate(token: TokenModel):
+    return client.jwt_aunthenticate(token)
 
 class Freecel:
     def __init__(
