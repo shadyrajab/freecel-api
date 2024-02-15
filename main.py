@@ -32,6 +32,7 @@ security = HTTPBearer()
 
 def authenticate(credentials: HTTPAuthorizationCredentials = Depends(security)):
     if credentials:
+        print(credentials)
         token = credentials.credentials
         print('def_authenticate_token ' + token)
         if token_authenticate(token):
