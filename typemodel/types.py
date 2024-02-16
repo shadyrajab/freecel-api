@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import List, Optional
-from schemas import VendaSchema
+from .schemas import VendaSchema
 
 class BasicStats(BaseModel):
     quantidade_de_produtos: int
