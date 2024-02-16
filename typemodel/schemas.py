@@ -1,10 +1,33 @@
 from pydantic import BaseModel
-from typing import Optional, List, Dict
+from typing import Optional, List
 from .base_model import VendaModel
 
 class ProdutoSchema(BaseModel):
     nome: str
     preco: float
+
+class BasicStats(BaseModel):
+    quantidade_de_produtos: int
+    valor_acumulado: float
+    quantidade_de_vendas: int
+
+class VendasPorCnae(BasicStats):
+    nome_cnae: str
+
+class VendasPorFaturamento(BasicStats):
+    faturamento: str
+
+class VendasPorColaboradores(BasicStats):
+    colaboradores: str
+
+class VendasPorUF(BasicStats):
+    uf: str
+
+class VendasPorConsultor(BasicStats):
+    consultor: str
+
+class VendasPorTipoDeProduto(BasicStats):
+    tipo: str
 
 class VendaSchema(VendaModel):
     quadro_funcionarios: Optional[str] = None
@@ -35,6 +58,15 @@ class Consultor(BaseModel):
     delta_quantidade_clientes: Optional[float] = None
     vendas: List[VendaSchema]
 
+class Rankings(BaseModel):
+    ranking_consultores: List[VendasPorConsultor]
+    ranking_produtos: List[VendasPorTipoDeProduto]
+    ranking_fixa: List[VendasPorConsultor]
+    ranking_avancada: List[VendasPorConsultor]
+    ranking_vvn: List[VendasPorConsultor]
+    ranking_migracao: List[VendasPorConsultor]
+    ranking_altas: List[VendasPorConsultor]
+
 class Stats(BaseModel):
     receita_total: float
     quantidade_vendida: int
@@ -51,11 +83,9 @@ class Stats(BaseModel):
     delta_media_diaria: Optional[float] = None
     delta_media_por_consultor: Optional[float] = None
     consultor_do_mes: Optional[Consultor] = None
-    qtd_vendas_por_cnae: dict
-    qtd_vendas_por_faturamento: dict
-    qtd_vendas_por_colaboradores: dict
-    qtd_vendas_por_uf: dict
+    qtd_vendas_por_cnae: VendasPorCnae
+    qtd_vendas_por_faturamento: VendasPorFaturamento
+    qtd_vendas_por_colaboradores: VendasPorColaboradores
+    qtd_vendas_por_uf: VendasPorUF
     ufs: list
     tipo_venda: list
-
-# class 

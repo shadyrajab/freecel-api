@@ -30,11 +30,13 @@ class Rankings:
             pd.DataFrame
                 Um DataFrame contendo o ranking dos produtos com base na quantidade total de vendas.
          """
-        
-        ranking_produtos = self.filter_by(ano, mes).groupby('tipo', as_index = False).sum(numeric_only = True)
-        ranking_produtos.drop(['ano', 'valor_do_plano'], axis = 1, inplace = True)
+        quantidade_de_vendas = self.filter_by(ano, mes)['tipo'].value_counts().reset_index()
+        quantidade_de_vendas.columns = ['tipo', 'quantidade_de_vendas']
 
-        return ranking_produtos
+        ranking_produtos = self.filter_by(ano, mes).groupby('tipo', as_index = False).sum(numeric_only = True)
+        ranking_produtos.drop(['ano', 'valor_do_plano', 'id'], axis = 1, inplace = True)
+
+        return pd.merge(ranking_produtos, quantidade_de_vendas, on = 'tipo')
 
     def consultores(self, ano: Optional[int] = None, mes: Optional[str] = None, tipo: Optional[str] = None) -> pd.DataFrame:
         """ 
