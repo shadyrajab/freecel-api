@@ -73,7 +73,7 @@ def token_authenticate(token: TokenModel):
 
 class Freecel:
     def __init__(
-            self, display_vendas: Optional[bool] = None, ano: Optional[int] = None, mes: Optional[str] = None):
+            self, ano: Optional[int] = None, mes: Optional[str] = None):
         consultor_do_mes_nome = client.consultor_do_mes(ano, mes).name
         self.receita_total = client.receita_total(ano, mes)
         self.quantidade_vendida = client.qtd_de_produtos_vendidos(ano, mes)
@@ -97,12 +97,8 @@ class Freecel:
         self.qtd_vendas_por_faturamento = jsonfy(client.qtd_vendas_por_faturamento(ano, mes))
         self.qtd_vendas_por_colaboradores = jsonfy(client.qtd_vendas_por_colaboradores(ano, mes))
         self.qtd_vendas_por_uf = jsonfy(client.qtd_vendas_por_uf(ano, mes))
-        # self.consultores = client.consultores(ano, mes)
         self.ufs = client.ufs(ano, mes)
         self.tipo_venda = client.tipo_venda
-
-        if display_vendas:
-            self.vendas = jsonfy(client.filter_by(ano, mes))
 
 class Rankings:
     def __init__(

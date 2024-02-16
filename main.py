@@ -51,13 +51,12 @@ def authenticate(credentials: HTTPAuthorizationCredentials = Depends(security)):
     raise HTTPException(status_code=401, detail="Autenticação necessária")
 
 @app.get("/stats", dependencies = [Depends(authenticate)])
-def freecel(
-        display_vendas: bool = Query(None, description = 'Mostrar vendas (opcional)'), 
+def stats(
         ano: int = Query(None, description = "Ano (opcional)"), 
         mes: str = Query(None, description = "Mês (opcional)")
     ):
 
-    freecel = Freecel(display_vendas, ano, mes)
+    freecel = Freecel(ano, mes)
 
     return jsonable_encoder(freecel)
 
