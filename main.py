@@ -50,13 +50,6 @@ def authenticate(credentials: HTTPAuthorizationCredentials = Depends(security)):
 
     raise HTTPException(status_code=401, detail="Autenticação necessária")
 
-@app.get("/")
-def home():
-    with open('home.md', 'r') as md:
-        markdown = md.read()
-
-    return markdown
-
 @app.get("/stats", dependencies = [Depends(authenticate)])
 def freecel(
         display_vendas: bool = Query(None, description = 'Mostrar vendas (opcional)'), 
