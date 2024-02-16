@@ -83,9 +83,9 @@ class Stats(BaseModel):
     delta_media_diaria: Optional[float] = None
     delta_media_por_consultor: Optional[float] = None
     consultor_do_mes: Optional[Consultor] = None
-    qtd_vendas_por_cnae: VendasPorCnae
-    qtd_vendas_por_faturamento: VendasPorFaturamento
-    qtd_vendas_por_colaboradores: VendasPorColaboradores
-    qtd_vendas_por_uf: VendasPorUF
+    qtd_vendas_por_cnae: List[VendasPorCnae]
+    qtd_vendas_por_faturamento: List[VendasPorFaturamento]
+    qtd_vendas_por_colaboradores: List[VendasPorColaboradores]
+    qtd_vendas_por_uf: List[VendasPorUF]
     ufs: list
     tipo_venda: list
