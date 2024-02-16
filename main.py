@@ -22,7 +22,7 @@ from responses import (
     remove_consultor_from_db
 )
 
-from .types.base_model import (
+from typemodel.base_model import (
     ConsultorModel,
     VendaModel,
     ProdutoModel,
