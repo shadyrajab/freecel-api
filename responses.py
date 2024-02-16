@@ -1,13 +1,13 @@
 from client.client import Freecel
 from dotenv import load_dotenv
 from os import getenv
-from json import dumps, load
+from json import load
 from requests import request
 
 from typing import Optional
 from io import StringIO
 
-from typemodel.base_model import (
+from typemodel.responses import (
     VendaModel, 
     ConsultorModel, 
     ProdutoModel, 
