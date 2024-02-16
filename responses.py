@@ -7,7 +7,7 @@ from requests import request
 from typing import Optional
 from io import StringIO
 
-from .types.base_model import (
+from typemodel.base_model import (
     VendaModel, 
     ConsultorModel, 
     ProdutoModel, 
@@ -15,7 +15,7 @@ from .types.base_model import (
     IdentifyModel
 )
 
-from .types.schemas import CNPJStats
+from typemodel.schemas import VendaSchema
 
 load_dotenv()
 
@@ -44,35 +44,8 @@ def get_cnpj_all_stats(cnpj):
         
     return get_data_stats(data)
 
-def get_data_stats(data) -> CNPJStats:
-    quadro_funcionarios = data.get('quadro_funcionarios')
-    faturamento = data.get('faturamento')
-    cnae = data.get('cnae_principal')
-    cep = data.get('log_cep')
-    municipio = data.get('log_municipio')
-    porte = data.get('porte')
-    capital_social = data.get('capital_social')
-    natureza_juridica = data.get('natureza_juridica')
-    matriz = data.get('matriz')
-    situacao_cadastral = data.get('situacao_cadastral')
-    regime_tributario = data.get('regime_tributario')
-    bairro = data.get('log_bairro')
-
-    return CNPJStats(
-        quadro_funcionarios = quadro_funcionarios,
-        faturamento = faturamento,
-        cnae = cnae,
-        cep = cep,
-        municipio = municipio,
-        porte = porte,
-        capital_social = capital_social,
-        natureza_juridica = natureza_juridica,
-        matriz = matriz,
-        situacao_cadastral = situacao_cadastral,
-        regime_tributario = regime_tributario,
-        bairro = bairro
-    )
-
+def get_data_stats(data) -> VendaSchema:
+    return VendaSchema(**data)
 
 def jsonfy(dataframe):
     df = dataframe.to_json(orient = 'records')

@@ -1,7 +1,7 @@
 import psycopg2
 import pandas as pd
 from typing import Optional
-from ..types.schemas import VendaSchema
+from typemodel.schemas import VendaSchema 
 
 class DataBase:
     def __init__(self, host, database, user, password):
