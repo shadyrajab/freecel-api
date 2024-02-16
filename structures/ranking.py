@@ -59,8 +59,11 @@ class Rankings:
         if tipo and tipo not in {'ALTAS', 'FIXA', 'AVANÇADA', 'VVN', 'MIGRAÇÃO PRÉ-PÓS'}:
             raise ValueError("O tipo de venda deve ser {'ALTAS', 'FIXA' | 'AVANÇADA' | 'VVN' | 'MIGRAÇÃO PRÉ-PÓS'}")
         
+        quantidade_de_vendas = self.filter_by(ano, mes, tipo)['consultor'].value_counts().reset_index()
+        quantidade_de_vendas.columns = ['consultor', 'quantidade_de_vendas']
+        
         ranking_consultores = self.filter_by(ano, mes, tipo).groupby('consultor', as_index = False).sum(numeric_only = True)
-        ranking_consultores.drop(['ano', 'valor_do_plano'], axis = 1, inplace = True)
+        ranking_consultores.drop(['ano', 'valor_do_plano', 'id'], axis = 1, inplace = True)
 
-        return ranking_consultores
+        return pd.merge(ranking_consultores, quantidade_de_vendas, on = 'consultor')
 
