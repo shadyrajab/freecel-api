@@ -6,7 +6,13 @@ from json import dumps, load
 from typing import Optional
 from io import StringIO
 
-from base_model import VendaModel, ConsultorModel, ProdutoModel, TokenModel
+from base_model import (
+    VendaModel, 
+    ConsultorModel, 
+    ProdutoModel, 
+    TokenModel, 
+    IdentifyModel
+)
 
 load_dotenv()
 
@@ -41,11 +47,20 @@ def add_venda_to_db(venda: VendaModel):
         tipo = venda.tipo, uf = venda.uf, valor_acumulado = venda.valor_acumulado, valor_do_plano = venda.valor_do_plano
     )
 
+def remove_venda_from_db(id: IdentifyModel):
+    client.remove_venda(id.id)
+
 def add_produto_to_db(produto: ProdutoModel):
     client.add_produto(
         nome = produto.nome,
         preco = produto.preco
     )
+
+def remove_produto_from_db(id: IdentifyModel):
+    client.remove_produto(id.id)
+
+def remove_consultor_from_db(id: IdentifyModel):
+    client.remove_consultor(id.id)
 
 def get_vendas(ano: int, mes: str):
     return jsonfy(client.filter_by(ano, mes))

@@ -26,3 +26,6 @@ class VendaModel(BaseModel):
 class ProdutoModel(BaseModel):
     nome: str
     preco: float
+
+class IdentifyModel(BaseModel):
+    id: int

@@ -36,6 +36,14 @@ class DataBase:
             cursor.execute(query, values)
             self.connection.commit()
 
+    def remove_consultor(self, id: int):
+        query = "DELETE FROM consultores WHERE id = (%s)"
+        values = (id, )
+
+        with self.connection.cursor() as cursor:
+            cursor.execute(query, values)
+            self.connection.commit()
+
     def get_produtos(self, to_dataframe: Optional[bool] = False):
         query = "SELECT * FROM produtos"
 
@@ -52,6 +60,14 @@ class DataBase:
     def add_produto(self, nome: str, preco: float):
         query = "INSERT INTO produtos (nome, preco) VALUES (%s, %s)"
         values = (nome.upper(), preco)  
+
+        with self.connection.cursor() as cursor:
+            cursor.execute(query, values)
+            self.connection.commit()
+
+    def remove_produto(self, id: int):
+        query = "DELETE FROM produtos WHERE id = (%s)"
+        values = (id, )
 
         with self.connection.cursor() as cursor:
             cursor.execute(query, values)
@@ -89,6 +105,14 @@ class DataBase:
             cnpj, cod_cnae, colaboradores, consultor, data, faturamento, gestor, nome_cnae,
             plano, quantidade_de_produtos, revenda, tipo, uf, valor_acumulado, valor_do_plano
         )
+
+        with self.connection.cursor() as cursor:
+            cursor.execute(query, values)
+            self.connection.commit()
+
+    def remove_venda(self, id: int):
+        query = "DELETE FROM vendas_concluidas WHERE id = (%s)"
+        values = (id, )
 
         with self.connection.cursor() as cursor:
             cursor.execute(query, values)

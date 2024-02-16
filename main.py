@@ -2,8 +2,6 @@ from fastapi import FastAPI, Query, HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.encoders import jsonable_encoder
 from client.client import Freecel
-from crm.index_crm import request_crm
-import threading
 import os
 
 import uvicorn
@@ -18,16 +16,28 @@ from responses import (
     add_venda_to_db,
     add_produto_to_db,
     get_produtos,
-    token_authenticate
+    token_authenticate,
+    remove_venda_from_db,
+    remove_produto_from_db,
+    remove_consultor_from_db
 )
 
 from base_model import (
     ConsultorModel,
     VendaModel,
-    ProdutoModel
+    ProdutoModel,
+    IdentifyModel
 )
+def markdown_as_a_file():
+    with open('home.md', 'r') as md:
+        markdown = md.read()
 
-app = FastAPI()
+    return markdown
+
+app = FastAPI(
+    title = 'Freecel API',
+    description = markdown_as_a_file()
+)
 security = HTTPBearer()
 
 def authenticate(credentials: HTTPAuthorizationCredentials = Depends(security)):
@@ -42,9 +52,12 @@ def authenticate(credentials: HTTPAuthorizationCredentials = Depends(security)):
 
 @app.get("/")
 def home():
-    return {"message": "ghghggk"}
+    with open('home.md', 'r') as md:
+        markdown = md.read()
 
-@app.get("/freecel", dependencies = [Depends(authenticate)])
+    return markdown
+
+@app.get("/stats", dependencies = [Depends(authenticate)])
 def freecel(
         display_vendas: bool = Query(None, description = 'Mostrar vendas (opcional)'), 
         ano: int = Query(None, description = "Ano (opcional)"), 
@@ -68,6 +81,12 @@ def add_venda(venda: VendaModel):
     
     return { "message": 'Venda adicionada com sucesso' }
 
+@app.delete("/vendas", dependencies = [Depends(authenticate)])
+def remove_venda(id: IdentifyModel):
+    remove_venda_from_db(id)
+
+    return { "message": 'Venda removida com sucesso' }
+
 @app.get("/produtos", dependencies = [Depends(authenticate)])
 def produtos():
     return jsonable_encoder(get_produtos())
@@ -78,7 +97,29 @@ def add_produto(produto: ProdutoModel):
 
     return { "message": "Produto adicionado com sucesso" }
 
-@app.get("/consultor/{nome_consultor}", dependencies = [Depends(authenticate)])
+@app.delete("/produtos", dependencies = [Depends(authenticate)])
+def remove_produto(id: IdentifyModel):
+    remove_produto_from_db(id)
+
+    return { "message": 'Produto removido com sucesso' }
+
+@app.get("/consultores", dependencies = [Depends(authenticate)])
+def consultores():
+    return jsonable_encoder(get_consultores())
+
+@app.put("/consultores", dependencies = [Depends(authenticate)])
+def add_consultor(consultor: ConsultorModel):
+    add_consultor_to_db(consultor)
+
+    return { 'message': 'Consultor adicionado com sucesso'}
+
+@app.delete("/consultores", dependencies = [Depends(authenticate)])
+def remove_consultor(id: IdentifyModel):
+    remove_consultor_from_db(id)
+
+    return { "message": 'Consultor removido com sucesso' }
+
+@app.get("/consultores/{nome_consultor}", dependencies = [Depends(authenticate)])
 def consultor(
         nome_consultor: str,
         display_vendas: bool = Query(None, description = 'Mostrar vendas (opcional)'), 
@@ -99,16 +140,6 @@ def rankings(
     rankings = Rankings(ano, mes)
 
     return jsonable_encoder(rankings)
-
-@app.get("/consultores", dependencies = [Depends(authenticate)])
-def consultores():
-    return jsonable_encoder(get_consultores())
-
-@app.put("/consultores", dependencies = [Depends(authenticate)])
-def add_consultor(consultor: ConsultorModel):
-    add_consultor_to_db(consultor)
-
-    return { 'message': 'Consultor adicionado com sucesso'}
 
 # @app.get('/crm')
 # def crm():
