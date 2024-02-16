@@ -43,9 +43,7 @@ security = HTTPBearer()
 def authenticate(credentials: HTTPAuthorizationCredentials = Depends(security)):
     if credentials:
         token = credentials.credentials
-        print('def_authenticate_token ' + token)
         if token_authenticate(token):
-            print('yes if authenticate')
             return True
 
     raise HTTPException(status_code=401, detail="Autenticação necessária")
