@@ -1,12 +1,13 @@
-from client.client import Freecel
+from .client.client import Freecel
 from dotenv import load_dotenv
 from os import getenv
 from json import dumps, load
+from requests import request
 
 from typing import Optional
 from io import StringIO
 
-from base_model import (
+from .types.base_model import (
     VendaModel, 
     ConsultorModel, 
     ProdutoModel, 
@@ -14,12 +15,15 @@ from base_model import (
     IdentifyModel
 )
 
+from .types.schemas import CNPJStats
+
 load_dotenv()
 
 HOST = getenv('host')
 DATABASE = getenv('database')
 USER = getenv('user')
 PASSWORD = getenv('password')
+TOKENEMPRESAS = getenv('tokenEmpresas')
 
 client = Freecel(
     host = HOST,
@@ -27,6 +31,47 @@ client = Freecel(
     user = USER,
     password = PASSWORD
 )
+
+def get_cnpj_all_stats(cnpj):
+    empresas_aqui = f'https://www.empresaqui.com.br/api/{TOKENEMPRESAS}/{cnpj}'
+    response = request('GET', url = empresas_aqui)
+
+    if response.status_code == 200:
+        try:
+            data = response.json()
+        except:
+            return
+        
+    return get_data_stats(data)
+
+def get_data_stats(data) -> CNPJStats:
+    quadro_funcionarios = data.get('quadro_funcionarios')
+    faturamento = data.get('faturamento')
+    cnae = data.get('cnae_principal')
+    cep = data.get('log_cep')
+    municipio = data.get('log_municipio')
+    porte = data.get('porte')
+    capital_social = data.get('capital_social')
+    natureza_juridica = data.get('natureza_juridica')
+    matriz = data.get('matriz')
+    situacao_cadastral = data.get('situacao_cadastral')
+    regime_tributario = data.get('regime_tributario')
+    bairro = data.get('log_bairro')
+
+    return CNPJStats(
+        quadro_funcionarios = quadro_funcionarios,
+        faturamento = faturamento,
+        cnae = cnae,
+        cep = cep,
+        municipio = municipio,
+        porte = porte,
+        capital_social = capital_social,
+        natureza_juridica = natureza_juridica,
+        matriz = matriz,
+        situacao_cadastral = situacao_cadastral,
+        regime_tributario = regime_tributario,
+        bairro = bairro
+    )
 
 
 def jsonfy(dataframe):
@@ -40,11 +85,13 @@ def add_consultor_to_db(consultor: ConsultorModel):
     client.add_consultor(consultor)
 
 def add_venda_to_db(venda: VendaModel):
+    stats = get_cnpj_all_stats(venda.cnpj)
     client.add_venda(
-        cnpj = venda.cnpj, cod_cnae = venda.cod_cnae, colaboradores = venda.colaboradores, consultor = venda.consultor,
-        data = venda.data, faturamento = venda.faturamento, gestor = venda.gestor, nome_cnae = venda.nome_cnae, 
-        plano = venda.plano, quantidade_de_produtos = venda.quantidade_de_produtos, revenda = venda.revenda, 
-        tipo = venda.tipo, uf = venda.uf, valor_acumulado = venda.valor_acumulado, valor_do_plano = venda.valor_do_plano
+        venda.cnpj, venda.telefone, venda.consultor, venda.data, venda.gestor, venda.plano,
+        venda.quantidade_de_produtos, venda.revenda, venda.tipo, venda.uf, venda.valor_acumulado, 
+        venda.valor_do_plano, venda.email, stats.quadro_funcionarios, stats.faturamento, stats.cnae,
+        stats.cep, stats.municipio, stats.porte, stats.capital_social, stats.natureza_juridica, 
+        stats.matriz, stats.situacao_cadastral, stats.regime_tributario, stats.bairro
     )
 
 def remove_venda_from_db(id: IdentifyModel):
@@ -142,5 +189,3 @@ class Consultor:
 
         if display_vendas:
             self.vendas = jsonfy(consultor.filter_by(ano, mes))
-
-# Crm = jsonfy(client.crm)
