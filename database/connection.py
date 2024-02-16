@@ -1,6 +1,7 @@
 import psycopg2
 import pandas as pd
 from typing import Optional
+from ..types.schemas import VendaSchema
 
 class DataBase:
     def __init__(self, host, database, user, password):
@@ -86,29 +87,30 @@ class DataBase:
         
         return vendas
     
-    def add_venda(self, cnpj: str, cod_cnae: str, colaboradores: str, consultor: str,
-            data: str, faturamento: str, gestor: str, nome_cnae: str, plano: str,
-            quantidade_de_produtos: str, revenda: str, tipo: str, uf: str, valor_acumulado: str,
-            valor_do_plano: str
-        ):
-
+    def add_venda(self, venda: VendaSchema):
         query = """
             INSERT INTO vendas_concluidas (
-                cnpj, cod_cnae, colaboradores, consultor, data, faturamento, gestor,
-                nome_cnae, plano, quantidade_de_produtos, revenda, tipo, uf, valor_acumulado,
-                valor_do_plano
+                cnpj, telefone, consultor, data, gestor, plano, quantidade_de_produtos, 
+                revenda, tipo, uf, valor_acumulado, valor_do_plano, email, quadro_funcionarios,
+                faturamento, cnae, cep, municipio, porte, capital_social, natureza_juridica,
+                matriz, situacao_cadastral, regime_tributario, bairro
             ) VALUES (
-                %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+                %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
             )
         """
         values = (
-            cnpj, cod_cnae, colaboradores, consultor, data, faturamento, gestor, nome_cnae,
-            plano, quantidade_de_produtos, revenda, tipo, uf, valor_acumulado, valor_do_plano
+            venda.cnpj, venda.telefone, venda.consultor, venda.data, venda.gestor, venda.plano, 
+            venda.quantidade_de_produtos, venda.revenda, venda.tipo, venda.uf, venda.valor_acumulado, 
+            venda.valor_do_plano, venda.email, venda.quadro_funcionarios, venda.faturamento, 
+            venda.cnae, venda.cep, venda.municipio, venda.porte, venda.capital_social, 
+            venda.natureza_juridica, venda.matriz, venda.situacao_cadastral, venda.regime_tributario, 
+            venda.bairro
         )
 
         with self.connection.cursor() as cursor:
             cursor.execute(query, values)
             self.connection.commit()
+
 
     def remove_venda(self, id: int):
         query = "DELETE FROM vendas_concluidas WHERE id = (%s)"
