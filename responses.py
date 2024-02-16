@@ -1,4 +1,4 @@
-from .client.client import Freecel
+from client.client import Freecel
 from dotenv import load_dotenv
 from os import getenv
 from json import dumps, load
