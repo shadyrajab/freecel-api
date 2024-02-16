@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 class ConsultorModel(BaseModel):
     nome: str
@@ -8,13 +9,10 @@ class TokenModel(BaseModel):
 
 class VendaModel(BaseModel):
     cnpj: str
-    cod_cnae: str
-    colaboradores: str
+    telefone: int
     consultor: str
     data: str
-    faturamento: str
     gestor: str
-    nome_cnae: str
     plano: str
     quantidade_de_produtos: str
     revenda: str
@@ -22,6 +20,7 @@ class VendaModel(BaseModel):
     uf: str
     valor_acumulado: str
     valor_do_plano: str
+    email: Optional[str] = None
 
 class ProdutoModel(BaseModel):
     nome: str
