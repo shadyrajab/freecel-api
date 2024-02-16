@@ -16,6 +16,7 @@ from typemodel.responses import (
 )
 
 from typemodel.schemas import VendaSchema
+from typemodel.types import Consultor, Stats, Rankings
 
 load_dotenv()
 
