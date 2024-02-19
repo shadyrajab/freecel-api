@@ -19,7 +19,7 @@ class VendaModel(BaseModel):
     tipo: str
     uf: str
     valor_do_plano: float
-    email: Optional[str] = None
+    email: str
 
 class ProdutoModel(BaseModel):
     nome: str
