@@ -7,6 +7,7 @@ class ProdutoSchema(BaseModel):
     preco: float
 
 class VendaSchema(VendaModel):
+    valor_acumulado: float
     quadro_funcionarios: Optional[str] = None
     faturamento: Optional[str] = None
     cnae: Optional[str] = None

@@ -17,6 +17,7 @@ from typemodel.responses import (
 
 from typemodel.schemas import VendaSchema
 from typemodel.types import Consultor, Stats, Rankings
+from datetime import datetime
 
 load_dotenv()
 
@@ -33,22 +34,33 @@ client = Freecel(
     password = PASSWORD
 )
 
-def get_cnpj_all_stats(cnpj):
-    print(cnpj)
-    empresas_aqui = f'https://www.empresaqui.com.br/api/{TOKENEMPRESAS}/{cnpj}'
+def get_cnpj_all_stats(venda: VendaModel):
+    empresas_aqui = f'https://www.empresaqui.com.br/api/{TOKENEMPRESAS}/{venda.cnpj}'
     response = request('GET', url = empresas_aqui)
-
-    print(response)
-    if response.status_code == 200:
+    if response.status_code == 200 and response.text:
         try:
-            data = response.json()
+            stats = response.json()
         except:
-            return
+            return {}
+    else:
+        return {}
         
-    return get_data_stats(data)
+    return get_data_stats(venda, stats)
 
-def get_data_stats(data) -> VendaSchema:
-    return VendaSchema(**data)
+def get_data_stats(venda: VendaModel, stats) -> VendaSchema:
+    valor_acumulado = venda.quantidade_de_produtos * venda.valor_do_plano
+    venda.data = str(datetime.strptime(venda.data, '%d-%m-%Y'))
+    return VendaSchema(
+        cnpj=venda.cnpj, telefone=venda.telefone, consultor=venda.consultor, data=venda.data,
+        gestor=venda.gestor, plano=venda.plano, quantidade_de_produtos=venda.quantidade_de_produtos, 
+        revenda=venda.revenda, tipo=venda.tipo, uf=venda.uf, valor_acumulado=valor_acumulado, 
+        valor_do_plano=venda.valor_do_plano, email=venda.email, quadro_funcionarios=stats.get('quadro_funcionarios'),
+        faturamento=stats.get('faturamento'), cnae=stats.get('cnae_principal'), cep=stats.get('log_cep'), 
+        municipio=stats.get('log_municipio'), porte=stats.get('porte'), capital_social=stats.get('capital_social'), 
+        natureza_juridica=stats.get('natureza_juridica'), matriz=stats.get('matriz'), bairro=stats.get('log_bairro'),
+        situacao_cadastral=stats.get('situacao_cadastral'), regime_tributario=stats.get('regime_tributario'), 
+    )
+
 
 def jsonfy(dataframe):
     df = dataframe.to_json(orient = 'records')
@@ -61,15 +73,8 @@ def add_consultor_to_db(consultor: ConsultorModel):
     client.add_consultor(consultor)
 
 def add_venda_to_db(venda: VendaModel):
-    stats = get_cnpj_all_stats(venda.cnpj)
-    valor_acumulado = venda.quantidade_de_produtos * venda.valor_do_plano
-    client.add_venda(
-        venda.cnpj, venda.telefone, venda.consultor, venda.data, venda.gestor, venda.plano,
-        venda.quantidade_de_produtos, venda.revenda, venda.tipo, venda.uf, valor_acumulado, 
-        venda.valor_do_plano, venda.email, stats.quadro_funcionarios, stats.faturamento, stats.cnae,
-        stats.cep, stats.municipio, stats.porte, stats.capital_social, stats.natureza_juridica, 
-        stats.matriz, stats.situacao_cadastral, stats.regime_tributario, stats.bairro
-    )
+    venda = get_cnpj_all_stats(venda)
+    client.add_venda(venda)
 
 def remove_venda_from_db(id: IdentifyModel):
     client.remove_venda(id.id)
