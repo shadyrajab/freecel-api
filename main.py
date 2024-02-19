@@ -1,14 +1,13 @@
 from fastapi import FastAPI, Query, HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.encoders import jsonable_encoder
-from client.client import Freecel
 import os
 
 import uvicorn
 
 from responses import (
     Consultor, 
-    Freecel, 
+    Stats, 
     get_consultores, 
     Rankings,
     add_consultor_to_db,
@@ -54,7 +53,7 @@ def stats(
         mes: str = Query(None, description = "Mês (opcional)")
     ):
 
-    freecel = Freecel(ano, mes)
+    freecel = Stats(ano, mes)
 
     return jsonable_encoder(freecel)
 

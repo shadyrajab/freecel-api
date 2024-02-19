@@ -1,4 +1,4 @@
-from client.client import Client
+from client.client import Freecel
 from dotenv import load_dotenv
 from os import getenv
 from json import load
@@ -28,7 +28,7 @@ PASSWORD = getenv('password')
 TOKENEMPRESAS = getenv('tokenEmpresas')
 
 def create_client():
-    return Client(
+    return Freecel(
         host = HOST,
         database = DATABASE,
         user = USER,
@@ -133,7 +133,7 @@ def token_authenticate(token: TokenModel):
     client = create_client()
     return client.jwt_authenticate(token)
 
-class Freecel:
+class Stats:
     def __init__(
             self, ano: Optional[int] = None, mes: Optional[str] = None):
         client = create_client()
