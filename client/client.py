@@ -153,7 +153,7 @@ class Freecel(
         """
 
         dataframe = self.filter_by(ano, mes)
-        vendas_por_cnae = dataframe.groupby('nome_cnae', as_index = False).sum(
+        vendas_por_cnae = dataframe.groupby('cnae', as_index = False).sum(
             numeric_only = True).drop(axis = 1, columns = {'ano', 'id', 'valor_do_plano'}
         )
 
