@@ -47,9 +47,18 @@ def get_cnpj_all_stats(venda: VendaModel):
         
     return get_data_stats(venda, stats)
 
+def formatar_regime_tributario(regime):
+    regime_formatado = str(regime).split(';')
+
+    if len(regime_formatado) > 5:
+        return '; '.join(regime_formatado[-5:])
+    else:
+        return regime
+
 def get_data_stats(venda: VendaModel, stats) -> VendaSchema:
     valor_acumulado = venda.quantidade_de_produtos * venda.valor_do_plano
     venda.data = str(datetime.strptime(venda.data, '%d-%m-%Y'))
+    stats['regime_tributario'] = formatar_regime_tributario(stats.get('regime_tributario'))
     return VendaSchema(
         cnpj=venda.cnpj, telefone=venda.telefone, consultor=venda.consultor, data=venda.data,
         gestor=venda.gestor, plano=venda.plano, quantidade_de_produtos=venda.quantidade_de_produtos, 
