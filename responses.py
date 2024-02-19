@@ -16,7 +16,7 @@ from typemodel.responses import (
 )
 
 from typemodel.schemas import VendaSchema
-from typemodel.types import Consultor, Stats, Rankings
+from typemodel.types import Consultor
 from datetime import datetime
 
 load_dotenv()
@@ -34,16 +34,29 @@ client = Freecel(
     password = PASSWORD
 )
 
+def return_wrong_cnpj(venda: VendaModel):
+    valor_acumulado = venda.quantidade_de_produtos * venda.valor_do_plano
+
+    return VendaSchema(
+        cnpj=venda.cnpj, telefone=venda.telefone, consultor=venda.consultor, data=venda.data,
+        gestor=venda.gestor, plano=venda.plano, quantidade_de_produtos=venda.quantidade_de_produtos, 
+        revenda=venda.revenda, tipo=venda.tipo, uf=venda.uf, valor_acumulado=valor_acumulado, 
+        valor_do_plano=venda.valor_do_plano, email=venda.email, quadro_funcionarios=None,
+        faturamento=None, cnae=None, cep=None, municipio=None, porte=None, capital_social=None, 
+        natureza_juridica=None, matriz=None, bairro=None, situacao_cadastral=None, regime_tributario=None 
+    )
+
 def get_cnpj_all_stats(venda: VendaModel):
     empresas_aqui = f'https://www.empresaqui.com.br/api/{TOKENEMPRESAS}/{venda.cnpj}'
     response = request('GET', url = empresas_aqui)
+
     if response.status_code == 200 and response.text:
         try:
             stats = response.json()
         except:
-            return {}
+            return return_wrong_cnpj(venda)
     else:
-        return {}
+        return return_wrong_cnpj(venda)
         
     return get_data_stats(venda, stats)
 
@@ -59,6 +72,7 @@ def get_data_stats(venda: VendaModel, stats) -> VendaSchema:
     valor_acumulado = venda.quantidade_de_produtos * venda.valor_do_plano
     venda.data = str(datetime.strptime(venda.data, '%d-%m-%Y'))
     stats['regime_tributario'] = formatar_regime_tributario(stats.get('regime_tributario'))
+
     return VendaSchema(
         cnpj=venda.cnpj, telefone=venda.telefone, consultor=venda.consultor, data=venda.data,
         gestor=venda.gestor, plano=venda.plano, quantidade_de_produtos=venda.quantidade_de_produtos, 
@@ -69,7 +83,6 @@ def get_data_stats(venda: VendaModel, stats) -> VendaSchema:
         natureza_juridica=stats.get('natureza_juridica'), matriz=stats.get('matriz'), bairro=stats.get('log_bairro'),
         situacao_cadastral=stats.get('situacao_cadastral'), regime_tributario=stats.get('regime_tributario'), 
     )
-
 
 def jsonfy(dataframe):
     df = dataframe.to_json(orient = 'records')
@@ -83,6 +96,7 @@ def add_consultor_to_db(consultor: ConsultorModel):
 
 def add_venda_to_db(venda: VendaModel):
     venda = get_cnpj_all_stats(venda)
+    print(venda)
     client.add_venda(venda)
 
 def remove_venda_from_db(id: IdentifyModel):
