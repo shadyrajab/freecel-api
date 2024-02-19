@@ -157,10 +157,10 @@ class Freecel(
             numeric_only = True).drop(axis = 1, columns = {'ano', 'id', 'valor_do_plano'}
         )
 
-        quantidade_de_vendas = dataframe['nome_cnae'].value_counts().reset_index()
-        quantidade_de_vendas.columns = ['nome_cnae', 'quantidade_de_vendas']
+        quantidade_de_vendas = dataframe['cnae'].value_counts().reset_index()
+        quantidade_de_vendas.columns = ['cnae', 'quantidade_de_vendas']
 
-        return pd.merge(vendas_por_cnae, quantidade_de_vendas, on='nome_cnae')
+        return pd.merge(vendas_por_cnae, quantidade_de_vendas, on='cnae')
     
     def qtd_vendas_por_faturamento(self, ano: int = None, mes: str = None) -> pd.DataFrame:
         """
@@ -183,14 +183,14 @@ class Freecel(
         """
 
         dataframe = self.filter_by(ano, mes)
-        vendas_por_colaboradores = dataframe.groupby('colaboradores', as_index = False).sum(
+        vendas_por_colaboradores = dataframe.groupby('quadro_funcionarios', as_index = False).sum(
             numeric_only = True).drop(axis = 1, columns = {'ano', 'id', 'valor_do_plano'}
         )
 
-        quantidade_de_vendas = dataframe['colaboradores'].value_counts().reset_index()
-        quantidade_de_vendas.columns = ['colaboradores', 'quantidade_de_vendas']
+        quantidade_de_vendas = dataframe['quadro_funcionarios'].value_counts().reset_index()
+        quantidade_de_vendas.columns = ['quadro_funcionarios', 'quantidade_de_vendas']
 
-        return pd.merge(vendas_por_colaboradores, quantidade_de_vendas, on='colaboradores')
+        return pd.merge(vendas_por_colaboradores, quantidade_de_vendas, on='quadro_funcionarios')
 
 
     def quantidade_clientes(self, ano: int = None, mes: str = None) -> int:
