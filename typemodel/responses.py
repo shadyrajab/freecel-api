@@ -14,12 +14,11 @@ class VendaModel(BaseModel):
     data: str
     gestor: str
     plano: str
-    quantidade_de_produtos: str
+    quantidade_de_produtos: int
     revenda: str
     tipo: str
     uf: str
-    valor_acumulado: str
-    valor_do_plano: str
+    valor_do_plano: float
     email: Optional[str] = None
 
 class ProdutoModel(BaseModel):

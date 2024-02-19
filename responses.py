@@ -60,9 +60,10 @@ def add_consultor_to_db(consultor: ConsultorModel):
 
 def add_venda_to_db(venda: VendaModel):
     stats = get_cnpj_all_stats(venda.cnpj)
+    valor_acumulado = venda.quantidade_de_produtos * venda.valor_do_plano
     client.add_venda(
         venda.cnpj, venda.telefone, venda.consultor, venda.data, venda.gestor, venda.plano,
-        venda.quantidade_de_produtos, venda.revenda, venda.tipo, venda.uf, venda.valor_acumulado, 
+        venda.quantidade_de_produtos, venda.revenda, venda.tipo, venda.uf, valor_acumulado, 
         venda.valor_do_plano, venda.email, stats.quadro_funcionarios, stats.faturamento, stats.cnae,
         stats.cep, stats.municipio, stats.porte, stats.capital_social, stats.natureza_juridica, 
         stats.matriz, stats.situacao_cadastral, stats.regime_tributario, stats.bairro

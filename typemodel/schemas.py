@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional, List
+from typing import Optional
 from .responses import VendaModel
 
 class ProdutoSchema(BaseModel):
