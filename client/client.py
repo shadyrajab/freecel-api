@@ -7,7 +7,7 @@ from typing import Optional
 
 meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
     
-class Freecel(
+class Client(
     DataFrame
 ):
     def __init__(self, host, database, user, password):
