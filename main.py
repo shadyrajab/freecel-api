@@ -67,6 +67,7 @@ def vendas(
 
 @app.put("/vendas", dependencies = [Depends(authenticate)])
 def add_venda(venda: VendaModel):
+    print(venda)
     add_venda_to_db(venda)
     
     return { "message": 'Venda adicionada com sucesso' }
