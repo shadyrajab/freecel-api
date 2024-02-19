@@ -1,4 +1,4 @@
-from client.client import Freecel
+from client.client import Client
 from dotenv import load_dotenv
 from os import getenv
 from json import load
@@ -28,14 +28,12 @@ PASSWORD = getenv('password')
 TOKENEMPRESAS = getenv('tokenEmpresas')
 
 def create_client():
-    client = Freecel(
+    return Client(
         host = HOST,
         database = DATABASE,
         user = USER,
         password = PASSWORD
     )
-
-    return client
 
 def return_wrong_cnpj(venda: VendaModel):
     valor_acumulado = venda.quantidade_de_produtos * venda.valor_do_plano
