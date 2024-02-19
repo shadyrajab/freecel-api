@@ -27,12 +27,15 @@ USER = getenv('user')
 PASSWORD = getenv('password')
 TOKENEMPRESAS = getenv('tokenEmpresas')
 
-client = Freecel(
-    host = HOST,
-    database = DATABASE,
-    user = USER,
-    password = PASSWORD
-)
+def create_client():
+    client = Freecel(
+        host = HOST,
+        database = DATABASE,
+        user = USER,
+        password = PASSWORD
+    )
+
+    return client
 
 def return_wrong_cnpj(venda: VendaModel):
     valor_acumulado = venda.quantidade_de_produtos * venda.valor_do_plano
@@ -89,43 +92,53 @@ def jsonfy(dataframe):
     return load(StringIO(df))
 
 def get_consultores():
+    client = create_client()
     return jsonfy(client.get_consultores(to_dataframe = True))
 
 def add_consultor_to_db(consultor: ConsultorModel):
+    client = create_client()
     client.add_consultor(consultor)
 
 def add_venda_to_db(venda: VendaModel):
+    client = create_client()
     venda = get_cnpj_all_stats(venda)
-    print(venda)
     client.add_venda(venda)
 
 def remove_venda_from_db(id: IdentifyModel):
+    client = create_client()
     client.remove_venda(id.id)
 
 def add_produto_to_db(produto: ProdutoModel):
+    client = create_client()
     client.add_produto(
         nome = produto.nome,
         preco = produto.preco
     )
 
 def remove_produto_from_db(id: IdentifyModel):
+    client = create_client()
     client.remove_produto(id.id)
 
 def remove_consultor_from_db(id: IdentifyModel):
+    client = create_client()
     client.remove_consultor(id.id)
 
 def get_vendas(ano: int, mes: str):
+    client = create_client()
     return jsonfy(client.filter_by(ano, mes))
 
 def get_produtos():
+    client = create_client()
     return jsonfy(client.get_produtos(to_dataframe = True))
 
 def token_authenticate(token: TokenModel):
+    client = create_client()
     return client.jwt_authenticate(token)
 
 class Freecel:
     def __init__(
             self, ano: Optional[int] = None, mes: Optional[str] = None):
+        client = create_client()
         consultor_do_mes_nome = client.consultor_do_mes(ano, mes).name
         self.receita_total = client.receita_total(ano, mes)
         self.quantidade_vendida = client.qtd_de_produtos_vendidos(ano, mes)
@@ -156,7 +169,7 @@ class Rankings:
     def __init__(
         self, ano: Optional[int] = None, mes: Optional[str] = None
     ):
-        
+        client = create_client()
         rankings = client.Ranking()
         self.ranking_consultores = jsonfy(rankings.consultores(ano, mes))
         self.ranking_produtos = jsonfy(client.Ranking().produtos(ano, mes))
@@ -171,6 +184,7 @@ class Consultor:
             self, name: str, display_vendas: Optional[bool] = None, 
             ano: Optional[int] = None, mes: Optional[str] = None
         ):
+        client = create_client()
         consultor = client.Consultor(name)
 
         self.name = consultor.name
