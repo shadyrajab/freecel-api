@@ -34,9 +34,11 @@ client = Freecel(
 )
 
 def get_cnpj_all_stats(cnpj):
+    print(cnpj)
     empresas_aqui = f'https://www.empresaqui.com.br/api/{TOKENEMPRESAS}/{cnpj}'
     response = request('GET', url = empresas_aqui)
 
+    print(response)
     if response.status_code == 200:
         try:
             data = response.json()

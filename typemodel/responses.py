@@ -9,7 +9,7 @@ class TokenModel(BaseModel):
 
 class VendaModel(BaseModel):
     cnpj: str
-    telefone: int
+    telefone: str
     consultor: str
     data: str
     gestor: str
