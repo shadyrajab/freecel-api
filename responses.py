@@ -170,12 +170,13 @@ class Rankings:
         client = create_client()
         rankings = client.Ranking()
         self.ranking_consultores = jsonfy(rankings.consultores(ano, mes))
-        self.ranking_produtos = jsonfy(client.Ranking().produtos(ano, mes))
-        self.ranking_fixa = jsonfy(client.Ranking().consultores(ano, mes, tipo = 'FIXA'))
-        self.ranking_avancada = jsonfy(client.Ranking().consultores(ano, mes, tipo = 'AVANÇADA'))
-        self.ranking_vvn = jsonfy(client.Ranking().consultores(ano, mes, tipo = 'VVN'))
-        self.ranking_migracao = jsonfy(client.Ranking().consultores(ano, mes, tipo  = 'MIGRAÇÃO PRÉ-PÓS'))
-        self.ranking_altas = jsonfy(client.Ranking().consultores(ano, mes, tipo = 'ALTAS'))
+        self.ranking_produtos = jsonfy(rankings.produtos(ano, mes))
+        self.ranking_fixa = jsonfy(rankings.consultores(ano, mes, tipo = 'FIXA'))
+        self.ranking_avancada = jsonfy(rankings.consultores(ano, mes, tipo = 'AVANÇADA'))
+        self.ranking_vvn = jsonfy(rankings.consultores(ano, mes, tipo = 'VVN'))
+        self.ranking_migracao = jsonfy(rankings.consultores(ano, mes, tipo  = 'MIGRAÇÃO PRÉ-PÓS'))
+        self.ranking_altas = jsonfy(rankings.consultores(ano, mes, tipo = 'ALTAS'))
+        self.ranking_planos = jsonfy(rankings.planos(ano, mes))
         
 class Consultor:
     def __init__(
