@@ -342,21 +342,29 @@ class Consultor():
         return receita_por_produto
     
     def __calculate_delta_metric__(self, metric_function, ano: int = None, mes: str = None) -> int:
-        """
-            Retorna o ``delta`` da métrica calculada por consultor de um determinado período.
-            O valor é utilizado como parâmetro para a função ``st.metrics`` do streamlit.
-        """
-        
-        # Caso o ano e mês anterior ao informado seja o primeiro mês com ocorrências de venda. O valor retornado é 0 
-        
-        ano = int(ano)
-        mes = mes.capitalize()
+            """
+                Retorna o ``delta`` da métrica calculada por consultor de um determinado período.
+                O valor é utilizado como parâmetro para a função ``st.metrics`` do streamlit.
+            """
+            
+            # Caso o ano e mês anterior ao informado seja o primeiro mês com ocorrências de venda. O valor retornado é 0 
+            
+            ano = int(ano)
+            
+            if ano == min(self.years) and mes == None:
+                return 0
+            
+            if ano == min(self.years) and mes.lower() == 'janeiro':
+                return 0
+            
+            if mes:
+                mes = mes.capitalize()
 
-        if ano == min(self.years) and mes == 'Janeiro':
-            return 0
+                ano_delta = ano - 1 if mes == 'Janeiro' else ano
+                index_mes_passado = meses.index(mes) - 1
+                mes_delta = meses[index_mes_passado]
 
-        ano_delta = ano - 1 if mes == 'Janeiro' else ano
-        index_mes_passado = meses.index(mes) - 1
-        mes_delta = meses[index_mes_passado]
-
-        return metric_function(ano, mes) - metric_function(ano_delta, mes_delta)
+                return metric_function(ano, mes) - metric_function(ano_delta, mes_delta)
+            else:
+                ano_delta = ano - 1 if ano != min(self.years) else ano
+                return metric_function(ano) - metric_function(ano_delta)

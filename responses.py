@@ -146,7 +146,7 @@ class Stats:
         self.media_por_consultor = client.media_por_consultor(ano, mes)
         self.maior_venda_mes = client.maior_venda_mes()
 
-        if ano and mes:
+        if ano:
             self.delta_receita_total = client.delta_receita_total(ano, mes)
             self.delta_quantidade_produtos = client.delta_quantidade_produtos(ano, mes)
             self.delta_quantidade_clientes = client.delta_quantidade_clientes(ano, mes)
@@ -200,7 +200,7 @@ class Consultor:
 
         self.ticket_medio = consultor.ticket_medio
 
-        if ano and mes:
+        if ano:
             self.delta_receita_mensal = consultor.delta_receita_mensal(ano, mes)
             self.delta_quantidade_mensal = consultor.delta_quantidade_mensal(ano, mes)
             self.delta_quantidade_clientes = consultor.delta_quantidade_clientes(ano, mes)
