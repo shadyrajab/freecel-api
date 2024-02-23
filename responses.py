@@ -146,7 +146,7 @@ class Stats:
         self.media_por_consultor = client.media_por_consultor(ano, mes)
         self.maior_venda_mes = client.maior_venda_mes()
 
-        if ano and mes:
+        if ano:
             self.delta_receita_total = client.delta_receita_total(ano, mes)
             self.delta_quantidade_produtos = client.delta_quantidade_produtos(ano, mes)
             self.delta_quantidade_clientes = client.delta_quantidade_clientes(ano, mes)
@@ -170,12 +170,13 @@ class Rankings:
         client = create_client()
         rankings = client.Ranking()
         self.ranking_consultores = jsonfy(rankings.consultores(ano, mes))
-        self.ranking_produtos = jsonfy(client.Ranking().produtos(ano, mes))
-        self.ranking_fixa = jsonfy(client.Ranking().consultores(ano, mes, tipo = 'FIXA'))
-        self.ranking_avancada = jsonfy(client.Ranking().consultores(ano, mes, tipo = 'AVANÇADA'))
-        self.ranking_vvn = jsonfy(client.Ranking().consultores(ano, mes, tipo = 'VVN'))
-        self.ranking_migracao = jsonfy(client.Ranking().consultores(ano, mes, tipo  = 'MIGRAÇÃO PRÉ-PÓS'))
-        self.ranking_altas = jsonfy(client.Ranking().consultores(ano, mes, tipo = 'ALTAS'))
+        self.ranking_produtos = jsonfy(rankings.produtos(ano, mes))
+        self.ranking_fixa = jsonfy(rankings.consultores(ano, mes, tipo = 'FIXA'))
+        self.ranking_avancada = jsonfy(rankings.consultores(ano, mes, tipo = 'AVANÇADA'))
+        self.ranking_vvn = jsonfy(rankings.consultores(ano, mes, tipo = 'VVN'))
+        self.ranking_migracao = jsonfy(rankings.consultores(ano, mes, tipo  = 'MIGRAÇÃO PRÉ-PÓS'))
+        self.ranking_altas = jsonfy(rankings.consultores(ano, mes, tipo = 'ALTAS'))
+        self.ranking_planos = jsonfy(rankings.planos(ano, mes))
         
 class Consultor:
     def __init__(
@@ -199,7 +200,7 @@ class Consultor:
 
         self.ticket_medio = consultor.ticket_medio
 
-        if ano and mes:
+        if ano:
             self.delta_receita_mensal = consultor.delta_receita_mensal(ano, mes)
             self.delta_quantidade_mensal = consultor.delta_quantidade_mensal(ano, mes)
             self.delta_quantidade_clientes = consultor.delta_quantidade_clientes(ano, mes)
