@@ -18,7 +18,6 @@ class DataFrame(
         
         self.dataframe = self.get_vendas(to_dataframe = True)
         self.__dataframe_replace__()
-        self.__formatar_nomes__()
         self.__formatar_datas__()
         self.__formatar_tipo_colunas__()
 
@@ -33,22 +32,6 @@ class DataFrame(
 
         self.dataframe['ano'] = pd.to_datetime(self.dataframe['data']).dt.year
         self.dataframe['mês'] = pd.to_datetime(self.dataframe['data']).dt.month.apply(lambda mes: get_mes(mes))
-
-
-    def __formatar_nomes__(self):
-        def formatar_nome(nome):
-            nome_splited = nome.split(' ')
-            try:
-                if nome_splited[1] == 'DE' or nome_splited[1] == 'DOS':
-                    nome = nome_splited[0] + ' ' + nome_splited[1] + ' ' + nome_splited[2]
-                else:
-                    nome = nome_splited[0] + ' ' + nome_splited[1]
-            except:
-                pass
-
-            return nome
-
-        self.dataframe['consultor'] = self.dataframe['consultor'].apply(lambda n: formatar_nome(n))
 
     def __dataframe_replace__(self) -> None:
         self.dataframe.replace({
