@@ -18,7 +18,7 @@ class Freecel(
             password
         )
 
-    def filter_by(self, ano, mes):
+    def filter_by(self, ano: Optional[int] = None, mes: Optional[str] = None):
         return DataFrame.__filter_by__(dataframe = self.dataframe, ano = ano ,mes = mes)
 
     def Consultor(self, nome, filtro: Optional[list] = None) -> Consultor:
@@ -34,6 +34,17 @@ class Freecel(
         """
 
         return Rankings(self.dataframe)
+    
+    @property
+    def dates(self):
+        dates = []
+        for year in self.years():
+            dates.append(
+                {
+                    f"{year}": self.months(year)
+                }
+            )
+        return dates
     
     def years(self) -> list[int]:
         """

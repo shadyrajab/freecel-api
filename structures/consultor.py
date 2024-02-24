@@ -19,6 +19,35 @@ class Consultor():
 
     def filter_by(self, ano: Optional[int] = None, mes: Optional[str] = None):
         return DataFrame.__filter_by__(dataframe = self.dataframe, ano = ano , mes = mes)
+    
+    @property
+    def dates(self):
+        dates = []
+        for year in self.years:
+            dates.append(
+                {
+                    f"{year}": self.months(year)
+                }
+            )
+        return dates
+    
+    @property
+    def years(self) -> list:
+        """
+            Retorna em formato de lista todos os anos em que 
+            determinado consultor concluiu vendas.
+        """
+
+        years = list(self.dataframe['ano'].unique())
+
+        return years
+    
+    def months(self, ano) -> list[str]:
+        """
+            Retorna uma lista com todos os meses de um determinado ano com ocorrência de vendas
+        """
+
+        return list(self.filter_by(ano)['mês'].unique())
 
     @property
     def dias_trabalhados(self) -> int:
@@ -52,17 +81,6 @@ class Consultor():
         meses_trabalhados = self.dataframe['data'].nunique()
 
         return meses_trabalhados
-
-    @property
-    def years(self) -> list:
-        """
-            Retorna em formato de lista todos os anos em que 
-            determinado consultor concluiu vendas.
-        """
-
-        years = list(self.dataframe['ano'].unique())
-
-        return years
     
     def receita(self, ano: int = None, mes: str = None) -> float:
 
