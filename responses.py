@@ -197,7 +197,7 @@ class Consultor:
         self.quantidade_media_mensal = consultor.quantidade_media_mensal
         self.receita_media_mensal =  consultor.receita_media_mensal
 
-        self.ticket_medio = consultor.ticket_medio
+        self.ticket_medio = consultor.ticket_medio(ano, mes)
 
         if ano:
             self.delta_receita_total = consultor.delta_receita_mensal(ano, mes)
