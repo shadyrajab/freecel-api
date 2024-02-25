@@ -154,7 +154,7 @@ class Stats:
             self.delta_ticket_medio = client.delta_ticket_medio(ano, mes)
             self.delta_media_diaria = client.delta_media_diaria(ano, mes)
             self.delta_media_por_consultor = client.delta_media_por_consultor(ano, mes)
-            self.consultor_do_mes = Consultor(consultor_do_mes_nome, False, ano, mes)
+            self.consultor_do_mes = Consultor(consultor_do_mes_nome, ano, mes)
 
         self.qtd_vendas_por_cnae = jsonfy(client.qtd_vendas_por_cnae(ano, mes))
         self.qtd_vendas_por_faturamento = jsonfy(client.qtd_vendas_por_faturamento(ano, mes))
