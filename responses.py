@@ -150,7 +150,6 @@ class Stats:
             self.delta_receita_total = client.delta_receita_total(ano, mes)
             self.delta_quantidade_produtos = client.delta_quantidade_produtos(ano, mes)
             self.delta_quantidade_clientes = client.delta_quantidade_clientes(ano, mes)
-            self.quantidade_clientes = client.quantidade_clientes(ano, mes)
             self.delta_ticket_medio = client.delta_ticket_medio(ano, mes)
             self.delta_media_diaria = client.delta_media_diaria(ano, mes)
             self.delta_media_por_consultor = client.delta_media_por_consultor(ano, mes)
@@ -201,8 +200,10 @@ class Consultor:
         self.ticket_medio = consultor.ticket_medio
 
         if ano:
-            self.delta_receita_mensal = consultor.delta_receita_mensal(ano, mes)
-            self.delta_quantidade_mensal = consultor.delta_quantidade_mensal(ano, mes)
+            self.delta_receita_total = consultor.delta_receita_mensal(ano, mes)
+            self.delta_quantidade_produtos = consultor.delta_quantidade_mensal(ano, mes)
             self.delta_quantidade_clientes = consultor.delta_quantidade_clientes(ano, mes)
+            self.delta_ticket_medio = consultor.delta_ticket_medio(ano, mes)
+            self.delta_media_diaria = consultor.delta_media_diaria(ano, mes)
 
         self.dates = consultor.dates

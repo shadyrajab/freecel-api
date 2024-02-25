@@ -127,8 +127,7 @@ class Consultor():
 
         return int(dataframe['quantidade_de_produtos'].sum())
     
-    @property
-    def ticket_medio(self) -> int:
+    def ticket_medio(self, ano = None, mes = None) -> int:
 
         """
             Retorna o ticket médio de vendas de determinado consultor
@@ -139,7 +138,7 @@ class Consultor():
             ``receita_total / quantidade_de_vendas ``
         """
 
-        ticket_medio = self.receita() / self.quantidade_clientes()
+        ticket_medio = self.receita(ano, mes) / self.quantidade_clientes(ano, mes)
 
         return ticket_medio
     
@@ -197,6 +196,21 @@ class Consultor():
         delta_receita_mensal = self.__calculate_delta_metric__(self.receita, ano, mes)
 
         return delta_receita_mensal
+    
+    def delta_ticket_medio(self, ano: int = None, mes: str = None) -> int:
+        """
+            Retorna o ``delta`` do ticket médio de um determinado período.
+            O valor é utilizado como parâmetro para a função ``st.metrics`` do streamlit.
+        """
+
+        return self.__calculate_delta_metric__(self.ticket_medio, ano, mes)
+
+    def delta_media_diaria(self, ano: int = None, mes: str = None) -> int:
+        """
+            Retorna o ``delta`` da média diária de vendas de um determinado período.
+            O valor é utilizado como parâmetro para a função ``st.metrics`` do streamlit.
+        """
+        return self.__calculate_delta_metric__(self.receita_media_diaria, ano, mes)
     
     def delta_quantidade_mensal(self, ano: int, mes: str) -> int:
         """
