@@ -210,3 +210,5 @@ class Consultor:
             self.vendas = jsonfy(consultor.filter_by(ano, mes))
 
         self.dates = consultor.dates
+        self.ranking_planos = jsonfy(consultor.ranking_planos(ano, mes))
+        self.ranking_produtos = jsonfy(consultor.ranking_produtos(ano, mes))
