@@ -180,7 +180,7 @@ class Rankings:
         
 class Consultor:
     def __init__(
-            self, name: str, ano: Optional[int] = None, mes: Optional[str] = None
+            self, name: str, ano: Optional[int] = None, mes: Optional[str] = None, display_vendas: Optional[bool] = None
         ):
         client = create_client()
         consultor = client.Consultor(name)
@@ -205,5 +205,8 @@ class Consultor:
             self.delta_quantidade_clientes = consultor.delta_quantidade_clientes(ano, mes)
             self.delta_ticket_medio = consultor.delta_ticket_medio(ano, mes)
             self.delta_media_diaria = consultor.delta_media_diaria(ano, mes)
+
+        if display_vendas:
+            self.vendas = jsonfy(consultor.filter_by(ano, mes))
 
         self.dates = consultor.dates

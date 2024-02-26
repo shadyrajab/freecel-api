@@ -113,11 +113,12 @@ def remove_consultor(id: IdentifyModel):
 def consultor(
         nome_consultor: str,
         ano: int = Query(None, description = "Ano (opcional)"), 
-        mes: str = Query(None, description = "Mês (opcional)")
+        mes: str = Query(None, description = "Mês (opcional)"),
+        display_vendas: bool = Query(None, description = "Mostrar vendas (opcional)")
     ):
 
     nome_consultor = nome_consultor.replace('_', ' ').upper()
-    consultor = Consultor(nome_consultor, ano, mes)
+    consultor = Consultor(nome_consultor, ano, mes, display_vendas)
 
     return jsonable_encoder(consultor)
 
