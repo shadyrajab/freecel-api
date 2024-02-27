@@ -18,8 +18,8 @@ class Freecel(
             password
         )
 
-    def filter_by(self, ano: Optional[int] = None, mes: Optional[str] = None):
-        return DataFrame.__filter_by__(dataframe = self.dataframe, ano = ano ,mes = mes)
+    def filter_by(self, ano: Optional[int] = None, mes: Optional[str] = None, tipo: Optional[str] = None):
+        return DataFrame.__filter_by__(dataframe = self.dataframe, ano = ano ,mes = mes, tipo = tipo)
 
     def Consultor(self, nome, filtro: Optional[list] = None) -> Consultor:
         """
@@ -311,7 +311,7 @@ class Freecel(
 
         return self.receita_total(ano, mes) / 22
     
-    def media_por_consultor(self, ano: int = None, mes: str = None) -> float:
+    def media_por_consultor(self, ano: int = None, mes: str = None, tipo: Optional[str] = None) -> float:
 
         """
             Retorna a receita média vendida por cada consultor em um determinado período.
@@ -326,9 +326,12 @@ class Freecel(
                 ``ano`` é obrigatório caso ``mes`` seja passado. 
         """
 
-        dataframe: pd.DataFrame = self.filter_by(ano, mes)
+        dataframe: pd.DataFrame = self.filter_by(ano, mes, tipo)
+        if dataframe.shape[0] == 0:
+            return 0
+        
         consultores: int = dataframe['consultor'].nunique() # -> Quantidade de consultores
-        media_por_consultor: int = self.receita_total(ano, mes) / consultores
+        media_por_consultor: int = dataframe['valor_acumulado'].sum() / consultores
 
         return media_por_consultor
 

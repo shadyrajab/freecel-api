@@ -143,7 +143,12 @@ class Stats:
         self.quantidade_clientes = client.quantidade_clientes(ano, mes)
         self.ticket_medio = client.ticket_medio(ano, mes)
         self.receita_media_diaria = client.receita_media_diaria(ano, mes)
-        self.media_por_consultor = client.media_por_consultor(ano, mes)
+        self.media_por_consultor_geral = client.media_por_consultor(ano, mes)
+        self.media_por_consultor_altas = client.media_por_consultor(ano, mes, 'ALTAS')
+        self.media_por_consultor_migracao = client.media_por_consultor(ano, mes, 'MIGRAÇÃO PRÉ-PÓS')
+        self.media_por_consultor_fixa = client.media_por_consultor(ano, mes, 'FIXA')
+        self.media_por_consultor_avancada = client.media_por_consultor(ano, mes, 'AVANÇADA')
+        self.media_por_consultor_vvn = client.media_por_consultor(ano, mes, 'VVN')
         self.maior_venda_mes = client.maior_venda_mes()
 
         if ano:
