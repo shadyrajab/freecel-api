@@ -21,12 +21,6 @@ from responses import (
     remove_consultor_from_db
 )
 
-from typemodel.responses import (
-    ConsultorModel,
-    VendaModel,
-    ProdutoModel,
-    IdentifyModel
-)
 def markdown_as_a_file():
     with open('home.md', 'r') as md:
         markdown = md.read()

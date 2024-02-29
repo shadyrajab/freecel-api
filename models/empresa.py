@@ -1,13 +1,7 @@
-from pydantic import BaseModel
 from typing import Optional
-from .responses import VendaModel
+from pydantic import BaseModel
 
-class ProdutoSchema(BaseModel):
-    nome: str
-    preco: float
-
-class VendaSchema(VendaModel):
-    valor_acumulado: float
+class Empresa(BaseModel):
     quadro_funcionarios: Optional[str] = None
     faturamento: Optional[str] = None
     cnae: Optional[str] = None

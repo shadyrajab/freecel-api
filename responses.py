@@ -7,16 +7,6 @@ from requests import request
 from typing import Optional
 from io import StringIO
 
-from typemodel.responses import (
-    VendaModel, 
-    ConsultorModel, 
-    ProdutoModel, 
-    TokenModel, 
-    IdentifyModel
-)
-
-from typemodel.schemas import VendaSchema
-from typemodel.types import Consultor
 from datetime import datetime
 
 load_dotenv()
