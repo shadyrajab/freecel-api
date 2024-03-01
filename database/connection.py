@@ -1,7 +1,7 @@
 import psycopg2
 import pandas as pd
 from typing import Optional
-from typemodel.schemas import VendaSchema 
+from models.vendas import Venda 
 
 class DataBase:
     def __init__(self, host, database, user, password):
@@ -87,7 +87,7 @@ class DataBase:
         
         return vendas
     
-    def add_venda(self, venda: VendaSchema):
+    def add_venda(self, venda: Venda):
         query = """
             INSERT INTO vendas_concluidas (
                 cnpj, telefone, consultor, data, gestor, plano, quantidade_de_produtos, 
@@ -122,10 +122,6 @@ class DataBase:
 
     
     def __create_connection__(self, host, database, user, password):
-        """
-            Realizando a conexão com o banco de dados da Freecel.
-        """
-        
         connection = psycopg2.connect(
             host = host, 
             database = database, 

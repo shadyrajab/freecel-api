@@ -1,34 +1,25 @@
-from client.client import Freecel
-from dotenv import load_dotenv
-from os import getenv
+from client.client import Client
 from json import load
 from requests import request
-
 from typing import Optional
 from io import StringIO
-
 from datetime import datetime
-
-load_dotenv()
-
-HOST = getenv('host')
-DATABASE = getenv('database')
-USER = getenv('user')
-PASSWORD = getenv('password')
-TOKENEMPRESAS = getenv('tokenEmpresas')
+from utils.variables import HOST, DATABASE, USER, PASSWORD, TOKENEMPRESAS
+from models.vendas import Venda 
+from models.empresa import Empresa
 
 def create_client():
-    return Freecel(
+    return Client(
         host = HOST,
         database = DATABASE,
         user = USER,
         password = PASSWORD
     )
 
-def return_wrong_cnpj(venda: VendaModel):
+def return_wrong_cnpj(venda: Venda):
     valor_acumulado = venda.quantidade_de_produtos * venda.valor_do_plano
 
-    return VendaSchema(
+    return Venda(
         cnpj=venda.cnpj, telefone=venda.telefone, consultor=venda.consultor, data=venda.data,
         gestor=venda.gestor, plano=venda.plano, quantidade_de_produtos=venda.quantidade_de_produtos, 
         revenda=venda.revenda, tipo=venda.tipo, uf=venda.uf, valor_acumulado=valor_acumulado, 
@@ -37,7 +28,7 @@ def return_wrong_cnpj(venda: VendaModel):
         natureza_juridica=None, matriz=None, bairro=None, situacao_cadastral=None, regime_tributario=None 
     )
 
-def get_cnpj_all_stats(venda: VendaModel):
+def get_cnpj_all_stats(venda: Empresa):
     empresas_aqui = f'https://www.empresaqui.com.br/api/{TOKENEMPRESAS}/{venda.cnpj}'
     response = request('GET', url = empresas_aqui)
 

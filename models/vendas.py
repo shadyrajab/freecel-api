@@ -97,7 +97,7 @@ class Venda(Empresa):
         if value.upper() not in EQUIPE:
             raise ValueError(f"""
                 O nome da equipe informado está inválido. O nome da equipe deve ser FREECEL,
-                VALPARAISO, PARCEIRO ou ESCRITORIO, não {value}
+                VALPARAISO, PARCEIRO ou GOIÂNIA, não {value}
             """)
         
         return value.upper()
