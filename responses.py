@@ -68,14 +68,35 @@ def formatar_regime_tributario(regime):
         return '; '.join(regime_formatado[-5:])
     else:
         return regime
+    
+def get_adabas(equipe, tipo):
+    df_movel = 'DFP4059-001'
+    go_movel = 'GOP4096-001'
+    df_fixa = 'DFPAE0005-1'
+    go_fixa = 'GOPAE0031-1'
+    equipes_go = ['GOIÂNIA']
+    equipes_df = ['FREECEL', 'VALPARAISO', 'PARCEIRO', 'SAMAMBAIA']
+    tipos_fixa_e_avancada = ['VVN', 'FIXA', 'AVANÇADA']
+    tipos_movel = ['ALTAS', 'PORTABILIDADE', 'MIGRAÇÃO PRÉ-PÓS']
+    if equipe in equipes_go:
+        if tipo in tipos_movel:
+            return go_movel
+        elif tipo in tipos_fixa_e_avancada:
+            return go_fixa
+    if equipe in equipes_df:
+        if tipo in tipos_movel:
+            return df_movel
+        elif tipo in tipos_fixa_e_avancada:
+            return df_fixa
 
 def get_data_stats(venda: VendaModel, stats) -> VendaSchema:
     valor_acumulado = venda.quantidade_de_produtos * venda.valor_do_plano
     venda.data = str(datetime.strptime(venda.data, '%d-%m-%Y'))
     stats['regime_tributario'] = formatar_regime_tributario(stats.get('regime_tributario'))
+    adabas = get_adabas(venda.revenda, venda.tipo)
 
     return VendaSchema(
-        cnpj=venda.cnpj, telefone=venda.telefone, consultor=venda.consultor, data=venda.data,
+        cnpj=venda.cnpj, telefone=venda.telefone, consultor=venda.consultor, data=venda.data, adabas= adabas,
         gestor=venda.gestor, plano=venda.plano, quantidade_de_produtos=venda.quantidade_de_produtos, 
         revenda=venda.revenda, tipo=venda.tipo, uf=venda.uf, valor_acumulado=valor_acumulado, 
         valor_do_plano=venda.valor_do_plano, email=venda.email, quadro_funcionarios=stats.get('quadro_funcionarios'),

@@ -93,9 +93,9 @@ class DataBase:
                 cnpj, telefone, consultor, data, gestor, plano, quantidade_de_produtos, 
                 revenda, tipo, uf, valor_acumulado, valor_do_plano, email, quadro_funcionarios,
                 faturamento, cnae, cep, municipio, porte, capital_social, natureza_juridica,
-                matriz, situacao_cadastral, regime_tributario, bairro
+                matriz, situacao_cadastral, regime_tributario, bairro, adabas
             ) VALUES (
-                %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+                %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
             )
         """
         values = (
@@ -104,7 +104,7 @@ class DataBase:
             venda.valor_do_plano, venda.email, venda.quadro_funcionarios, venda.faturamento, 
             venda.cnae, venda.cep, venda.municipio, venda.porte, venda.capital_social, 
             venda.natureza_juridica, venda.matriz, venda.situacao_cadastral, venda.regime_tributario, 
-            venda.bairro
+            venda.bairro, venda.adabas
         )
 
         with self.connection.cursor() as cursor:

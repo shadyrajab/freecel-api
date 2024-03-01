@@ -7,6 +7,7 @@ class ProdutoSchema(BaseModel):
     preco: float
 
 class VendaSchema(VendaModel):
+    adabas: str
     valor_acumulado: float
     quadro_funcionarios: Optional[str] = None
     faturamento: Optional[str] = None
