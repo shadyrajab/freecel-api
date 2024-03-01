@@ -17,7 +17,6 @@ class DataFrame(
         )
         
         self.dataframe = self.get_vendas(to_dataframe = True)
-        self.__dataframe_replace__()
         self.__formatar_datas__()
         self.__formatar_tipo_colunas__()
 
