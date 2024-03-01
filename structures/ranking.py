@@ -29,8 +29,8 @@ class Rankings:
         return pd.merge(ranking_produtos, quantidade_de_vendas, on = 'tipo')
 
     def consultores(self, ano: Optional[int] = None, mes: Optional[str] = None, tipo: Optional[str] = None) -> pd.DataFrame:
-        if tipo and tipo not in {'ALTAS', 'FIXA', 'AVANÇADA', 'VVN', 'MIGRAÇÃO PRÉ-PÓS'}:
-            raise ValueError("O tipo de venda deve ser {'ALTAS', 'FIXA' | 'AVANÇADA' | 'VVN' | 'MIGRAÇÃO PRÉ-PÓS'}")
+        if tipo and tipo not in {'ALTAS', 'FIXA', 'AVANÇADA', 'VVN', 'MIGRAÇÃO PRÉ-PÓS', 'PORTABILIDADE'}:
+            raise ValueError("O tipo de venda deve ser {'ALTAS', 'FIXA' | 'AVANÇADA' | 'VVN' | 'MIGRAÇÃO PRÉ-PÓS' | 'PORTABILIDADE'}")
         
         quantidade_de_vendas = self.filter_by(ano, mes, tipo)['consultor'].value_counts().reset_index()
         quantidade_de_vendas.columns = ['consultor', 'quantidade_de_vendas']

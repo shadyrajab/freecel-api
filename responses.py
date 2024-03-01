@@ -181,6 +181,7 @@ class Rankings:
         self.ranking_vvn = jsonfy(rankings.consultores(ano, mes, tipo = 'VVN'))
         self.ranking_migracao = jsonfy(rankings.consultores(ano, mes, tipo  = 'MIGRAÇÃO PRÉ-PÓS'))
         self.ranking_altas = jsonfy(rankings.consultores(ano, mes, tipo = 'ALTAS'))
+        self.ranking_portabilidade = jsonfy(rankings.consultores(ano, mes, tipo = 'PORTABILIDADE'))
         self.ranking_planos = jsonfy(rankings.planos(ano, mes))
         
 class Consultor:
