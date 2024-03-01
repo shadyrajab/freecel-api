@@ -33,33 +33,6 @@ class DataFrame(
         self.dataframe['ano'] = pd.to_datetime(self.dataframe['data']).dt.year
         self.dataframe['mês'] = pd.to_datetime(self.dataframe['data']).dt.month.apply(lambda mes: get_mes(mes))
 
-    def __dataframe_replace__(self) -> None:
-        self.dataframe.replace({
-            'JÁ CLIENTE': 'ALTAS', 
-            'NOVO': 'ALTAS', 
-            'PORTABILIDADE': 'ALTAS',
-            'PORTABILIDADE PF + TT PF/PJ - VIVO TOTAL': 'ALTAS',
-            'INTERNET': 'ALTAS',
-            'PORTABILIDADE - VIVO TOTAL': 'ALTAS',
-            'PORTABILIDADE PF + TT PF/PJ': 'ALTAS',
-            'NOVO - VIVO TOTAL': 'ALTAS',
-            'PORTABILIDADE CNPJ – CNPJ': 'ALTAS',
-
-            'MIGRAÇÃO PRÉ/PÓS': 'MIGRAÇÃO PRÉ-PÓS',
-            'MIGRAÇÃO PRÉ/PÓS - VIVO TOTAL': 'MIGRAÇÃO PRÉ-PÓS',
-
-            'MIGRAÇÃO': 'MIGRAÇÃO PRÉ-PÓS',
-            'MIGRAÇÃO PRÉ/PÓS_TOTALIZACAO': 'MIGRAÇÃO PRÉ-PÓS',
-
-            'INTERNET_TOTALIZACAO': 'ALTAS',
-            'MIGRAÇÃO+TROCA': 'MIGRAÇÃO PRÉ-PÓS',
-            'NOVO_TOTALIZACAO': 'ALTAS',
-
-            'JÁ CLIENTE - VIVO TOTAL': 'ALTAS',
-            'MIGRAÇÃO PRÉ/PÓS + TROCA': 'MIGRAÇÃO PRÉ-PÓS'
-
-        }, inplace=True)
-
     @staticmethod
     def __filter_by__(
         dataframe, ano: Optional[int] = None, mes: Optional[str] = None, consultor: Optional[str] = None,
