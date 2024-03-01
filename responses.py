@@ -149,6 +149,7 @@ class Stats:
         self.media_por_consultor_fixa = client.media_por_consultor(ano, mes, 'FIXA')
         self.media_por_consultor_avancada = client.media_por_consultor(ano, mes, 'AVANÇADA')
         self.media_por_consultor_vvn = client.media_por_consultor(ano, mes, 'VVN')
+        self.media_por_consultor_portabilidade = client.media_por_consultor(ano, mes, 'PORTABILIDADE')
         self.maior_venda_mes = client.maior_venda_mes()
 
         if ano:
