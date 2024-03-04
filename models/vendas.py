@@ -20,20 +20,10 @@ class Venda(Empresa):
     uf: str
     preco: float
     email: EmailStr
-
-    def __create_client__():
-        client = Freecel(
-            host = HOST,
-            database = DATABASE,
-            user = USER,
-            password = PASSWORD
-        )
-
-        return client
     
     @validator('plano')
     def validate_plano(cls, value):
-        client = cls.__create_client__()
+        client = cls.__create_client()
         planos = client.get_produtos()
         planos = [plano[0] for plano in planos]
 
@@ -42,7 +32,7 @@ class Venda(Empresa):
 
     @validator('consultor')
     def validate_consultor(cls, value):
-        client = cls.__create_client__()
+        client = cls.__create_client()
         consultores = client.get_consultores()
         consultores = [consultor[0] for consultor in consultores]
 
@@ -96,8 +86,7 @@ class Venda(Empresa):
     def validate_equipe(cls, value):
         if value.upper() not in EQUIPE:
             raise ValueError(f"""
-                O nome da equipe informado está inválido. O nome da equipe deve ser FREECEL,
-                VALPARAISO, PARCEIRO ou GOIÂNIA, não {value}
+                O nome da equipe informado está inválido. O nome da equipe deve ser {str(EQUIPE)}, não {value}
             """)
         
         return value.upper()
@@ -113,8 +102,7 @@ class Venda(Empresa):
     def validate_tipo(cls, value):
         if value.upper() not in TIPO_VENDA:
             raise ValueError(f"""
-                O tipo de venda informado está inválido. O tipo deve ser FIXA, AVANÇADA, 
-                MIGRAÇÃO-PRÉ-PÓS, VVN ou ALTAS, não {value}
+                O tipo de venda informado está inválido. O tipo deve ser {str(EQUIPE)}, não {value}
             """)
         
         return value.upper()
@@ -127,3 +115,12 @@ class Venda(Empresa):
         
         return cnpj
     
+    def __create_client():
+        client = Freecel(
+            host = HOST,
+            database = DATABASE,
+            user = USER,
+            password = PASSWORD
+        )
+
+        return client
