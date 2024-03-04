@@ -1,20 +1,11 @@
 from client.client import Client
 from json import load
 from requests import request
-from typing import Optional
 from io import StringIO
 from datetime import datetime
 from utils.variables import HOST, DATABASE, USER, PASSWORD, TOKENEMPRESAS
 from models.vendas import Venda 
 from models.empresa import Empresa
-
-def create_client():
-    return Client(
-        host = HOST,
-        database = DATABASE,
-        user = USER,
-        password = PASSWORD
-    )
 
 def return_wrong_cnpj(venda: Venda):
     valor_acumulado = venda.quantidade_de_produtos * venda.valor_do_plano
@@ -113,88 +104,3 @@ def get_produtos():
 def token_authenticate(token: TokenModel):
     client = create_client()
     return client.jwt_authenticate(token)
-
-class Stats:
-    def __init__(
-            self, ano: Optional[int] = None, mes: Optional[str] = None):
-        client = create_client()
-        consultor_do_mes_nome = client.consultor_do_mes(ano, mes).name
-        self.receita_total = client.receita_total(ano, mes)
-        self.quantidade_vendida = client.qtd_de_produtos_vendidos(ano, mes)
-        self.quantidade_clientes = client.quantidade_clientes(ano, mes)
-        self.ticket_medio = client.ticket_medio(ano, mes)
-        self.receita_media_diaria = client.receita_media_diaria(ano, mes)
-        self.media_por_consultor_geral = client.media_por_consultor(ano, mes)
-        self.media_por_consultor_altas = client.media_por_consultor(ano, mes, 'ALTAS')
-        self.media_por_consultor_migracao = client.media_por_consultor(ano, mes, 'MIGRAÇÃO PRÉ-PÓS')
-        self.media_por_consultor_fixa = client.media_por_consultor(ano, mes, 'FIXA')
-        self.media_por_consultor_avancada = client.media_por_consultor(ano, mes, 'AVANÇADA')
-        self.media_por_consultor_vvn = client.media_por_consultor(ano, mes, 'VVN')
-        self.maior_venda_mes = client.maior_venda_mes()
-
-        if ano:
-            self.delta_receita_total = client.delta_receita_total(ano, mes)
-            self.delta_quantidade_produtos = client.delta_quantidade_produtos(ano, mes)
-            self.delta_quantidade_clientes = client.delta_quantidade_clientes(ano, mes)
-            self.delta_ticket_medio = client.delta_ticket_medio(ano, mes)
-            self.delta_media_diaria = client.delta_media_diaria(ano, mes)
-            self.delta_media_por_consultor = client.delta_media_por_consultor(ano, mes)
-            self.consultor_do_mes = Consultor(consultor_do_mes_nome, ano, mes)
-
-        self.qtd_vendas_por_cnae = jsonfy(client.qtd_vendas_por_cnae(ano, mes))
-        self.qtd_vendas_por_faturamento = jsonfy(client.qtd_vendas_por_faturamento(ano, mes))
-        self.qtd_vendas_por_colaboradores = jsonfy(client.qtd_vendas_por_colaboradores(ano, mes))
-        self.qtd_vendas_por_uf = jsonfy(client.qtd_vendas_por_uf(ano, mes))
-        self.ufs = client.ufs(ano, mes)
-        self.tipo_venda = client.tipo_venda
-        self.dates = client.dates
-
-class Rankings:
-    def __init__(
-        self, ano: Optional[int] = None, mes: Optional[str] = None
-    ):
-        client = create_client()
-        rankings = client.Ranking()
-        self.ranking_consultores = jsonfy(rankings.consultores(ano, mes))
-        self.ranking_produtos = jsonfy(rankings.produtos(ano, mes))
-        self.ranking_fixa = jsonfy(rankings.consultores(ano, mes, tipo = 'FIXA'))
-        self.ranking_avancada = jsonfy(rankings.consultores(ano, mes, tipo = 'AVANÇADA'))
-        self.ranking_vvn = jsonfy(rankings.consultores(ano, mes, tipo = 'VVN'))
-        self.ranking_migracao = jsonfy(rankings.consultores(ano, mes, tipo  = 'MIGRAÇÃO PRÉ-PÓS'))
-        self.ranking_altas = jsonfy(rankings.consultores(ano, mes, tipo = 'ALTAS'))
-        self.ranking_planos = jsonfy(rankings.planos(ano, mes))
-        
-class Consultor:
-    def __init__(
-            self, name: str, ano: Optional[int] = None, mes: Optional[str] = None, display_vendas: Optional[bool] = None
-        ):
-        client = create_client()
-        consultor = client.Consultor(name)
-
-        self.name = consultor.name
-
-        self.receita_total =  consultor.receita(ano, mes)
-        self.quantidade_vendida =  consultor.quantidade(ano, mes)
-        self.quantidade_clientes = consultor.quantidade_clientes(ano, mes)
-
-        self.receita_media_diaria =  consultor.receita_media_diaria(ano, mes)
-        self.quantidade_media_diaria =  consultor.quantidade_media_diaria(ano, mes)
-
-        self.quantidade_media_mensal = consultor.quantidade_media_mensal
-        self.receita_media_mensal =  consultor.receita_media_mensal
-
-        self.ticket_medio = consultor.ticket_medio(ano, mes)
-
-        if ano:
-            self.delta_receita_total = consultor.delta_receita_mensal(ano, mes)
-            self.delta_quantidade_produtos = consultor.delta_quantidade_mensal(ano, mes)
-            self.delta_quantidade_clientes = consultor.delta_quantidade_clientes(ano, mes)
-            self.delta_ticket_medio = consultor.delta_ticket_medio(ano, mes)
-            self.delta_media_diaria = consultor.delta_media_diaria(ano, mes)
-
-        if display_vendas:
-            self.vendas = jsonfy(consultor.filter_by(ano, mes))
-
-        self.dates = consultor.dates
-        self.ranking_planos = jsonfy(consultor.ranking_planos(ano, mes))
-        self.ranking_produtos = jsonfy(consultor.ranking_produtos(ano, mes))

@@ -1,5 +1,7 @@
 from typing import Optional
 from pydantic import BaseModel
+from requests import request
+from pycpfcnpj import cpfcnpj
 
 class Empresa(BaseModel):
     quadro_funcionarios: Optional[str] = None
@@ -14,3 +16,6 @@ class Empresa(BaseModel):
     situacao_cadastral: Optional[str] = None
     regime_tributario: Optional[str] = None
     bairro: Optional[str] = None
+
+    def __init__(self, cnpj: str):
+        self.cnpj = cnpj
