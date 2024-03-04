@@ -2,6 +2,7 @@ from structures.consultor import Consultor
 from structures.ranking import Rankings
 from structures.freecel import Freecel
 from database.dataframe import DataFrame
+from utils.functions import jsonfy
 from typing import Optional
     
 class Client(DataFrame):
@@ -12,7 +13,7 @@ class Client(DataFrame):
             user,
             password
         )
-
+    
     def Consultor(self, nome: str, ano: Optional[int] = None, mes: Optional[str] = None) -> Consultor:
         return Consultor(self.dataframe[self.dataframe['consultor'] == nome], ano, mes)
     
@@ -21,3 +22,24 @@ class Client(DataFrame):
     
     def Freecel(self, ano: Optional[int] = None, mes: Optional[str] = None) -> Freecel:
         return Freecel(self.dataframe, ano, mes)
+    
+    def vendas(self, ano: Optional[int] = None, mes: Optional[str] = None, as_json: Optional[bool] = None):
+        dataframe = self.__filter_by__(self.dataframe, ano, mes)
+        if as_json:
+            return jsonfy(dataframe)
+        
+        return dataframe
+    
+    def produtos(self, as_json: Optional[bool] = None):
+        produtos = self.get_produtos(to_dataframe=True)
+        if as_json:
+            return jsonfy(produtos)
+        
+        return produtos
+    
+    def consultores(self, as_json: Optional[bool] = None):
+        consultores = self.get_consultores(to_dataframe=True)
+        if as_json:
+            return jsonfy(consultores)
+        
+        return consultores
