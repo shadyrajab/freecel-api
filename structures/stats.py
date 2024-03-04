@@ -1,7 +1,7 @@
 import pandas as pd
 from database.dataframe import DataFrame
 from typing import Optional
-from structures.delta import Delta
+# from structures.delta import Delta
 
 class Stats():
     def __init__(self, dataframe: pd.DataFrame, ano: Optional[int] = None, mes: Optional[str] = None):
@@ -65,37 +65,37 @@ class Stats():
     def volume_media(self) -> int:
         return self.volume / self.periodo_trabalhado
     
-    @property
-    def delta_clientes(self) -> int:
-        delta = Delta(self.full_dataframe, self.ano, self.mes)
-        return delta.clientes
+    # @property
+    # def delta_clientes(self) -> int:
+    #     delta = Delta(self.full_dataframe, self.ano, self.mes)
+    #     return delta.clientes
     
-    @property
-    def delta_receita(self) -> int:
-        delta = Delta(self.full_dataframe, self.ano, self.mes)
-        return delta.receita
+    # @property
+    # def delta_receita(self) -> int:
+    #     delta = Delta(self.full_dataframe, self.ano, self.mes)
+    #     return delta.receita
 
-    @property
-    def delta_volume(self) -> int:
-        delta = Delta(self.full_dataframe, self.ano, self.mes)
-        return delta.volume
+    # @property
+    # def delta_volume(self) -> int:
+    #     delta = Delta(self.full_dataframe, self.ano, self.mes)
+    #     return delta.volume
     
-    @property
-    def delta_ticket_medio(self) -> int:
-        delta = Delta(self.full_dataframe, self.ano, self.mes)
-        return delta.ticket_medio
+    # @property
+    # def delta_ticket_medio(self) -> int:
+    #     delta = Delta(self.full_dataframe, self.ano, self.mes)
+    #     return delta.ticket_medio
     
-    @property
-    def delta_clientes_media(self) -> int:
-        delta = Delta(self.full_dataframe, self.ano, self.mes)
-        return delta.clientes_media
+    # @property
+    # def delta_clientes_media(self) -> int:
+    #     delta = Delta(self.full_dataframe, self.ano, self.mes)
+    #     return delta.clientes_media
     
-    @property
-    def delta_receita_media(self) -> int:
-        delta = Delta(self.full_dataframe, self.ano, self.mes)
-        return delta.receita_media
+    # @property
+    # def delta_receita_media(self) -> int:
+    #     delta = Delta(self.full_dataframe, self.ano, self.mes)
+    #     return delta.receita_media
 
-    @property
-    def delta_volume_media(self) -> int:
-        delta = Delta(self.full_dataframe, self.ano, self.mes)
-        return delta.volume_media
+    # @property
+    # def delta_volume_media(self) -> int:
+    #     delta = Delta(self.full_dataframe, self.ano, self.mes)
+    #     return delta.volume_media

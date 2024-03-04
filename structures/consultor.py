@@ -11,13 +11,13 @@ class Consultor(Stats):
 
     @property
     def nome(self):
-        return str(self.dataframe['consultor'].unique().iloc[0])
+        return str(self.dataframe['consultor'].unique()[0])
     
     @property
     def ranking_planos(self) -> pd.DataFrame:
-        return Rankings(self.dataframe).ranking_planos
+        return Rankings(self.dataframe).planos
     
     @property
     def ranking_produtos(self) -> pd.DataFrame:
-        return Rankings(self.dataframe).ranking_produtos
+        return Rankings(self.dataframe).produtos
     

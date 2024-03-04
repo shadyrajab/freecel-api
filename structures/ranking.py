@@ -29,23 +29,23 @@ class Rankings:
 
     @property
     def fixa(self) -> pd.DataFrame:
-        return self.__get_ranking('FIXA')
+        return self.__get_ranking('tipo', 'FIXA')
     
     @property
     def avancada(self) -> pd.DataFrame:
-        return self.__get_ranking('AVANÇADA')
+        return self.__get_ranking('tipo', 'AVANÇADA')
     
     @property
     def vvn(self) -> pd.DataFrame:
-        return self.__get_ranking('VVN')
+        return self.__get_ranking('tipo', 'VVN')
     
     @property
     def migracao(self) -> pd.DataFrame:
-        return self.__get_ranking('MIGRAÇÃO PRÉ-PÓS')
+        return self.__get_ranking('tipo', 'MIGRAÇÃO PRÉ-PÓS')
     
     @property
     def altas(self) -> pd.DataFrame:
-        return self.__get_ranking('ALTAS')
+        return self.__get_ranking('tipo', 'ALTAS')
     
     def __get_ranking(self, column: str, tipo_venda: Optional[str] = None) -> DataFrame:
         if tipo_venda and tipo_venda not in TIPO_VENDA:
