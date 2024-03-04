@@ -1,128 +1,20 @@
-from fastapi import FastAPI, Query, HTTPException, Depends
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from fastapi.encoders import jsonable_encoder
+from fastapi import FastAPI
+from routes import consultor, produtos, rankings, stats, vendas
+import uvicorn
 import os
 
-import uvicorn
+app = FastAPI()
 
-from responses import (
-    Consultor, 
-    Stats, 
-    get_consultores, 
-    Rankings,
-    add_consultor_to_db,
-    get_vendas,
-    add_venda_to_db,
-    add_produto_to_db,
-    get_produtos,
-    token_authenticate,
-    remove_venda_from_db,
-    remove_produto_from_db,
-    remove_consultor_from_db
-)
+routes = [
+    consultor.router, 
+    produtos.router, 
+    rankings.router, 
+    stats.router, 
+    vendas.router
+]
 
-def markdown_as_a_file():
-    with open('home.md', 'r') as md:
-        markdown = md.read()
-
-    return markdown
-
-app = FastAPI(
-    title = 'Freecel API',
-    description = markdown_as_a_file()
-)
-security = HTTPBearer()
-
-def authenticate(credentials: HTTPAuthorizationCredentials = Depends(security)):
-    if credentials:
-        token = credentials.credentials
-        if token_authenticate(token):
-            return True
-
-    raise HTTPException(status_code=401, detail="Autenticação necessária")
-
-@app.get("/stats", dependencies = [Depends(authenticate)])
-def stats(
-        ano: int = Query(None, description = "Ano (opcional)"), 
-        mes: str = Query(None, description = "Mês (opcional)")
-    ):
-
-    freecel = Stats(ano, mes)
-
-    return jsonable_encoder(freecel)
-
-@app.get("/vendas", dependencies = [Depends(authenticate)])
-def vendas(
-    ano: int = Query(None, description = "Ano (opcional)"), 
-    mes: str = Query(None, description = "Mês (opcional)")
-):
-    return jsonable_encoder(get_vendas(ano, mes))
-
-@app.put("/vendas", dependencies = [Depends(authenticate)])
-def add_venda(venda: VendaModel):
-    add_venda_to_db(venda)
-    
-    return { "message": 'Venda adicionada com sucesso' }
-
-@app.delete("/vendas", dependencies = [Depends(authenticate)])
-def remove_venda(id: IdentifyModel):
-    remove_venda_from_db(id)
-
-    return { "message": 'Venda removida com sucesso' }
-
-@app.get("/produtos", dependencies = [Depends(authenticate)])
-def produtos():
-    return jsonable_encoder(get_produtos())
-
-@app.put("/produtos", dependencies = [Depends(authenticate)])
-def add_produto(produto: ProdutoModel):
-    add_produto_to_db(produto)
-
-    return { "message": "Produto adicionado com sucesso" }
-
-@app.delete("/produtos", dependencies = [Depends(authenticate)])
-def remove_produto(id: IdentifyModel):
-    remove_produto_from_db(id)
-
-    return { "message": 'Produto removido com sucesso' }
-
-@app.get("/consultores", dependencies = [Depends(authenticate)])
-def consultores():
-    return jsonable_encoder(get_consultores())
-
-@app.put("/consultores", dependencies = [Depends(authenticate)])
-def add_consultor(consultor: ConsultorModel):
-    add_consultor_to_db(consultor)
-
-    return { 'message': 'Consultor adicionado com sucesso'}
-
-@app.delete("/consultores", dependencies = [Depends(authenticate)])
-def remove_consultor(id: IdentifyModel):
-    remove_consultor_from_db(id)
-
-    return { "message": 'Consultor removido com sucesso' }
-
-@app.get("/consultores/{nome_consultor}", dependencies = [Depends(authenticate)])
-def consultor(
-        nome_consultor: str,
-        ano: int = Query(None, description = "Ano (opcional)"), 
-        mes: str = Query(None, description = "Mês (opcional)"),
-        display_vendas: bool = Query(None, description = "Mostrar vendas (opcional)")
-    ):
-
-    nome_consultor = nome_consultor.replace('_', ' ').upper()
-    consultor = Consultor(nome_consultor, ano, mes, display_vendas)
-
-    return jsonable_encoder(consultor)
-
-@app.get("/rankings", dependencies = [Depends(authenticate)])
-def rankings(
-    ano: int = Query(None, description = "Ano (opcional)"), 
-    mes: str = Query(None, description = "Mês (opcional)")
-):
-    rankings = Rankings(ano, mes)
-
-    return jsonable_encoder(rankings)
+for route in routes:
+    app.include_router(route)
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
