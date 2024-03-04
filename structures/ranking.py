@@ -1,31 +1,55 @@
 import pandas as pd
 from typing import Optional
 from database.dataframe import DataFrame
+from utils.variables import TIPO_VENDA
 
 class Rankings:
-    def __init__(self, dataframe):
-        self.dataframe = dataframe
+    def __init__(self, dataframe: pd.DataFrame, ano: Optional[int] = None, mes: Optional[str] = None):
+        self.dataframe = self.filter_by(dataframe, ano, mes)
 
-    def filter_by(self, ano: Optional[int] = None, mes: Optional[str] = None, tipo: Optional[str] = None):
+    def filter_by(self, dataframe: pd.DataFrame, ano: Optional[int] = None, mes: Optional[str] = None, tipo: Optional[str] = None):
         return DataFrame.__filter_by__(
-            dataframe = self.dataframe, 
+            dataframe = dataframe, 
             ano = ano, 
             mes = mes, 
             tipo = tipo
         )
     
-    def ranking_planos(self):
-        return self.__get_ranking__('plano')
+    @property
+    def planos(self):
+        return self.__get_ranking('plano')
     
-    def ranking_produtos(self):
-        return self.__get_ranking__('tipo')
+    @property
+    def produtos(self):
+        return self.__get_ranking('tipo')
 
-    def ranking_consultores(self, tipo_venda: Optional[str] = None) -> pd.DataFrame:
-        return self.__get_ranking__('consultor', tipo_venda)
+    @property
+    def consultores(self) -> pd.DataFrame:
+        return self.__get_ranking('consultor')
+
+    @property
+    def fixa(self) -> pd.DataFrame:
+        return self.__get_ranking('FIXA')
     
-    def __get_ranking__(self, column: str, tipo_venda: Optional[str] = None) -> DataFrame:
-        if tipo_venda and tipo_venda not in {'ALTAS', 'FIXA', 'AVANÇADA', 'VVN', 'MIGRAÇÃO PRÉ-PÓS'}:
-            raise ValueError("O tipo de venda deve ser {'ALTAS', 'FIXA' | 'AVANÇADA' | 'VVN' | 'MIGRAÇÃO PRÉ-PÓS'}")
+    @property
+    def avancada(self) -> pd.DataFrame:
+        return self.__get_ranking('AVANÇADA')
+    
+    @property
+    def vvn(self) -> pd.DataFrame:
+        return self.__get_ranking('VVN')
+    
+    @property
+    def migracao(self) -> pd.DataFrame:
+        return self.__get_ranking('MIGRAÇÃO PRÉ-PÓS')
+    
+    @property
+    def altas(self) -> pd.DataFrame:
+        return self.__get_ranking('ALTAS')
+    
+    def __get_ranking(self, column: str, tipo_venda: Optional[str] = None) -> DataFrame:
+        if tipo_venda and tipo_venda not in TIPO_VENDA:
+            raise ValueError(f"O tipo de venda deve ser {str(TIPO_VENDA)}")
         
         quantidade_de_vendas = self.dataframe[column].value_counts().reset_index()
         quantidade_de_vendas.columns = [column, 'quantidade_de_vendas']

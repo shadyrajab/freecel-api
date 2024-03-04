@@ -5,14 +5,19 @@ from structures.stats import Stats
 from structures.ranking import Rankings
 
 class Consultor(Stats):
-    def __init__(self, dataframe: DataFrame):
-        self.dataframe = dataframe
-        super().__init__(dataframe)
+    def __init__(self, dataframe: DataFrame, ano: Optional[int] = None, mes: Optional[str] = None):
+        self.dataframe = self.filter_by(dataframe, ano, mes)
+        super().__init__(self.dataframe)
+
+    @property
+    def nome(self):
+        return str(self.dataframe['consultor'].unique().iloc[0])
     
-    def ranking_planos(self, ano: Optional[int] = None, mes: Optional[str] = None) -> pd.DataFrame:
-        dataframe = self.filter_by(ano, mes)
-        return Rankings(dataframe).ranking_planos(ano, mes)
+    @property
+    def ranking_planos(self) -> pd.DataFrame:
+        return Rankings(self.dataframe).ranking_planos
     
-    def ranking_produtos(self, ano: Optional[int] = None, mes: Optional[str] = None) -> pd.DataFrame:
-        return self.__get_ranking__('tipo', ano, mes)
+    @property
+    def ranking_produtos(self) -> pd.DataFrame:
+        return Rankings(self.dataframe).ranking_produtos
     

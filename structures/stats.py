@@ -1,15 +1,18 @@
 import pandas as pd
 from database.dataframe import DataFrame
 from typing import Optional
-from utils.functions import calculate_delta
+from structures.delta import Delta
 
 class Stats():
-    def __init__(self, dataframe: pd.DataFrame):
-        self.dataframe = dataframe
+    def __init__(self, dataframe: pd.DataFrame, ano: Optional[int] = None, mes: Optional[str] = None):
+        self.full_dataframe = dataframe
+        self.dataframe = self.filter_by(dataframe, ano, mes)
+        self.ano = ano
+        self.mes = mes.capitalize() if mes else mes
 
-    def filter_by(self, ano: Optional[int] = None, mes: Optional[str] = None, tipo: Optional[str] = None) -> pd.DataFrame:
+    def filter_by(self, dataframe: pd.DataFrame, ano: Optional[int] = None, mes: Optional[str] = None, tipo: Optional[str] = None) -> pd.DataFrame:
         return DataFrame.__filter_by__(
-            dataframe = self.dataframe, 
+            dataframe = dataframe, 
             ano = ano, 
             mes = mes, 
             tipo = tipo
@@ -26,56 +29,73 @@ class Stats():
     def months(self, ano) -> list[str]:
         return list(self.filter_by(ano)['mês'].unique())
     
-    def periodo_trabalhado(self, ano: Optional[int] = None, mes: Optional[str] = None) -> int:
-        if mes is not None: 
+    @property
+    def periodo_trabalhado(self) -> int:
+        if self.mes is not None: 
             return 22
         
-        dataframe: pd.DataFrame = self.filter_by(ano)
-        meses_trabalhados: int = dataframe['mês'].nunique()
+        meses_trabalhados = self.dataframe['mês'].nunique()
         return meses_trabalhados
     
-    def clientes(self, ano: Optional[int] = None, mes: Optional[str] = None) -> int:
-        dataframe: pd.DataFrame = self.filter_by(ano, mes)
-        return dataframe.shape[0]
+    @property
+    def clientes(self) -> int:
+        return self.dataframe.shape[0]
     
-    def receita(self, ano: Optional[int] = None, mes: Optional[str] = None) -> float:
-        dataframe: pd.DataFrame = self.filter_by(ano, mes)
-        return float(dataframe['valor_acumulado'].sum())
+    @property
+    def receita(self) -> float:
+        return float(self.dataframe['valor_acumulado'].sum())
 
-    def volume(self, ano: Optional[int] = None, mes: Optional[str] = None) -> int:
-        dataframe: pd.DataFrame = self.filter_by(ano, mes)
-        return int(dataframe['quantidade_de_produtos'].sum())
+    @property
+    def volume(self) -> int:
+        return int(self.dataframe['quantidade_de_produtos'].sum())
     
-    def ticket_medio(self, ano: Optional[int] = None, mes: Optional[str] = None) -> int:
-        return self.receita(ano, mes) / self.volume(ano, mes)
+    @property
+    def ticket_medio(self) -> int:
+        return self.receita / self.volume
     
-    def clientes_media(self, ano: Optional[int], mes: Optional[str] = None) -> int:
-        return self.clientes(ano, mes) / self.periodo_trabalhado(ano, mes)
+    @property
+    def clientes_media(self) -> int:
+        return self.clientes / self.periodo_trabalhado
     
-    def receita_media(self, ano: Optional[int], mes: Optional[str]) -> int:
-        return self.receita(ano, mes) / self.periodo_trabalhado(ano, mes)
+    @property
+    def receita_media(self) -> int:
+        return self.receita / self.periodo_trabalhado
     
-    def volume_media(self, ano: Optional[int], mes: Optional[str]) -> int:
-        return self.volume(ano, mes) / self.periodo_trabalhado(ano, mes)
+    @property
+    def volume_media(self) -> int:
+        return self.volume / self.periodo_trabalhado
     
-    def delta_clientes(self, ano: Optional[int] = None, mes: str = None) -> int:
-        return calculate_delta(self.years, self.clientes, ano, mes)
+    @property
+    def delta_clientes(self) -> int:
+        delta = Delta(self.full_dataframe, self.ano, self.mes)
+        return delta.clientes
     
-    def delta_receita(self, ano: Optional[int] = None, mes: Optional[str] = None) -> int:
-        return calculate_delta(self.years, self.receita, ano, mes)
+    @property
+    def delta_receita(self) -> int:
+        delta = Delta(self.full_dataframe, self.ano, self.mes)
+        return delta.receita
 
-    def delta_volume(self, ano: Optional[int] = None, mes: Optional[str] = None) -> int:
-        return calculate_delta(self.years, self.volume, ano, mes)
+    @property
+    def delta_volume(self) -> int:
+        delta = Delta(self.full_dataframe, self.ano, self.mes)
+        return delta.volume
     
-    def delta_ticket_medio(self, ano: Optional[int] = None, mes: Optional[str] = None) -> int:
-        return calculate_delta(self.years, self.ticket_medio, ano, mes)
+    @property
+    def delta_ticket_medio(self) -> int:
+        delta = Delta(self.full_dataframe, self.ano, self.mes)
+        return delta.ticket_medio
     
-    def delta_clientes_media(self, ano: Optional[int] = None, mes: Optional[str] = None) -> int:
-        return calculate_delta(self.years, self.clientes, ano, mes)
+    @property
+    def delta_clientes_media(self) -> int:
+        delta = Delta(self.full_dataframe, self.ano, self.mes)
+        return delta.clientes_media
     
-    def delta_receita_media(self, ano: Optional[int] = None, mes: Optional[str] = None) -> int:
-        return calculate_delta(self.years, self.receita_media, ano, mes)
+    @property
+    def delta_receita_media(self) -> int:
+        delta = Delta(self.full_dataframe, self.ano, self.mes)
+        return delta.receita_media
 
-    def delta_volume_media(self, ano: Optional[int] = None, mes: Optional[str] = None) -> int:
-        return calculate_delta(self.years, self.volume, ano, mes)
-    
+    @property
+    def delta_volume_media(self) -> int:
+        delta = Delta(self.full_dataframe, self.ano, self.mes)
+        return delta.volume_media
