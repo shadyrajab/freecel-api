@@ -1,6 +1,6 @@
 from pydantic import BaseModel, validator
 
-class ProdutoSchema(BaseModel):
+class Produto(BaseModel):
     nome: str
     preco: float
 
