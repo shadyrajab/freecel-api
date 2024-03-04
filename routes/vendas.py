@@ -3,6 +3,7 @@ from client.instance import client
 from fastapi.encoders import jsonable_encoder
 from authenticator.jwt import authenticate
 from models.identify import ID
+from models.vendas import Venda
 
 router = APIRouter()
 
@@ -11,10 +12,10 @@ def vendas(ano: int = Query(None, description = "Ano"), mes: str = Query(None, d
     vendas = client.vendas(ano, mes, True)
     return jsonable_encoder(vendas)
 
-# @router.put("/vendas", dependencies = [Depends(authenticate)])
-# def add_venda(venda: Venda):
-#     client.add_venda(venda)
-#     return { "message": 'Venda adicionada com sucesso' }
+@router.put("/vendas", dependencies = [Depends(authenticate)])
+def add_venda(venda: Venda):
+    client.add_venda(venda)
+    return { "message": 'Venda adicionada com sucesso' }
 
 @router.delete("/vendas", dependencies = [Depends(authenticate)])
 def remove_venda(id: ID):
