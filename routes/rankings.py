@@ -1,9 +1,10 @@
-from utils.functions import create_client, jsonfy
+from utils.functions import jsonfy
+from client.client import Client
 from typing import Optional
 
 class Rankings:
-    def __init__(self, ano: Optional[int] = None, mes: Optional[str] = None):
-        self.ranking = create_client().Ranking(ano, mes)
+    def __init__(self, client: Client, ano: Optional[int] = None, mes: Optional[str] = None):
+        self.ranking = client.Ranking(ano, mes)
 
     @property
     def consultores(self):

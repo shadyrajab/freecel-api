@@ -1,9 +1,9 @@
 from typing import Optional
-from utils.functions import create_client
+from client.client import Client
 
 class Freecel:
-    def __init__(self, ano: Optional[int] = None, mes: Optional[str] = None):
-        self.freecel = create_client().Freecel(ano, mes)
+    def __init__(self, client: Client, ano: Optional[int] = None, mes: Optional[str] = None):
+        self.freecel = client.Freecel(ano, mes)
 
     @property
     def receita(self):

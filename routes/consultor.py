@@ -1,9 +1,10 @@
 from typing import Optional
-from utils.functions import create_client, jsonfy
+from utils.functions import jsonfy
+from client.client import Client
 
 class Consultor:
-    def __init__(self, nome: str, ano: Optional[int] = None, mes: Optional[str] = None, display_vendas: Optional[bool] = None):
-        self.consultor = create_client.Consultor(nome, ano, mes)
+    def __init__(self, client: Client, nome: str, ano: Optional[int] = None, mes: Optional[str] = None, display_vendas: Optional[bool] = None):
+        self.consultor = client.Consultor(nome, ano, mes)
         self.display_vendas = display_vendas
     
     @property
