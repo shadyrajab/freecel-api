@@ -1,39 +1,12 @@
-from utils.functions import jsonfy
-from client.client import Client
-from typing import Optional
+from fastapi import APIRouter, Depends, Query
+from client.instance import client
+from fastapi.encoders import jsonable_encoder
+from authenticator.jwt import authenticate
+from responses.rankings import Rankings
 
-class Rankings:
-    def __init__(self, client: Client, ano: Optional[int] = None, mes: Optional[str] = None):
-        self.ranking = client.Ranking(ano, mes)
+router = APIRouter()
 
-    @property
-    def consultores(self):
-        return jsonfy(self.ranking.consultores)
-    
-    @property
-    def produtos(self):
-        return jsonfy(self.ranking.produtos)
-    
-    @property
-    def planos(self):
-        return jsonfy(self.ranking.planos)
-    
-    @property
-    def fixa(self):
-        return jsonfy(self.ranking.produtos)
-    
-    @property
-    def avancada(self):
-        return jsonfy(self.ranking.avancada)
-
-    @property
-    def vvn(self):
-        return jsonfy(self.ranking.vvn)
-    
-    @property
-    def migracao(self):
-        return jsonfy(self.ranking.migracao)
-    
-    @property
-    def altas(self):
-        return jsonfy(self.ranking.altas)
+@router.get("/rankings", dependencies = [Depends(authenticate)])
+def rankings(ano: int = Query(None, description = "Ano"), mes: str = Query(None, description = "Mês")):
+    rankings = Rankings(client, ano, mes)
+    return jsonable_encoder(rankings.to_json())
