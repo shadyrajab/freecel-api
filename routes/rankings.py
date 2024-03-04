@@ -3,14 +3,36 @@ from typing import Optional
 
 class Rankings:
     def __init__(self, ano: Optional[int] = None, mes: Optional[str] = None):
-        client = create_client()
-        rankings = client.Ranking()
+        self.ranking = create_client().Ranking(ano, mes)
 
-        self.ranking_consultores = jsonfy(rankings.ranking_consultores(ano, mes))
-        self.ranking_produtos = jsonfy(rankings.ranking_produtos(ano, mes))
-        self.ranking_fixa = jsonfy(rankings.ranking_consultores(ano, mes, tipo = 'FIXA'))
-        self.ranking_avancada = jsonfy(rankings.ranking_consultores(ano, mes, tipo = 'AVANÇADA'))
-        self.ranking_vvn = jsonfy(rankings.ranking_consultores(ano, mes, tipo = 'VVN'))
-        self.ranking_migracao = jsonfy(rankings.ranking_consultores(ano, mes, tipo  = 'MIGRAÇÃO PRÉ-PÓS'))
-        self.ranking_altas = jsonfy(rankings.ranking_consultores(ano, mes, tipo = 'ALTAS'))
-        self.ranking_planos = jsonfy(rankings.ranking_planos(ano, mes))
+    @property
+    def consultores(self):
+        return jsonfy(self.ranking.consultores)
+    
+    @property
+    def produtos(self):
+        return jsonfy(self.ranking.produtos)
+    
+    @property
+    def planos(self):
+        return jsonfy(self.ranking.planos)
+    
+    @property
+    def fixa(self):
+        return jsonfy(self.ranking.produtos)
+    
+    @property
+    def avancada(self):
+        return jsonfy(self.ranking.avancada)
+
+    @property
+    def vvn(self):
+        return jsonfy(self.ranking.vvn)
+    
+    @property
+    def migracao(self):
+        return jsonfy(self.ranking.migracao)
+    
+    @property
+    def altas(self):
+        return jsonfy(self.ranking.altas)
