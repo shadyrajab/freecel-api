@@ -1,13 +1,9 @@
 import pandas as pd
 from database.connection import DataBase
-
 from typing import Optional
+from utils.variables import MONTHS
 
-meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
-
-class DataFrame(
-    DataBase
-):
+class DataFrame(DataBase):
     def __init__(self, host, database, user, password):
         super().__init__(
             host = host, 
@@ -17,7 +13,6 @@ class DataFrame(
         )
         
         self.dataframe = self.get_vendas(to_dataframe = True)
-        self.__dataframe_replace__()
         self.__formatar_datas__()
         self.__formatar_tipo_colunas__()
 
@@ -28,7 +23,7 @@ class DataFrame(
 
     def __formatar_datas__(self) -> None:
         def get_mes(mes):
-            return meses[mes - 1]
+            return MONTHS[mes - 1]
 
         self.dataframe['ano'] = pd.to_datetime(self.dataframe['data']).dt.year
         self.dataframe['mês'] = pd.to_datetime(self.dataframe['data']).dt.month.apply(lambda mes: get_mes(mes))
@@ -40,7 +35,7 @@ class DataFrame(
         tipo = tipo.upper() if tipo else tipo
         consultor = consultor.upper() if consultor else consultor
 
-        if mes and mes not in meses:
+        if mes and mes not in MONTHS:
             raise ValueError('Formato de mês inválido. Por favor, escreva o nome do mês completo com acentos.')
     
         filters = {

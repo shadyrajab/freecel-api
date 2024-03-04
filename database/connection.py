@@ -1,7 +1,10 @@
 import psycopg2
 import pandas as pd
 from typing import Optional
-from models.vendas import Venda 
+# from models.vendas import Venda 
+from models.identify import ID
+from models.produtos import Produto
+from models.consultor import Vendedor
 
 class DataBase:
     def __init__(self, host, database, user, password):
@@ -29,17 +32,17 @@ class DataBase:
 
         return consultores
     
-    def add_consultor(self, nome: str):
+    def add_consultor(self, consultor: Vendedor):
         query = "INSERT INTO consultores (nome) VALUES (%s)"
-        values = (nome.upper(), )
+        values = (consultor.name.upper(), )
 
         with self.connection.cursor() as cursor:
             cursor.execute(query, values)
             self.connection.commit()
 
-    def remove_consultor(self, id: int):
+    def remove_consultor(self, id: ID):
         query = "DELETE FROM consultores WHERE id = (%s)"
-        values = (id, )
+        values = (id.id, )
 
         with self.connection.cursor() as cursor:
             cursor.execute(query, values)
@@ -58,17 +61,17 @@ class DataBase:
 
         return produtos
     
-    def add_produto(self, nome: str, preco: float):
+    def add_produto(self, produto: Produto):
         query = "INSERT INTO produtos (nome, preco) VALUES (%s, %s)"
-        values = (nome.upper(), preco)  
+        values = (produto.nome.upper(), produto.preco)  
 
         with self.connection.cursor() as cursor:
             cursor.execute(query, values)
             self.connection.commit()
 
-    def remove_produto(self, id: int):
+    def remove_produto(self, id: ID):
         query = "DELETE FROM produtos WHERE id = (%s)"
-        values = (id, )
+        values = (id.id, )
 
         with self.connection.cursor() as cursor:
             cursor.execute(query, values)
@@ -87,7 +90,7 @@ class DataBase:
         
         return vendas
     
-    def add_venda(self, venda: Venda):
+    def add_venda(self, venda):
         query = """
             INSERT INTO vendas_concluidas (
                 cnpj, telefone, consultor, data, gestor, plano, quantidade_de_produtos, 
