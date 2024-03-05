@@ -1,4 +1,4 @@
-from utils.variables import TIPO_VENDA, EQUIPE
+from utils.variables import TIPO_VENDA, EQUIPE, DDDS
 from pydantic import EmailStr, validator, BaseModel
 from client.instance import client
 from datetime import datetime
@@ -47,7 +47,7 @@ class Venda(BaseModel):
     @validator('telefone')
     def validate_telefone(cls, value):
         telefone = re.sub(r'[^0-9]', '', value)
-        if len(telefone) != 11:
+        if len(telefone) != 11 or telefone[0:2] not in DDDS:
             raise ValueError("""
                 O número de telefone informado está inválido. Informe o número DDD e os 9 dígitos 
                 do telefone
