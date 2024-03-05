@@ -1,4 +1,4 @@
-from utils.variables import TIPO_VENDA, EQUIPE, UF
+from utils.variables import TIPO_VENDA, EQUIPE
 from pydantic import EmailStr, validator, BaseModel
 from client.instance import client
 from datetime import datetime
@@ -16,7 +16,6 @@ class Venda(BaseModel):
     volume: int
     equipe: str
     tipo: str
-    uf: str
     preco: float
     email: EmailStr
     
@@ -71,13 +70,6 @@ class Venda(BaseModel):
             raise ValueError("Formato de data inválido, por favor informe a data no formato %d-%m-%Y")
 
         return value
-
-    @validator('uf')
-    def validate_uf(cls, value):
-        if value.upper() not in UF:
-            raise ValueError("A UF informada não existe.")
-        
-        return value.upper()
 
     @validator('equipe')
     def validate_equipe(cls, value):
