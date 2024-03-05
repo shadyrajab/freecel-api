@@ -1,6 +1,6 @@
-from utils.variables import TIPO_VENDA, EQUIPE, UF, HOST, DATABASE, USER, PASSWORD
+from utils.variables import TIPO_VENDA, EQUIPE, UF
 from pydantic import EmailStr, validator, BaseModel
-from client.client import Client
+from client.instance import client
 from datetime import datetime
 from pycpfcnpj import cpfcnpj
 from math import ceil
@@ -22,7 +22,6 @@ class Venda(BaseModel):
     
     @validator('plano')
     def validate_plano(cls, value):
-        client = cls.__create_client()
         planos = client.get_produtos()
         planos = [plano[0] for plano in planos]
 
@@ -31,7 +30,6 @@ class Venda(BaseModel):
 
     @validator('consultor')
     def validate_consultor(cls, value):
-        client = cls.__create_client()
         consultores = client.get_consultores()
         consultores = [consultor[0] for consultor in consultores]
 
@@ -114,12 +112,3 @@ class Venda(BaseModel):
         
         return cnpj
     
-    def __create_client():
-        client = Client(
-            host = HOST,
-            database = DATABASE,
-            user = USER,
-            password = PASSWORD
-        )
-
-        return client
