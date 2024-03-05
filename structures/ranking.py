@@ -52,7 +52,7 @@ class Rankings:
         return self.__get_ranking('consultor', 'ALTAS')
 
     @property
-    def altas(self) -> pd.DataFrame:
+    def portabilidade(self) -> pd.DataFrame:
         return self.__get_ranking('consultor', 'PORTABILIDADE')
     
     def to_json(self):
@@ -68,10 +68,11 @@ class Rankings:
         if tipo_venda and tipo_venda not in TIPO_VENDA:
             raise ValueError(f"O tipo de venda deve ser {str(TIPO_VENDA)}")
         
-        quantidade_de_vendas = self.dataframe[column].value_counts().reset_index()
+        dataframe = self.filter_by(self.dataframe, tipo=tipo_venda)
+        quantidade_de_vendas = dataframe[column].value_counts().reset_index()
         quantidade_de_vendas.columns = [column, 'quantidade_de_vendas']
 
-        ranking = self.dataframe.groupby(column, as_index = False).sum(numeric_only = True)
+        ranking = dataframe.groupby(column, as_index = False).sum(numeric_only = True)
         ranking.drop(['ano', 'valor_do_plano', 'id'], axis = 1, inplace = True)
 
         final_dataframe = pd.merge(ranking, quantidade_de_vendas, on = column)
