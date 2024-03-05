@@ -4,7 +4,6 @@ from fastapi.encoders import jsonable_encoder
 from models.consultor import Vendedor
 from authenticator.jwt import authenticate
 from models.identify import ID
-# from responses.consultor import Consultor
 
 router = APIRouter()
 
