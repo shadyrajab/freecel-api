@@ -7,10 +7,13 @@ from utils.functions import jsonfy
 
 class Consultor(Stats):
     def __init__(self, dataframe: DataFrame, ano: Optional[int] = None, mes: Optional[str] = None, jsonfy: Optional[bool] = None, display_vendas: Optional[bool] = None):
+        self.full_dataframe = dataframe
         self.dataframe = self.filter_by(dataframe, ano, mes)
         self.jsonfy = jsonfy
         self.display_vendas = display_vendas
-        super().__init__(self.dataframe)
+        self.ano = ano
+        self.mes = mes.capitalize() if mes else mes
+        super().__init__(self.full_dataframe, ano, mes, True)
 
     @property
     def nome(self) -> str:
@@ -40,5 +43,5 @@ class Consultor(Stats):
             for attr_name, attr_value in vars(cls).items():
                 if isinstance(attr_value, property):
                     data[attr_name] = getattr(self, attr_name)
-                    
+
         return data

@@ -8,6 +8,8 @@ class Rankings:
     def __init__(self, dataframe: pd.DataFrame, ano: Optional[int] = None, mes: Optional[str] = None, jsonfy: Optional[bool] = None):
         self.dataframe = self.filter_by(dataframe, ano, mes)
         self.jsonfy = jsonfy
+        self.ano = ano
+        self.mes = mes.capitalize() if mes else mes
 
     def filter_by(self, dataframe: pd.DataFrame, ano: Optional[int] = None, mes: Optional[str] = None, tipo: Optional[str] = None):
         return DataFrame.__filter_by__(
@@ -55,7 +57,7 @@ class Rankings:
             for attr_name, attr_value in vars(cls).items():
                 if isinstance(attr_value, property):
                     data[attr_name] = getattr(self, attr_name)
-                    
+
         return data
     
     def __get_ranking(self, column: str, tipo_venda: Optional[str] = None) -> DataFrame:

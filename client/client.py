@@ -21,7 +21,7 @@ class Client(DataFrame):
         return Rankings(self.dataframe, ano, mes, jsonfy)
     
     def Freecel(self, ano: Optional[int] = None, mes: Optional[str] = None, jsonfy: Optional[bool] = None) -> Freecel:
-        return Freecel(self.dataframe, ano, mes, jsonfy)
+        return Freecel(self.dataframe, ano, mes, jsonfy, True)
     
     def vendas(self, ano: Optional[int] = None, mes: Optional[str] = None, as_json: Optional[bool] = None):
         dataframe = self.__filter_by__(self.dataframe, ano, mes)

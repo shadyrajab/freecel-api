@@ -1,15 +1,19 @@
 from structures.stats import Stats
 import pandas as pd
-from typing import Optional, List
-# from structures.delta import Delta
+from typing import Optional, List, Self
 
 class Freecel(Stats):
-    def __init__(self, dataframe: pd.DataFrame, ano: Optional[int] = None, mes: Optional[str] = None, jsonfy: Optional[bool] = None) -> None:
+    def __init__(self, dataframe: pd.DataFrame, ano: Optional[int] = None, mes: Optional[str] = None, jsonfy: Optional[bool] = None, prev_freecel: Optional[bool] = None) -> None:
         self.full_dataframe = dataframe
         self.jsonfy = jsonfy
+        self.ano = ano
+        self.mes = mes.capitalize() if mes else mes
         self.dataframe = self.filter_by(dataframe, ano, mes)
 
-        super().__init__(self.dataframe)
+        super().__init__(self.full_dataframe, ano, mes, True)
+
+        if prev_freecel == True:
+            self.prev_freecel = self.__get_prev_freecel()
 
     @property
     def media_consultor_geral(self) -> float:
@@ -35,10 +39,9 @@ class Freecel(Stats):
     def media_consultor_vvn(self) -> float:
         return self.__media_por_consultor('VVN')
     
-    # @property
-    # def delta_media_consultor_geral(self) -> float:
-    #     delta, now_stats, prev_stats = self.__get_delta()
-    #     return delta.__calculate_delta(now_stats.media_consultor_geral, prev_stats.media_consultor_geral)
+    @property
+    def delta_media_consultor_geral(self) -> float:
+        return self.calculate_delta(self.media_consultor_geral, self.prev_freecel.media_consultor_geral)
 
     @property
     def ufs(self) -> List[str]:
@@ -61,10 +64,10 @@ class Freecel(Stats):
         
         media_por_consultor = dataframe['valor_acumulado'].sum() / consultores
         return media_por_consultor
+    
+    def __get_prev_freecel(self) -> Self:
+        prev_year, prev_month = self.get_prev_data(self.years())
+        prev_freecel = Freecel(self.full_dataframe, prev_year, prev_month)
 
-    # def __get_delta(self):
-    #     delta = Delta(self.full_dataframe, self.ano, self.mes)
-    #     prev_year, prev_month = delta.__get_prev_data()
-    #     now_stats = Freecel(self.full_dataframe, self.ano, self.mes)
-    #     prev_stats = Freecel(self.full_dataframe, prev_year, prev_month)
-    #     return delta, now_stats, prev_stats
+        return prev_freecel
+    
