@@ -99,8 +99,8 @@ class DataBase:
             self.connection.commit()
 
 
-    def remove_venda(self, id: int):
-        values = (id, )
+    def remove_venda(self, id: ID):
+        values = (id.id, )
         with self.connection.cursor() as cursor:
             cursor.execute(REMOVE_VENDA_QUERY, values)
             self.connection.commit()
