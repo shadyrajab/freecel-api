@@ -1,42 +1,84 @@
 import pandas as pd
 from typing import Optional
-
 from database.dataframe import DataFrame
+from utils.variables import TIPO_VENDA
+from utils.functions import jsonfy
 
 class Rankings:
-    def __init__(self, dataframe):
-        self.dataframe = dataframe
+    def __init__(self, dataframe: pd.DataFrame, ano: Optional[int] = None, mes: Optional[str] = None, jsonfy: Optional[bool] = None):
+        self.dataframe = self.filter_by(dataframe, ano, mes)
+        self.jsonfy = jsonfy
+        self.ano = ano
+        self.mes = mes.capitalize() if mes else mes
 
-    def filter_by(self, ano: Optional[int] = None, mes: Optional[str] = None, tipo: Optional[str] = None):
-        return DataFrame.__filter_by__(dataframe = self.dataframe, ano = ano, mes = mes, tipo = tipo)
+    def filter_by(self, dataframe: pd.DataFrame, ano: Optional[int] = None, mes: Optional[str] = None, tipo: Optional[str] = None):
+        return DataFrame.__filter_by__(
+            dataframe = dataframe, 
+            ano = ano, 
+            mes = mes, 
+            tipo = tipo
+        )
     
-    def planos(self, ano: Optional[int] = None, mes: Optional[str] = None):
-        quantidade_de_vendas = self.filter_by(ano, mes)['plano'].value_counts().reset_index()
-        quantidade_de_vendas.columns = ['plano', 'quantidade_de_vendas']
-
-        ranking_planos = self.filter_by(ano, mes).groupby('plano', as_index = False).sum(numeric_only = True)
-        ranking_planos.drop(['ano', 'valor_do_plano', 'id'], axis = 1, inplace = True)
-
-        return pd.merge(ranking_planos, quantidade_de_vendas, on = 'plano')
+    @property
+    def planos(self):
+        return self.__get_ranking('plano')
     
-    def produtos(self, ano: Optional[int] = None, mes: Optional[str] = None):
-        quantidade_de_vendas = self.filter_by(ano, mes)['tipo'].value_counts().reset_index()
-        quantidade_de_vendas.columns = ['tipo', 'quantidade_de_vendas']
+    @property
+    def produtos(self):
+        return self.__get_ranking('tipo')
 
-        ranking_produtos = self.filter_by(ano, mes).groupby('tipo', as_index = False).sum(numeric_only = True)
-        ranking_produtos.drop(['ano', 'valor_do_plano', 'id'], axis = 1, inplace = True)
+    @property
+    def consultores(self) -> pd.DataFrame:
+        return self.__get_ranking('consultor')
 
-        return pd.merge(ranking_produtos, quantidade_de_vendas, on = 'tipo')
+    @property
+    def fixa(self) -> pd.DataFrame:
+        return self.__get_ranking('tipo', 'FIXA')
+    
+    @property
+    def avancada(self) -> pd.DataFrame:
+        return self.__get_ranking('tipo', 'AVANÇADA')
+    
+    @property
+    def vvn(self) -> pd.DataFrame:
+        return self.__get_ranking('tipo', 'VVN')
+    
+    @property
+    def migracao(self) -> pd.DataFrame:
+        return self.__get_ranking('tipo', 'MIGRAÇÃO PRÉ-PÓS')
+    
+    @property
+    def altas(self) -> pd.DataFrame:
+        return self.__get_ranking('tipo', 'ALTAS')
+    
+    def to_json(self):
+        data = {}
+        for cls in reversed(self.__class__.__mro__):
+            for attr_name, attr_value in vars(cls).items():
+                if isinstance(attr_value, property):
+                    data[attr_name] = getattr(self, attr_name)
 
+<<<<<<< HEAD
     def consultores(self, ano: Optional[int] = None, mes: Optional[str] = None, tipo: Optional[str] = None) -> pd.DataFrame:
         if tipo and tipo not in {'ALTAS', 'FIXA', 'AVANÇADA', 'VVN', 'MIGRAÇÃO PRÉ-PÓS', 'PORTABILIDADE'}:
             raise ValueError("O tipo de venda deve ser {'ALTAS', 'FIXA' | 'AVANÇADA' | 'VVN' | 'MIGRAÇÃO PRÉ-PÓS' | 'PORTABILIDADE'}")
+=======
+        return data
+    
+    def __get_ranking(self, column: str, tipo_venda: Optional[str] = None) -> DataFrame:
+        if tipo_venda and tipo_venda not in TIPO_VENDA:
+            raise ValueError(f"O tipo de venda deve ser {str(TIPO_VENDA)}")
+>>>>>>> 67ee2f0e0eeaf421450d5af9e90b23050071df45
         
-        quantidade_de_vendas = self.filter_by(ano, mes, tipo)['consultor'].value_counts().reset_index()
-        quantidade_de_vendas.columns = ['consultor', 'quantidade_de_vendas']
-        
-        ranking_consultores = self.filter_by(ano, mes, tipo).groupby('consultor', as_index = False).sum(numeric_only = True)
-        ranking_consultores.drop(['ano', 'valor_do_plano', 'id'], axis = 1, inplace = True)
+        quantidade_de_vendas = self.dataframe[column].value_counts().reset_index()
+        quantidade_de_vendas.columns = [column, 'quantidade_de_vendas']
 
-        return pd.merge(ranking_consultores, quantidade_de_vendas, on = 'consultor')
+        ranking = self.dataframe.groupby(column, as_index = False).sum(numeric_only = True)
+        ranking.drop(['ano', 'valor_do_plano', 'id'], axis = 1, inplace = True)
+
+        final_dataframe = pd.merge(ranking, quantidade_de_vendas, on = column)
+        if self.jsonfy:
+            return jsonfy(final_dataframe)
+        
+        return final_dataframe
 
