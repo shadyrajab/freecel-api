@@ -10,7 +10,7 @@ class Venda(BaseModel):
     cnpj: str
     telefone: str
     consultor: str
-    data: datetime
+    data: str
     gestor: str
     plano: str
     volume: int
@@ -26,6 +26,8 @@ class Venda(BaseModel):
 
         if value.upper() not in planos:
             raise ValueError(f"Não existe nenhum plano na base de dados chamado {value}.")
+        
+        return value
 
     @validator('consultor')
     def validate_consultor(cls, value):
@@ -64,11 +66,7 @@ class Venda(BaseModel):
 
     @validator('data')
     def validate_data(cls, value):
-        try:
-            value = datetime.strptime('%d-%m-%Y')
-        except:
-            raise ValueError("Formato de data inválido, por favor informe a data no formato %d-%m-%Y")
-
+        value = datetime.strptime(value, '%d-%m-%Y')
         return value
 
     @validator('equipe')
