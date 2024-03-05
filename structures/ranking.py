@@ -28,28 +28,28 @@ class Rankings:
         return self.__get_ranking('tipo')
 
     @property
-    def consultores(self) -> pd.DataFrame:
+    def geral(self) -> pd.DataFrame:
         return self.__get_ranking('consultor')
 
     @property
     def fixa(self) -> pd.DataFrame:
-        return self.__get_ranking('tipo', 'FIXA')
+        return self.__get_ranking('consultor', 'FIXA')
     
     @property
     def avancada(self) -> pd.DataFrame:
-        return self.__get_ranking('tipo', 'AVANÇADA')
+        return self.__get_ranking('consultor', 'AVANÇADA')
     
     @property
     def vvn(self) -> pd.DataFrame:
-        return self.__get_ranking('tipo', 'VVN')
+        return self.__get_ranking('consultor', 'VVN')
     
     @property
     def migracao(self) -> pd.DataFrame:
-        return self.__get_ranking('tipo', 'MIGRAÇÃO PRÉ-PÓS')
+        return self.__get_ranking('consultor', 'MIGRAÇÃO PRÉ-PÓS')
     
     @property
     def altas(self) -> pd.DataFrame:
-        return self.__get_ranking('tipo', 'ALTAS')
+        return self.__get_ranking('consultor', 'ALTAS')
     
     def to_json(self):
         data = {}
