@@ -77,18 +77,26 @@ class DataBase:
         
         return vendas
     
+    def get_preco(self, produto: str):
+        with self.connection.cursor() as cursor:
+            cursor.execute(GET_PRECO_QUERY, (produto, ))
+            preco = cursor.fetchall()
+
+        return preco[0][0]
+    
     def add_venda(self, venda):
         empresa = Empresa(venda.cnpj)
-        receita = venda.preco * venda.volume
         adabas = get_adabas(venda.equipe, venda.tipo)
         DDD = venda.telefone[0:2]
+        preco = self.get_preco(venda.plano)
+        receita = preco * venda.volume
         if DDD not in DDDS_valor_inteiro:
             receita *= 0.3
             
         values = (
             venda.cnpj, venda.telefone, venda.consultor, venda.data, venda.gestor, venda.plano, 
             venda.volume, venda.equipe, venda.tipo, empresa.uf, receita, 
-            venda.preco, venda.email, empresa.quadro_funcionarios, empresa.faturamento, 
+            preco, venda.email, empresa.quadro_funcionarios, empresa.faturamento, 
             empresa.cnae, empresa.cep, empresa.municipio, empresa.porte, empresa.capital_social, 
             empresa.natureza_juridica, empresa.matriz, empresa.situacao_cadastral, empresa.regime_tributario, 
             empresa.bairro, adabas, 

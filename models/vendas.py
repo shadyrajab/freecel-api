@@ -16,7 +16,6 @@ class Venda(BaseModel):
     volume: int
     equipe: str
     tipo: str
-    preco: float
     email: EmailStr
     
     @validator('plano')
@@ -56,13 +55,6 @@ class Venda(BaseModel):
             """)
         
         return telefone
-
-    @validator('preco')
-    def validate_preco(cls, value):
-        if value < 1:
-            raise ValueError("O preço do produto não pode ser menor do que 1")
-        
-        return value
 
     @validator('data')
     def validate_data(cls, value):
