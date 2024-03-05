@@ -36,6 +36,10 @@ class Freecel(Stats):
         return self.__media_por_consultor('AVANÇADA')
     
     @property
+    def media_consultor_portabilidade(self) -> float:
+        return self.__media_por_consultor('PORTABILIDADE')
+    
+    @property
     def media_consultor_vvn(self) -> float:
         return self.__media_por_consultor('VVN')
     
