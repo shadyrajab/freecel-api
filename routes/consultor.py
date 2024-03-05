@@ -4,7 +4,7 @@ from fastapi.encoders import jsonable_encoder
 from models.consultor import Vendedor
 from authenticator.jwt import authenticate
 from models.identify import ID
-from responses.consultor import Consultor
+# from responses.consultor import Consultor
 
 router = APIRouter()
 
@@ -26,5 +26,5 @@ def remove_consultor(id: ID):
 @router.get("/consultores/{nome_consultor}", dependencies = [Depends(authenticate)])
 def consultor(nome_consultor: str, ano: int = Query(None, description = "Ano"), mes: str = Query(None, description = "Mês"), display_vendas: bool = Query(None, description = "Mostrar vendas")):
     nome_consultor = nome_consultor.replace('_', ' ').upper()
-    consultor = Consultor(client, nome_consultor, ano, mes, display_vendas)
+    consultor = client.Consultor(nome_consultor, ano, mes, True, display_vendas)
     return jsonable_encoder(consultor.to_json())

@@ -14,14 +14,14 @@ class Client(DataFrame):
             password
         )
     
-    def Consultor(self, nome: str, ano: Optional[int] = None, mes: Optional[str] = None) -> Consultor:
-        return Consultor(self.dataframe[self.dataframe['consultor'] == nome], ano, mes)
+    def Consultor(self, nome: str, ano: Optional[int] = None, mes: Optional[str] = None, jsonfy: Optional[bool] = None, display_vendas: Optional[bool] = None) -> Consultor:
+        return Consultor(self.dataframe[self.dataframe['consultor'] == nome], ano, mes, jsonfy, display_vendas)
     
-    def Ranking(self, ano: Optional[int] = None, mes: Optional[str] = None) -> Rankings:
-        return Rankings(self.dataframe, ano, mes)
+    def Ranking(self, ano: Optional[int] = None, mes: Optional[str] = None, jsonfy: Optional[bool] = None) -> Rankings:
+        return Rankings(self.dataframe, ano, mes, jsonfy)
     
-    def Freecel(self, ano: Optional[int] = None, mes: Optional[str] = None) -> Freecel:
-        return Freecel(self.dataframe, ano, mes)
+    def Freecel(self, ano: Optional[int] = None, mes: Optional[str] = None, jsonfy: Optional[bool] = None) -> Freecel:
+        return Freecel(self.dataframe, ano, mes, jsonfy)
     
     def vendas(self, ano: Optional[int] = None, mes: Optional[str] = None, as_json: Optional[bool] = None):
         dataframe = self.__filter_by__(self.dataframe, ano, mes)

@@ -18,52 +18,52 @@ class Stats():
             tipo = tipo
         )
     
-    @property
-    def dates(self) -> list[dict]:
-        return [{f"{year}": self.months(year)} for year in self.years]
+    # @property
+    # def dates(self) -> list[dict]:
+    #     return [{f"{year}": self.months(year)} for year in self.years]
     
-    @property
-    def years(self) -> list[int]:
-        return list(self.dataframe['ano'].unique())
+    # @property
+    # def years(self) -> list[int]:
+    #     return list(self.dataframe['ano'].unique())
     
-    def months(self, ano) -> list[str]:
-        return list(self.filter_by(ano)['mês'].unique())
+    # def months(self, ano) -> list[str]:
+    #     return list(self.filter_by(ano)['mês'].unique())
     
     @property
     def periodo_trabalhado(self) -> int:
-        if self.mes is not None: 
+        meses_trabalhados = self.dataframe['mês'].nunique()
+        if meses_trabalhados <=1:
             return 22
         
-        meses_trabalhados = self.dataframe['mês'].nunique()
         return meses_trabalhados
     
     @property
-    def clientes(self) -> int:
-        return self.dataframe.shape[0]
+    def clientes(self) -> float:
+        return float(self.dataframe.shape[0])
     
     @property
     def receita(self) -> float:
         return float(self.dataframe['valor_acumulado'].sum())
 
     @property
-    def volume(self) -> int:
-        return int(self.dataframe['quantidade_de_produtos'].sum())
+    def volume(self) -> float:
+        return float(self.dataframe['quantidade_de_produtos'].sum())
     
     @property
-    def ticket_medio(self) -> int:
-        return self.receita / self.volume
+    def ticket_medio(self) -> float:
+        return float(self.receita / self.clientes)
     
     @property
-    def clientes_media(self) -> int:
-        return self.clientes / self.periodo_trabalhado
+    def clientes_media(self) -> float:
+        return float(self.clientes / self.periodo_trabalhado)
     
     @property
-    def receita_media(self) -> int:
-        return self.receita / self.periodo_trabalhado
+    def receita_media(self) -> float:
+        return float(self.receita / self.periodo_trabalhado)
     
     @property
-    def volume_media(self) -> int:
-        return self.volume / self.periodo_trabalhado
+    def volume_media(self) -> float:
+        return float(self.volume / self.periodo_trabalhado)
     
     # @property
     # def delta_clientes(self) -> int:

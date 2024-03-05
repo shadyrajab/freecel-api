@@ -2,10 +2,12 @@ import pandas as pd
 from typing import Optional
 from database.dataframe import DataFrame
 from utils.variables import TIPO_VENDA
+from utils.functions import jsonfy
 
 class Rankings:
-    def __init__(self, dataframe: pd.DataFrame, ano: Optional[int] = None, mes: Optional[str] = None):
+    def __init__(self, dataframe: pd.DataFrame, ano: Optional[int] = None, mes: Optional[str] = None, jsonfy: Optional[bool] = None):
         self.dataframe = self.filter_by(dataframe, ano, mes)
+        self.jsonfy = jsonfy
 
     def filter_by(self, dataframe: pd.DataFrame, ano: Optional[int] = None, mes: Optional[str] = None, tipo: Optional[str] = None):
         return DataFrame.__filter_by__(
@@ -47,6 +49,15 @@ class Rankings:
     def altas(self) -> pd.DataFrame:
         return self.__get_ranking('tipo', 'ALTAS')
     
+    def to_json(self):
+        data = {}
+        for cls in reversed(self.__class__.__mro__):
+            for attr_name, attr_value in vars(cls).items():
+                if isinstance(attr_value, property):
+                    data[attr_name] = getattr(self, attr_name)
+                    
+        return data
+    
     def __get_ranking(self, column: str, tipo_venda: Optional[str] = None) -> DataFrame:
         if tipo_venda and tipo_venda not in TIPO_VENDA:
             raise ValueError(f"O tipo de venda deve ser {str(TIPO_VENDA)}")
@@ -57,5 +68,9 @@ class Rankings:
         ranking = self.dataframe.groupby(column, as_index = False).sum(numeric_only = True)
         ranking.drop(['ano', 'valor_do_plano', 'id'], axis = 1, inplace = True)
 
-        return pd.merge(ranking, quantidade_de_vendas, on = column)
+        final_dataframe = pd.merge(ranking, quantidade_de_vendas, on = column)
+        if self.jsonfy:
+            return jsonfy(final_dataframe)
+        
+        return final_dataframe
 
