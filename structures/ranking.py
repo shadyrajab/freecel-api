@@ -50,6 +50,10 @@ class Rankings:
     @property
     def altas(self) -> pd.DataFrame:
         return self.__get_ranking('consultor', 'ALTAS')
+
+    @property
+    def altas(self) -> pd.DataFrame:
+        return self.__get_ranking('consultor', 'PORTABILIDADE')
     
     def to_json(self):
         data = {}
