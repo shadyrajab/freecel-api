@@ -58,17 +58,11 @@ class Rankings:
                 if isinstance(attr_value, property):
                     data[attr_name] = getattr(self, attr_name)
 
-<<<<<<< HEAD
-    def consultores(self, ano: Optional[int] = None, mes: Optional[str] = None, tipo: Optional[str] = None) -> pd.DataFrame:
-        if tipo and tipo not in {'ALTAS', 'FIXA', 'AVANÇADA', 'VVN', 'MIGRAÇÃO PRÉ-PÓS', 'PORTABILIDADE'}:
-            raise ValueError("O tipo de venda deve ser {'ALTAS', 'FIXA' | 'AVANÇADA' | 'VVN' | 'MIGRAÇÃO PRÉ-PÓS' | 'PORTABILIDADE'}")
-=======
         return data
     
     def __get_ranking(self, column: str, tipo_venda: Optional[str] = None) -> DataFrame:
         if tipo_venda and tipo_venda not in TIPO_VENDA:
             raise ValueError(f"O tipo de venda deve ser {str(TIPO_VENDA)}")
->>>>>>> 67ee2f0e0eeaf421450d5af9e90b23050071df45
         
         quantidade_de_vendas = self.dataframe[column].value_counts().reset_index()
         quantidade_de_vendas.columns = [column, 'quantidade_de_vendas']
