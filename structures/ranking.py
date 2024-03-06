@@ -89,7 +89,7 @@ class Rankings:
         ranking.drop(['ano', 'valor_do_plano', 'id'], axis = 1, inplace = True)
 
         final_dataframe = pd.merge(ranking, quantidade_de_vendas, on = column)
-        final_dataframe.replace(columns={'valor_acumulado': 'receita', 'quantidade_de_produtos': 'volume'}, inplace=True)
+        final_dataframe.rename(columns={'valor_acumulado': 'receita', 'quantidade_de_produtos': 'volume'}, inplace=True)
         if self.jsonfy:
             return jsonfy(final_dataframe)
         
