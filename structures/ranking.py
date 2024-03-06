@@ -118,8 +118,6 @@ class Rankings:
         if self.jsonfy:
             return jsonfy(final_dataframe)
         
-        final_dataframe.to_excel('doidao.xlsx')
-        
         return final_dataframe
     
     def __get_ranking(self, column: str, tipo_venda: Optional[str] = None) -> DataFrame:
