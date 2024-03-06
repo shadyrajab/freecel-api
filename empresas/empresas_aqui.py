@@ -14,10 +14,6 @@ class Empresa:
         return self.empresa.get('log_bairro', None)
     
     @property
-    def situacao_cadastral(self):
-        return self.empresa.get('situacao_cadastral', None)
-    
-    @property
     def regime_tributario(self):
         return self.empresa.get('regime_tributario', None)
     

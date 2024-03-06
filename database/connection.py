@@ -98,7 +98,7 @@ class DataBase:
             venda.volume, venda.equipe, venda.tipo, empresa.uf, receita, 
             preco, venda.email, empresa.quadro_funcionarios, empresa.faturamento, 
             empresa.cnae, empresa.cep, empresa.municipio, empresa.porte, empresa.capital_social, 
-            empresa.natureza_juridica, empresa.matriz, empresa.situacao_cadastral, empresa.regime_tributario, 
+            empresa.natureza_juridica, empresa.matriz, empresa.regime_tributario, 
             empresa.bairro, adabas, 
         )
 
