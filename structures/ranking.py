@@ -83,12 +83,13 @@ class Rankings:
             dataframe = self.filter_by(self.dataframe, tipo=tipo_venda)
             
         quantidade_de_vendas = dataframe[column].value_counts().reset_index()
-        quantidade_de_vendas.columns = [column, 'quantidade_de_vendas']
+        quantidade_de_vendas.columns = [column, 'clientes']
 
         ranking = dataframe.groupby(column, as_index = False).sum(numeric_only = True)
         ranking.drop(['ano', 'valor_do_plano', 'id'], axis = 1, inplace = True)
 
         final_dataframe = pd.merge(ranking, quantidade_de_vendas, on = column)
+        final_dataframe.replace(columns={'valor_acumulado': 'receita', 'quantidade_de_produtos': 'volume'}, inplace=True)
         if self.jsonfy:
             return jsonfy(final_dataframe)
         
