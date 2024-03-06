@@ -5,7 +5,7 @@ ADD_VENDA_QUERY = """
         faturamento, cnae, cep, municipio, porte, capital_social, natureza_juridica,
         matriz, regime_tributario, bairro, adabas
     ) VALUES (
-        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
     )
 """
 
