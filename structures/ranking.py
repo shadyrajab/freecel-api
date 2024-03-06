@@ -18,34 +18,6 @@ class Rankings:
             mes = mes, 
             tipo = tipo
         )
-    
-    @property
-    def consultores_geral(self):
-        return self.__ranking_consultores()
-    
-    @property
-    def consultores_altas(self):
-        return self.__ranking_consultores('ALTAS')
-    
-    @property
-    def consultores_fixa(self):
-        return self.__ranking_consultores('FIXA')
-    
-    @property
-    def consultores_avancada(self):
-        return self.__ranking_consultores('AVANÇADA')
-    
-    @property
-    def consultores_migracao(self):
-        return self.__ranking_consultores('MIGRAÇÃO PRÉ-PÓS')
-    
-    @property
-    def consultores_vvn(self):
-        return self.__ranking_consultores('VVN')
-    
-    @property
-    def consultores_portabilidade(self):
-        return self.__ranking_consultores('PORTABILIDADE')
 
     @property
     def planos(self):
@@ -101,24 +73,6 @@ class Rankings:
                     data[attr_name] = getattr(self, attr_name)
 
         return data
-    
-    def __ranking_consultores(self, tipo: Optional[str] = None):
-        dataframe = self.filter_by(self.dataframe.copy(), tipo = tipo)
-        dataframe = dataframe.groupby('consultor', as_index = False).sum(numeric_only=True)
-        clientes = self.dataframe['consultor'].value_counts().reset_index()
-        clientes.columns = ['consultor', 'clientes']
-
-        final_dataframe = pd.merge(dataframe, clientes, on = 'consultor')
-        final_dataframe['ticket_medio'] = final_dataframe['valor_acumulado'] / final_dataframe['clientes']
-        final_dataframe['receita_media'] = final_dataframe['valor_acumulado'] / self.periodo_trabalhado
-        final_dataframe['volume_media'] = final_dataframe['quantidade_de_produtos'] / self.periodo_trabalhado
-        final_dataframe['clientes_media'] = final_dataframe['clientes'] / self.periodo_trabalhado
-        final_dataframe.rename(columns = {'quantidade_de_produtos': 'volume', 'valor_acumulado': 'receita'}, inplace=True)
-        final_dataframe.drop(columns=['ano', 'id', 'valor_do_plano'], inplace = True)
-        if self.jsonfy:
-            return jsonfy(final_dataframe)
-        
-        return final_dataframe
     
     def __get_ranking(self, column: str, tipo_venda: Optional[str] = None) -> DataFrame:
         dataframe = self.dataframe.copy()
