@@ -3,9 +3,9 @@ ADD_VENDA_QUERY = """
         cnpj, telefone, consultor, data, gestor, plano, quantidade_de_produtos, 
         revenda, tipo, uf, valor_acumulado, valor_do_plano, email, quadro_funcionarios,
         faturamento, cnae, cep, municipio, porte, capital_social, natureza_juridica,
-        matriz, regime_tributario, bairro, adabas
+        matriz, regime_tributario, bairro, adabas, ja_cliente
     ) VALUES (
-        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
     )
 """
 

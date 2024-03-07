@@ -103,7 +103,7 @@ class DataBase:
             preco, venda.email, empresa.quadro_funcionarios, empresa.faturamento, 
             empresa.cnae, empresa.cep, empresa.municipio, empresa.porte, empresa.capital_social, 
             empresa.natureza_juridica, empresa.matriz, empresa.regime_tributario, 
-            empresa.bairro, adabas, 
+            empresa.bairro, adabas, venda.ja_cliente
         )
 
         with connection.cursor() as cursor:

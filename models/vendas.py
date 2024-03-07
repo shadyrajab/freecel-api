@@ -16,6 +16,7 @@ class Venda(BaseModel):
     volume: int
     equipe: str
     tipo: str
+    ja_cliente: bool
     email: EmailStr
     
     @validator('plano')
