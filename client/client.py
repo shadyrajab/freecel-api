@@ -5,10 +5,7 @@ from database.dataframe import DataFrame
 from utils.functions import jsonfy
 from typing import Optional
     
-class Client(DataFrame):
-    def __init__(self):
-        super().__init__()
-            
+class Client(DataFrame):           
     def Consultor(self, nome: str, ano: Optional[int] = None, mes: Optional[str] = None, jsonfy: Optional[bool] = None, display_vendas: Optional[bool] = None) -> Consultor:
         return Consultor(self.dataframe[self.dataframe['consultor'] == nome], ano, mes, jsonfy, display_vendas)
     

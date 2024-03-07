@@ -7,7 +7,6 @@ class DataFrame(DataBase):
     def __init__(self):
         self.dataframe = self.get_vendas(to_dataframe = True)
         self.__format_data()
-        super().__init__()
 
     def __format_data(self) -> None:
         def get_mes(mes):
