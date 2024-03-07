@@ -9,24 +9,25 @@ from utils.functions import get_adabas
 from utils.variables import DDDS_valor_inteiro, HOST, DATABASE, USER, PASSWORD
 from database.queries import *
 
-connection = psycopg2.connect(
-    host = HOST, 
-    database = DATABASE, 
-    user = USER, 
-    password = PASSWORD
-)
-
 class DataBase:
+    def __init__(self):
+        self.connection = psycopg2.connect(
+            host = HOST, 
+            database = DATABASE, 
+            user = USER, 
+            password = PASSWORD
+        )
+
     def jwt_authenticate(self, uuid: str):
         JWT_QUERY = "SELECT * FROM uuids WHERE uuid = (%s)"
-        with connection.cursor() as cursor:
+        with self.connection.cursor() as cursor:
             cursor.execute(JWT_QUERY, (uuid, ))
             user = cursor.fetchall()
 
         return user[0][2] if user else None
 
     def get_consultores(self, to_dataframe: Optional[bool] = False):
-        with connection.cursor() as cursor:
+        with self.connection.cursor() as cursor:
             cursor.execute(GET_CONSULTORES_QUERY)
             consultores = cursor.fetchall()
 
@@ -38,18 +39,18 @@ class DataBase:
     
     def add_consultor(self, consultor: Vendedor):
         values = (consultor.name.upper(), )
-        with connection.cursor() as cursor:
+        with self.connection.cursor() as cursor:
             cursor.execute(ADD_CONSULTOR_QUERY, values)
-            connection.commit()
+            self.connection.commit()
 
     def remove_consultor(self, id: ID):
         values = (id.id, )
-        with connection.cursor() as cursor:
+        with self.connection.cursor() as cursor:
             cursor.execute(REMOVE_CONSULTOR_QUERY, values)
-            connection.commit()
+            self.connection.commit()
 
     def get_produtos(self, to_dataframe: Optional[bool] = False):
-        with connection.cursor() as cursor:
+        with self.connection.cursor() as cursor:
             cursor.execute(GET_PRODUTOS_QUERY)
             produtos = cursor.fetchall()
         
@@ -61,18 +62,18 @@ class DataBase:
     
     def add_produto(self, produto: Produto):
         values = (produto.nome.upper(), produto.preco)  
-        with connection.cursor() as cursor:
+        with self.connection.cursor() as cursor:
             cursor.execute(ADD_PRODUTO_QUERY, values)
-            connection.commit()
+            self.connection.commit()
 
     def remove_produto(self, id: ID):
         values = (id.id, )
-        with connection.cursor() as cursor:
+        with self.connection.cursor() as cursor:
             cursor.execute(REMOVE_PRODUTO_QUERY, values)
-            connection.commit()
+            self.connection.commit()
     
     def get_vendas(self, to_dataframe: Optional[bool] = False):
-        with connection.cursor() as cursor:
+        with self.connection.cursor() as cursor:
             cursor.execute(GET_VENDAS_QUERY)
             vendas = cursor.fetchall()
         if to_dataframe:
@@ -82,7 +83,7 @@ class DataBase:
         return vendas
     
     def get_preco(self, produto: str):
-        with connection.cursor() as cursor:
+        with self.connection.cursor() as cursor:
             cursor.execute(GET_PRECO_QUERY, (produto, ))
             preco = cursor.fetchall()
 
@@ -106,13 +107,13 @@ class DataBase:
             empresa.bairro, adabas, venda.ja_cliente
         )
 
-        with connection.cursor() as cursor:
+        with self.connection.cursor() as cursor:
             cursor.execute(ADD_VENDA_QUERY, values)
-            connection.commit()
+            self.connection.commit()
 
 
     def remove_venda(self, id: ID):
         values = (id.id, )
-        with connection.cursor() as cursor:
+        with self.connection.cursor() as cursor:
             cursor.execute(REMOVE_VENDA_QUERY, values)
-            connection.commit()
+            self.connection.commit()
