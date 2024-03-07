@@ -4,17 +4,11 @@ from typing import Optional
 from utils.variables import MONTHS
 
 class DataFrame(DataBase):
-    def __init__(self, host, database, user, password):
-        super().__init__(
-            host = host, 
-            database = database, 
-            user = user, 
-            password = password
-        )
-        
+    def __init__(self):
         self.dataframe = self.get_vendas(to_dataframe = True)
         self.__formatar_datas__()
         self.__formatar_tipo_colunas__()
+        super().__init__()
 
     def __formatar_tipo_colunas__(self) -> None:
         self.dataframe[['valor_acumulado', 'valor_do_plano', 'quantidade_de_produtos']] = self.dataframe[

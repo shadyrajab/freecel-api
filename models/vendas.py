@@ -1,6 +1,6 @@
 from utils.variables import TIPO_VENDA, EQUIPE, DDDS
 from pydantic import EmailStr, validator, BaseModel
-from client.instance import get_client
+from client.client import Client
 from datetime import datetime
 from pycpfcnpj import cpfcnpj
 from math import ceil
@@ -20,7 +20,7 @@ class Venda(BaseModel):
     
     @validator('plano')
     def validate_plano(cls, value):
-        planos = get_client().get_produtos()
+        planos = Client().get_produtos()
         planos = [plano[0] for plano in planos]
 
         if value.upper() not in planos:
@@ -30,7 +30,7 @@ class Venda(BaseModel):
 
     @validator('consultor')
     def validate_consultor(cls, value):
-        consultores = get_client().get_consultores()
+        consultores = Client().get_consultores()
         consultores = [consultor[0] for consultor in consultores]
 
         if value.upper() not in consultores:

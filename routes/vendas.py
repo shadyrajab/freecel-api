@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, Query
-from client.instance import get_client
+from client.client import Client
 from fastapi.encoders import jsonable_encoder
 from authenticator.jwt import authenticate
 from models.identify import ID
@@ -9,15 +9,15 @@ router = APIRouter()
 
 @router.get("/vendas", dependencies = [Depends(authenticate)])
 def vendas(ano: int = Query(None, description = "Ano"), mes: str = Query(None, description = "Mês")):
-    vendas = get_client().vendas(ano, mes, True)
-    return jsonable_encoder(vendas)
+    vendas = Client().vendas(ano, mes, True)
+    return vendas
 
 @router.put("/vendas", dependencies = [Depends(authenticate)])
 def add_venda(venda: Venda):
-    get_client().add_venda(venda)
+    Client().add_venda(venda)
     return { "message": 'Venda adicionada com sucesso' }
 
 @router.delete("/vendas", dependencies = [Depends(authenticate)])
 def remove_venda(id: ID):
-    get_client().remove_venda(id)
+    Client().remove_venda(id)
     return { "message": 'Venda removida com sucesso' }
