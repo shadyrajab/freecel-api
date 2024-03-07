@@ -6,21 +6,18 @@ from utils.variables import MONTHS
 class DataFrame(DataBase):
     def __init__(self):
         self.dataframe = self.get_vendas(to_dataframe = True)
-        self.__formatar_datas__()
-        self.__formatar_tipo_colunas__()
+        self.__format_data()
         super().__init__()
 
-    def __formatar_tipo_colunas__(self) -> None:
-        self.dataframe[['valor_acumulado', 'valor_do_plano', 'quantidade_de_produtos']] = self.dataframe[
-                ['valor_acumulado', 'valor_do_plano', 'quantidade_de_produtos']
-            ].apply(pd.to_numeric, errors='coerce', downcast='integer')
-
-    def __formatar_datas__(self) -> None:
+    def __format_data(self) -> None:
         def get_mes(mes):
             return MONTHS[mes - 1]
 
         self.dataframe['ano'] = pd.to_datetime(self.dataframe['data']).dt.year
         self.dataframe['mês'] = pd.to_datetime(self.dataframe['data']).dt.month.apply(lambda mes: get_mes(mes))
+        self.dataframe[['valor_acumulado', 'valor_do_plano', 'quantidade_de_produtos']] = self.dataframe[
+                ['valor_acumulado', 'valor_do_plano', 'quantidade_de_produtos']
+            ].apply(pd.to_numeric, errors='coerce', downcast='integer')
 
     @staticmethod
     def __filter_by__(dataframe, ano: Optional[int] = None, mes: Optional[str] = None, consultor: Optional[str] = None, tipo: Optional[str] = None):
