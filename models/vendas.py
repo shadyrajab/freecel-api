@@ -1,4 +1,5 @@
 from utils.variables import TIPO_VENDA, EQUIPE, DDDS
+from typing import Optional
 from pydantic import EmailStr, validator, BaseModel
 from client.client import Client
 from datetime import datetime
@@ -12,22 +13,13 @@ class Venda(BaseModel):
     consultor: str
     data: str
     gestor: str
+    preco: Optional[float] = None
     plano: str
     volume: int
     equipe: str
     tipo: str
     ja_cliente: bool
     email: EmailStr
-    
-    @validator('plano')
-    def validate_plano(cls, value):
-        planos = Client().get_produtos()
-        planos = [plano[0] for plano in planos]
-
-        if value.upper() not in planos:
-            raise ValueError(f"Não existe nenhum plano na base de dados chamado {value}.")
-        
-        return value
 
     @validator('consultor')
     def validate_consultor(cls, value):
@@ -95,3 +87,13 @@ class Venda(BaseModel):
         
         return cnpj
     
+    @validator('plano')
+    def validate_plano(cls, value, values):
+        if int(values.get('preco')) != 0: return value
+        planos = Client().get_produtos()
+        planos = [plano[0] for plano in planos]
+
+        if value.upper() not in planos:
+            raise ValueError(f"Não existe nenhum plano na base de dados chamado {value}.")
+        
+        return value

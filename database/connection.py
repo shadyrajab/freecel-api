@@ -92,7 +92,8 @@ class DataBase:
         empresa = Empresa(venda.cnpj)
         adabas = get_adabas(venda.equipe, venda.tipo)
         DDD = venda.telefone[0:2]
-        preco = self.get_preco(venda.plano)
+        preco = self.get_preco(venda.plano) if venda.preco == 0 else venda.preco
+            
         receita = preco * venda.volume
         if DDD not in DDDS_valor_inteiro:
             receita *= 0.3
