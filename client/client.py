@@ -4,8 +4,24 @@ from structures.freecel import Freecel
 from database.dataframe import DataFrame
 from utils.functions import jsonfy
 from typing import Optional
+import asyncpg
+import os
+
+HOST = os.getenv('host')
+DATABASE = os.getenv('database')
+USER = os.getenv('user')
+PASSWORD = os.getenv('password')
     
-class Client(DataFrame):           
+class Client(DataFrame):
+    async def __aenter__(self):
+        self.pool = await asyncpg.create_pool(
+            host = HOST,
+            database = DATABASE,
+            user = USER,
+            password = PASSWORD
+        )
+        return self
+         
     def Consultor(self, nome: str, ano: Optional[int] = None, mes: Optional[str] = None, jsonfy: Optional[bool] = None, display_vendas: Optional[bool] = None) -> Consultor:
         return Consultor(self.dataframe[self.dataframe['consultor'] == nome], ano, mes, jsonfy, display_vendas)
     

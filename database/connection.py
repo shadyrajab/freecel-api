@@ -1,4 +1,4 @@
-import psycopg2
+import asyncpg
 import pandas as pd
 from typing import Optional 
 from models.identify import ID
@@ -9,86 +9,79 @@ from utils.functions import get_adabas
 from utils.variables import DDDS_valor_inteiro, HOST, DATABASE, USER, PASSWORD
 from database.queries import *
 
-connection = psycopg2.connect(
-    host = HOST, 
-    database = DATABASE, 
-    user = USER, 
-    password = PASSWORD
-)
-
 class DataBase:
-    def jwt_authenticate(self, uuid: str):
-        JWT_QUERY = "SELECT * FROM uuids WHERE uuid = (%s)"
-        with connection.cursor() as cursor:
-            cursor.execute(JWT_QUERY, (uuid, ))
-            user = cursor.fetchall()
+    async def __aenter__(self):
+        self.pool = await asyncpg.create_pool(
+            host = HOST,
+            database = DATABASE,
+            user = USER,
+            password = PASSWORD
+        )
+        return self
 
-        return user[0][2] if user else None
+    async def __aexit__(self, exc_type, exc, tb):
+        await self.pool.close()
 
-    def get_consultores(self, to_dataframe: Optional[bool] = False):
-        with connection.cursor() as cursor:
-            cursor.execute(GET_CONSULTORES_QUERY)
-            consultores = cursor.fetchall()
+    async def get_consultores(self):
+        async with self.pool.acquire() as connection:
+          statement = await connection.prepare('SELECT * FROM consultores')
+          return await statement.fetch()
+        
+    async def jwt_authenticate(self, uuid: str):
+        async with self.pool.acquire() as connection:
+            statement = await connection.prepare('SELECT * FROM uuids WHERE uuid = (%s)', uuid)
+            return await statement.fetch()[0][2] | None
 
-        if to_dataframe:
-            columns = [desc[0] for desc in cursor.description]
-            consultores = pd.DataFrame(consultores, columns=columns)
-
-        return consultores
-    
-    def add_consultor(self, consultor: Vendedor):
+    async def add_consultor(self, consultor: Vendedor):
         values = (consultor.name.upper(), )
-        with connection.cursor() as cursor:
-            cursor.execute(ADD_CONSULTOR_QUERY, values)
-            connection.commit()
-
-    def remove_consultor(self, id: ID):
+        async with self.pool.acquire() as connection:
+            await connection.execute(ADD_CONSULTOR_QUERY, values)
+    
+    async def remove_consultor(self, id: ID):
         values = (id.id, )
-        with connection.cursor() as cursor:
-            cursor.execute(REMOVE_CONSULTOR_QUERY, values)
-            connection.commit()
-
-    def get_produtos(self, to_dataframe: Optional[bool] = False):
-        with connection.cursor() as cursor:
-            cursor.execute(GET_PRODUTOS_QUERY)
-            produtos = cursor.fetchall()
+        async with self.pool.acquire() as connection:
+            await connection.execute(REMOVE_CONSULTOR_QUERY, values)
+    
+    async def get_produtos(self, to_dataframe: Optional[bool] = False):
+        async with self.pool.acquire() as connection:
+            statement = await connection.prepare(GET_PRODUTOS_QUERY)
+            produtos = await statement.fetchall()
         
         if to_dataframe:
-            columns = [desc[0] for desc in cursor.description]
+            columns = [desc[0] for desc in produtos.description]
             produtos = pd.DataFrame(produtos, columns=columns)
 
         return produtos
     
-    def add_produto(self, produto: Produto):
-        values = (produto.nome.upper(), produto.preco)  
-        with connection.cursor() as cursor:
-            cursor.execute(ADD_PRODUTO_QUERY, values)
-            connection.commit()
+    async def add_produto(self, produto: Produto):
+        values = (produto.nome.upper(), produto.preco, )  
+        async with self.pool.acquire() as connection:
+            await connection.execute(ADD_PRODUTO_QUERY, values)
 
-    def remove_produto(self, id: ID):
+    async def remove_produto(self, id: ID):
         values = (id.id, )
-        with connection.cursor() as cursor:
-            cursor.execute(REMOVE_PRODUTO_QUERY, values)
-            connection.commit()
+        async with self.pool.acquire() as connection:
+            await connection.execute(REMOVE_PRODUTO_QUERY, values)
     
-    def get_vendas(self, to_dataframe: Optional[bool] = False):
-        with connection.cursor() as cursor:
-            cursor.execute(GET_VENDAS_QUERY)
-            vendas = cursor.fetchall()
+    async def get_vendas(self, to_dataframe: Optional[bool] = False):
+        async with self.pool.acquire() as connection:
+            statement = await connection.prepare(GET_VENDAS_QUERY)
+            vendas = await statement.fetchall()
+
         if to_dataframe:
-            columns = [desc[0] for desc in cursor.description]
+            columns = [desc[0] for desc in vendas.description]
             vendas = pd.DataFrame(vendas, columns=columns)
         
         return vendas
     
-    def get_preco(self, produto: str):
-        with connection.cursor() as cursor:
-            cursor.execute(GET_PRECO_QUERY, (produto, ))
-            preco = cursor.fetchall()
+    async def get_preco(self, produto: str):
+        async with self.pool.acquire() as connection:
+            statement = await connection.prepare(GET_PRECO_QUERY, (produto, ))
+            preco = await statement.fetchall()
 
         return preco[0][0]
     
-    def add_venda(self, venda):
+    async def add_venda(self, venda):
         empresa = Empresa(venda.cnpj)
         adabas = get_adabas(venda.equipe, venda.tipo)
         DDD = venda.telefone[0:2]
@@ -100,20 +93,17 @@ class DataBase:
             
         values = (
             venda.cnpj, venda.telefone, venda.consultor, venda.data, venda.gestor, venda.plano, 
-            venda.volume, venda.equipe, venda.tipo, empresa.uf, receita, 
-            preco, venda.email, empresa.quadro_funcionarios, empresa.faturamento, 
-            empresa.cnae, empresa.cep, empresa.municipio, empresa.porte, empresa.capital_social, 
-            empresa.natureza_juridica, empresa.matriz, empresa.regime_tributario, 
-            empresa.bairro, adabas, venda.ja_cliente
+            venda.volume, venda.equipe, venda.tipo, empresa.uf, receita, preco, venda.email, 
+            empresa.quadro_funcionarios, empresa.faturamento, empresa.cnae, empresa.cep, empresa.municipio, 
+            empresa.porte, empresa.capital_social, empresa.natureza_juridica, empresa.matriz, 
+            empresa.regime_tributario, empresa.bairro, adabas, venda.ja_cliente
         )
 
-        with connection.cursor() as cursor:
-            cursor.execute(ADD_VENDA_QUERY, values)
-            connection.commit()
+        async with self.pool.acquire() as connection:
+            await connection.execute(ADD_VENDA_QUERY, values)
 
-
-    def remove_venda(self, id: ID):
+    async def remove_venda(self, id: ID):
         values = (id.id, )
-        with connection.cursor() as cursor:
-            cursor.execute(REMOVE_VENDA_QUERY, values)
-            connection.commit()
+        async with self.pool.acquire() as connection:
+            await connection.execute(REMOVE_VENDA_QUERY, values)
+            
