@@ -1,8 +1,7 @@
 import pandas as pd
 from typing import Optional
-from database.dataframe import DataFrame
 from utils.variables import TIPO_VENDA
-from utils.functions import jsonfy
+from utils.functions import jsonfy, filter_by
 
 class Rankings:
     def __init__(self, dataframe: pd.DataFrame, ano: Optional[int] = None, mes: Optional[str] = None, jsonfy: Optional[bool] = None):
@@ -12,7 +11,7 @@ class Rankings:
         self.mes = mes.capitalize() if mes else mes
 
     def filter_by(self, dataframe: pd.DataFrame, ano: Optional[int] = None, mes: Optional[str] = None, tipo: Optional[str] = None) -> pd.DataFrame:
-        return DataFrame.__filter_by__(
+        return filter_by(
             dataframe = dataframe, 
             ano = ano, 
             mes = mes, 
@@ -74,7 +73,7 @@ class Rankings:
 
         return data
     
-    def __get_ranking(self, column: str, tipo_venda: Optional[str] = None) -> DataFrame:
+    def __get_ranking(self, column: str, tipo_venda: Optional[str] = None) -> pd.DataFrame:
         dataframe = self.dataframe.copy()
         if tipo_venda and tipo_venda not in TIPO_VENDA:
             raise ValueError(f"O tipo de venda deve ser {str(TIPO_VENDA)}")

@@ -17,6 +17,7 @@ class DataBase:
             user = USER,
             password = PASSWORD
         )
+        
         return self
 
     async def __aexit__(self, exc_type, exc, tb):
@@ -29,8 +30,9 @@ class DataBase:
         
     async def jwt_authenticate(self, uuid: str):
         async with self.pool.acquire() as connection:
-            statement = await connection.prepare('SELECT * FROM uuids WHERE uuid = (%s)', uuid)
-            return await statement.fetch()[0][2] | None
+            statement = await connection.prepare('SELECT * FROM uuids WHERE uuid = $1')
+            result = await statement.fetchval(uuid)
+            return result if result else None
 
     async def add_consultor(self, consultor: Vendedor):
         values = (consultor.name.upper(), )
@@ -66,13 +68,15 @@ class DataBase:
     async def get_vendas(self, to_dataframe: Optional[bool] = False):
         async with self.pool.acquire() as connection:
             statement = await connection.prepare(GET_VENDAS_QUERY)
-            vendas = await statement.fetchall()
+            result = await statement.fetch()
+            
+            if to_dataframe:
+                columns = [desc[0] for desc in statement.get_attributes()]
+                vendas = pd.DataFrame(result, columns=columns)
+                return vendas
+            else:
+                return result
 
-        if to_dataframe:
-            columns = [desc[0] for desc in vendas.description]
-            vendas = pd.DataFrame(vendas, columns=columns)
-        
-        return vendas
     
     async def get_preco(self, produto: str):
         async with self.pool.acquire() as connection:

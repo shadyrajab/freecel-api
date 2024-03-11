@@ -1,26 +1,18 @@
 from structures.consultor import Consultor
 from structures.ranking import Rankings
 from structures.freecel import Freecel
-from database.dataframe import DataFrame
-from utils.functions import jsonfy
+from utils.functions import jsonfy, filter_by
 from typing import Optional
-import asyncpg
-import os
-
-HOST = os.getenv('host')
-DATABASE = os.getenv('database')
-USER = os.getenv('user')
-PASSWORD = os.getenv('password')
+from database.connection import DataBase
     
-class Client(DataFrame):
+class Client(DataBase):
     async def __aenter__(self):
-        self.pool = await asyncpg.create_pool(
-            host = HOST,
-            database = DATABASE,
-            user = USER,
-            password = PASSWORD
-        )
+        await super().__aenter__()
+        self.dataframe = await self.get_vendas(to_dataframe=True)
         return self
+    
+    async def __aexit__(self, exc_type, exc, tb):
+        await super().__aexit__(exc_type, exc, tb)
          
     def Consultor(self, nome: str, ano: Optional[int] = None, mes: Optional[str] = None, jsonfy: Optional[bool] = None, display_vendas: Optional[bool] = None) -> Consultor:
         return Consultor(self.dataframe[self.dataframe['consultor'] == nome], ano, mes, jsonfy, display_vendas)
@@ -31,22 +23,23 @@ class Client(DataFrame):
     def Freecel(self, ano: Optional[int] = None, mes: Optional[str] = None, jsonfy: Optional[bool] = None) -> Freecel:
         return Freecel(self.dataframe, ano, mes, jsonfy, True)
     
-    def vendas(self, ano: Optional[int] = None, mes: Optional[str] = None, as_json: Optional[bool] = None):
-        dataframe = self.__filter_by__(self.dataframe, ano, mes)
+    # Essas 3 funções abaixo estão muito mal escritas
+    async def vendas(self, ano: Optional[int] = None, mes: Optional[str] = None, as_json: Optional[bool] = None):
+        dataframe = filter_by(self.dataframe, ano, mes)
         if as_json:
             return jsonfy(dataframe)
         
         return dataframe
     
-    def produtos(self, as_json: Optional[bool] = None):
-        produtos = self.get_produtos(to_dataframe=True)
+    async def produtos(self, as_json: Optional[bool] = None):
+        produtos = await self.get_produtos(to_dataframe=True)
         if as_json:
             return jsonfy(produtos)
         
         return produtos
     
-    def consultores(self, as_json: Optional[bool] = None):
-        consultores = self.get_consultores(to_dataframe=True)
+    async def consultores(self, as_json: Optional[bool] = None):
+        consultores = await self.get_consultores(to_dataframe=True)
         if as_json:
             return jsonfy(consultores)
         

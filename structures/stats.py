@@ -1,7 +1,7 @@
 import pandas as pd
-from database.dataframe import DataFrame
 from typing import Optional, Self
 from utils.variables import MONTHS
+from utils.functions import filter_by
 
 class Stats:
     def __init__(self, dataframe: pd.DataFrame, ano: Optional[int] = None, mes: Optional[str] = None, prev_stats: Optional[bool] = None):
@@ -13,7 +13,7 @@ class Stats:
             self.prev_stats = self.__get_prev_stats()
 
     def filter_by(self, dataframe: pd.DataFrame, ano: Optional[int] = None, mes: Optional[str] = None, tipo: Optional[str] = None) -> pd.DataFrame:
-        return DataFrame.__filter_by__(
+        return filter_by(
             dataframe = dataframe, 
             ano = ano, 
             mes = mes, 

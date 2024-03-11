@@ -1,12 +1,11 @@
 import pandas as pd
-from database.dataframe import DataFrame
 from typing import Optional
 from structures.stats import Stats
 from structures.ranking import Rankings
 from utils.functions import jsonfy
 
 class Consultor(Stats):
-    def __init__(self, dataframe: DataFrame, ano: Optional[int] = None, mes: Optional[str] = None, jsonfy: Optional[bool] = None, display_vendas: Optional[bool] = None):
+    def __init__(self, dataframe: pd.DataFrame, ano: Optional[int] = None, mes: Optional[str] = None, jsonfy: Optional[bool] = None, display_vendas: Optional[bool] = None):
         self.full_dataframe = dataframe
         self.dataframe = self.filter_by(dataframe, ano, mes)
         self.jsonfy = jsonfy

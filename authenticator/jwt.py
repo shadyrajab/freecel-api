@@ -4,10 +4,11 @@ from fastapi import HTTPException, Depends
 
 security = HTTPBearer()
 
-def authenticate(credentials: HTTPAuthorizationCredentials = Depends(security)):
+async def authenticate(credentials: HTTPAuthorizationCredentials = Depends(security)):
     if credentials:
         token = credentials.credentials
-        if Client().jwt_authenticate(token):
-            return True
+        async with Client() as client:
+            if await client.jwt_authenticate(token):
+                return True
 
     raise HTTPException(status_code=401, detail="Autenticação necessária")
