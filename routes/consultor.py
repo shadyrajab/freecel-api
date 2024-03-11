@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, Query
+from fastapi.encoders import jsonable_encoder
 from client.client import Client
 from models.consultor import Vendedor
 from authenticator.jwt import authenticate
@@ -9,7 +10,7 @@ router = APIRouter()
 @router.get("/consultores", dependencies = [Depends(authenticate)])
 async def consultores():
     async with Client() as client:
-        consultores = client.consultores(True)
+        consultores = await client.consultores(True)
         return consultores
 
 @router.put("/consultores", dependencies = [Depends(authenticate)])

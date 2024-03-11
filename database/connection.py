@@ -23,10 +23,16 @@ class DataBase:
     async def __aexit__(self, exc_type, exc, tb):
         await self.pool.close()
 
-    async def get_consultores(self):
+    async def get_consultores(self, to_dataframe: Optional[bool] = None):
         async with self.pool.acquire() as connection:
-          statement = await connection.prepare('SELECT * FROM consultores')
-          return await statement.fetch()
+            statement = await connection.prepare('SELECT * FROM consultores')
+            result = await statement.fetch()
+            if to_dataframe:
+                columns = [desc[0] for desc in statement.get_attributes()]
+                vendas = pd.DataFrame(result, columns=columns)
+                return vendas
+            else:
+                return result
         
     async def jwt_authenticate(self, uuid: str):
         async with self.pool.acquire() as connection:
@@ -47,13 +53,13 @@ class DataBase:
     async def get_produtos(self, to_dataframe: Optional[bool] = False):
         async with self.pool.acquire() as connection:
             statement = await connection.prepare(GET_PRODUTOS_QUERY)
-            produtos = await statement.fetchall()
-        
-        if to_dataframe:
-            columns = [desc[0] for desc in produtos.description]
-            produtos = pd.DataFrame(produtos, columns=columns)
-
-        return produtos
+            result = await statement.fetch()
+            if to_dataframe:
+                columns = [desc[0] for desc in statement.get_attributes()]
+                produtos = pd.DataFrame(result, columns=columns)
+                return produtos
+            else:
+                return result
     
     async def add_produto(self, produto: Produto):
         values = (produto.nome.upper(), produto.preco, )  

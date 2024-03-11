@@ -9,7 +9,7 @@ router = APIRouter()
 @router.get("/produtos", dependencies = [Depends(authenticate)])
 async def produtos():
     async with Client() as client:
-        produtos = client.produtos(True)
+        produtos = await client.produtos(True)
         return produtos
 
 @router.put("/produtos", dependencies = [Depends(authenticate)])
