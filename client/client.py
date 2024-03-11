@@ -1,14 +1,17 @@
 from structures.consultor import Consultor
 from structures.ranking import Rankings
 from structures.freecel import Freecel
-from utils.functions import jsonfy, filter_by
+from utils.functions import jsonfy, filter_by, get_mes
 from typing import Optional
 from database.connection import DataBase
+import pandas as pd
     
 class Client(DataBase):
     async def __aenter__(self):
         await super().__aenter__()
         self.dataframe = await self.get_vendas(to_dataframe=True)
+        self.__format()
+
         return self
     
     async def __aexit__(self, exc_type, exc, tb):
@@ -44,3 +47,10 @@ class Client(DataBase):
             return jsonfy(consultores)
         
         return consultores
+
+    def __format(self):
+        self.dataframe['ano'] = self.dataframe['data'].dt.year
+        self.dataframe['mês'] = self.dataframe['data'].dt.month.apply(lambda mes: get_mes(mes))
+        self.dataframe[['valor_acumulado', 'valor_do_plano', 'quantidade_de_produtos']] = self.dataframe[
+                ['valor_acumulado', 'valor_do_plano', 'quantidade_de_produtos']
+            ].apply(pd.to_numeric, errors='coerce', downcast='integer')

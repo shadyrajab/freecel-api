@@ -39,3 +39,6 @@ def filter_by(dataframe, ano: Optional[int] = None, mes: Optional[str] = None, c
             dataframe = dataframe[dataframe[column] == value]
 
     return dataframe
+
+def get_mes(mes):
+    return MONTHS[mes - 1]
