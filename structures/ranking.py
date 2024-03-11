@@ -85,7 +85,7 @@ class Rankings:
         quantidade_de_vendas.columns = [column, 'clientes']
 
         ranking = dataframe.groupby(column, as_index = False).sum(numeric_only = True)
-        ranking.drop(['ano', 'valor_do_plano', 'id'], axis = 1, inplace = True)
+        ranking.drop(['ano', 'valor_do_plano', 'id', 'ja_cliente'], axis = 1, inplace = True)
 
         final_dataframe = pd.merge(ranking, quantidade_de_vendas, on = column)
         final_dataframe.rename(columns={'valor_acumulado': 'receita', 'quantidade_de_produtos': 'volume'}, inplace=True)
