@@ -29,3 +29,12 @@ class ProdutosHandlerDataBase:
         values = (id.id, )
         async with self.pool.acquire() as connection:
             await connection.execute(REMOVE_PRODUTO_QUERY, values)
+
+    async def update_produto(self, id: ID, **params):
+        if not params:
+            return
+        set_clause = ', '.join(f"{key} = ${i + 2}" for i, key in enumerate(params))
+        query = f"UPDATE produtos SET {set_clause} WHERE id = $1"
+        values = [id.id] + list(params.values())
+        async with self.pool.acquire() as connection:
+            await connection.execute(query, values)
