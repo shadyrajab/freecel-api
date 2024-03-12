@@ -12,7 +12,7 @@ async def consultores():
         consultores = await client.consultores(True)
         return consultores
 
-@router.put("/consultores", dependencies = [Depends(authenticate)])
+@router.post("/consultores", dependencies = [Depends(authenticate)])
 async def add_consultor(consultor: Vendedor):
     async with Client() as client:
         await client.add_consultor(consultor)
