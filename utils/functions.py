@@ -1,7 +1,6 @@
 from pandas import DataFrame
 from json import load
 from io import StringIO
-from typing import Optional
 from utils.variables import adabas_mapping, MONTHS
     
 def group_by(dataframe: DataFrame, column: str, sort: str) -> DataFrame:
@@ -18,24 +17,20 @@ def jsonfy(dataframe: DataFrame):
 def get_adabas(equipe, tipo):
     return adabas_mapping.get((equipe, tipo), None)
 
-def filter_by(dataframe, ano: Optional[int] = None, mes: Optional[str] = None, consultor: Optional[str] = None, tipo: Optional[str] = None):
-    mes = mes.capitalize() if mes else mes
-    ano = int(ano) if ano else ano
-    tipo = tipo.upper() if tipo else tipo
-    consultor = consultor.upper() if consultor else consultor
-
-    if mes and mes not in MONTHS:
-        raise ValueError('Formato de mês inválido. Por favor, escreva o nome do mês completo com acentos.')
-
+def filter_by(dataframe: DataFrame, **filters: str):
     filters = {
-        'ano': ano,
-        'mês': mes,
-        'consultor': consultor,
-        'tipo': tipo
+        'ano': filters.get('ano', 'NONE'),
+        'mês': filters.get('mes', 'NONE').capitalize(),
+        'consultor': filters.get('consultor', 'NONE').upper(),
+        'tipo': filters.get('tipo', 'NONE').upper(),
+        'adabas': filters.get('adabas', 'NONE').upper(),
+        'uf': filters.get('uf', 'NONE').upper()
     }
 
     for column, value in filters.items():
-        if value is not None:
+        if value != 'NONE':
+            if column == 'ano':
+                value = int(value)
             dataframe = dataframe[dataframe[column] == value]
 
     return dataframe
