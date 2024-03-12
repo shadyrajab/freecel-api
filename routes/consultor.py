@@ -1,5 +1,4 @@
 from fastapi import APIRouter, Depends, Query
-from fastapi.encoders import jsonable_encoder
 from client.client import Client
 from models.consultor import Vendedor
 from authenticator.jwt import authenticate
@@ -29,5 +28,5 @@ async def remove_consultor(id: ID):
 async def consultor(nome_consultor: str, ano: int = Query(None, description = "Ano"), mes: str = Query(None, description = "Mês"), display_vendas: bool = Query(None, description = "Mostrar vendas")):
     nome_consultor = nome_consultor.replace('_', ' ').upper()
     async with Client() as client:
-        consultor = client.Consultor(nome_consultor, ano, mes, True, display_vendas)
+        consultor = await client.Consultor(nome_consultor, ano, mes, True, display_vendas)
         return consultor.to_json()

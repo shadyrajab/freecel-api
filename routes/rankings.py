@@ -7,5 +7,5 @@ router = APIRouter()
 @router.get("/rankings", dependencies = [Depends(authenticate)])
 async def rankings(ano: int = Query(None, description = "Ano"), mes: str = Query(None, description = "Mês")):
     async with Client() as client:
-        rankings = client.Ranking(ano, mes, True)
-        return rankings.to_json()
+        rankings = await client.Ranking(ano, mes, True)
+        return await rankings.to_json()
