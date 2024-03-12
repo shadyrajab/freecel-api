@@ -1,24 +1,15 @@
-import asyncpg
-from utils.variables import HOST, DATABASE, USER, PASSWORD, DDDS_valor_inteiro
-from utils.functions import get_adabas
-from database.queries import ADD_VENDA_QUERY, GET_VENDAS_QUERY
+from asyncpg.pool import Pool
 from typing import Optional
-import pandas as pd
+from models.identify import ID
+from utils.queries import GET_VENDAS_QUERY, GET_PRECO_QUERY, REMOVE_VENDA_QUERY, ADD_VENDA_QUERY
+from utils.functions import get_adabas
+from utils.variables import DDDS_valor_inteiro
+from pandas import DataFrame
 from empresas.empresas_aqui import Empresa
 
-class VendasDB:
-    async def __aenter__(self):
-        self.pool = await asyncpg.create_pool(
-            host = HOST,
-            database = DATABASE,
-            user = USER,
-            password = PASSWORD
-        )
-        
-        return self
-
-    async def __aexit__(self, exc_type, exc, tb):
-        await self.pool.close()
+class VendasHandlerDataBase:
+    def __init__(self, pool: Optional[Pool] = None) -> None:
+        self.pool = pool
 
     async def get_vendas(self, to_dataframe: Optional[bool] = False):
         async with self.pool.acquire() as connection:
@@ -27,11 +18,19 @@ class VendasDB:
             
             if to_dataframe:
                 columns = [desc[0] for desc in statement.get_attributes()]
-                vendas = pd.DataFrame(result, columns=columns)
+                vendas = DataFrame(result, columns=columns)
                 return vendas
             else:
                 return result
-            
+
+    
+    async def get_preco(self, produto: str):
+        async with self.pool.acquire() as connection:
+            statement = await connection.prepare(GET_PRECO_QUERY, (produto, ))
+            preco = await statement.fetchall()
+
+        return preco[0][0]
+    
     async def add_venda(self, venda):
         empresa = Empresa(venda.cnpj)
         adabas = get_adabas(venda.equipe, venda.tipo)
@@ -52,3 +51,8 @@ class VendasDB:
 
         async with self.pool.acquire() as connection:
             await connection.execute(ADD_VENDA_QUERY, values)
+
+    async def remove_venda(self, id: ID):
+        values = (id.id, )
+        async with self.pool.acquire() as connection:
+            await connection.execute(REMOVE_VENDA_QUERY, values)
