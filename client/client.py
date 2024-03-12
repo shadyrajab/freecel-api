@@ -27,9 +27,9 @@ class Client(DataBase):
         return Freecel(dataframe, ano, mes, jsonfy, True)
     
     # Essas 3 funções abaixo estão muito mal escritas
-    async def vendas(self, ano: Optional[int] = None, mes: Optional[str] = None, as_json: Optional[bool] = None):
+    async def vendas(self, as_json: Optional[bool] = None, **filters: str):
         dataframe = self.__format(await self.get_vendas(to_dataframe=True))
-        dataframe = filter_by(dataframe, ano, mes)
+        dataframe = filter_by(dataframe, **filters)
         if as_json:
             return jsonfy(dataframe)
         
@@ -51,7 +51,7 @@ class Client(DataBase):
 
     def __format(self, dataframe: pd.DataFrame):
         dataframe['ano'] = dataframe['data'].dt.year
-        dataframe['mês'] = dataframe['data'].dt.month.apply(lambda mes: get_mes(mes))
+        dataframe['mes'] = dataframe['data'].dt.month.apply(lambda mes: get_mes(mes))
         dataframe[['valor_acumulado', 'valor_do_plano', 'quantidade_de_produtos']] = dataframe[
                 ['valor_acumulado', 'valor_do_plano', 'quantidade_de_produtos']
             ].apply(pd.to_numeric, errors='coerce', downcast='integer')
