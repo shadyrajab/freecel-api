@@ -1,6 +1,7 @@
 from structures.stats import Stats
 import pandas as pd
 from typing import Optional, List, Self
+from utils.functions import filter_by
 
 class Freecel(Stats):
     def __init__(self, dataframe: pd.DataFrame, ano: Optional[int] = None, mes: Optional[str] = None, jsonfy: Optional[bool] = None, prev_freecel: Optional[bool] = None) -> None:
@@ -8,7 +9,7 @@ class Freecel(Stats):
         self.jsonfy = jsonfy
         self.ano = ano
         self.mes = mes.capitalize() if mes else mes
-        self.dataframe = self.filter_by(dataframe, ano, mes)
+        self.dataframe = filter_by(dataframe, ano=ano, mes=mes)
 
         super().__init__(self.full_dataframe, ano, mes, True)
 
@@ -61,7 +62,7 @@ class Freecel(Stats):
         return data
     
     def __media_por_consultor(self, tipo: Optional[str] = None) -> float:
-        dataframe = self.filter_by(dataframe=self.dataframe, tipo=tipo)
+        dataframe = filter_by(dataframe=self.dataframe, tipo=tipo)
         consultores = dataframe['consultor'].nunique()
         if consultores == 0:
             return 0

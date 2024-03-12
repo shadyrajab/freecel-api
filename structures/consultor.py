@@ -2,12 +2,12 @@ import pandas as pd
 from typing import Optional
 from structures.stats import Stats
 from structures.ranking import Rankings
-from utils.functions import jsonfy
+from utils.functions import jsonfy, filter_by
 
 class Consultor(Stats):
     def __init__(self, dataframe: pd.DataFrame, ano: Optional[int] = None, mes: Optional[str] = None, jsonfy: Optional[bool] = None, display_vendas: Optional[bool] = None):
         self.full_dataframe = dataframe
-        self.dataframe = self.filter_by(dataframe, ano, mes)
+        self.dataframe = filter_by(dataframe, ano=ano, mes=mes)
         self.jsonfy = jsonfy
         self.display_vendas = display_vendas
         self.ano = ano

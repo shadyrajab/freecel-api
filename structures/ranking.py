@@ -5,18 +5,10 @@ from utils.functions import jsonfy, filter_by
 
 class Rankings:
     def __init__(self, dataframe: pd.DataFrame, ano: Optional[int] = None, mes: Optional[str] = None, jsonfy: Optional[bool] = None):
-        self.dataframe = self.filter_by(dataframe, ano, mes)
+        self.dataframe = filter_by(dataframe, ano=ano, mes=mes)
         self.jsonfy = jsonfy
         self.ano = ano
         self.mes = mes.capitalize() if mes else mes
-
-    def filter_by(self, dataframe: pd.DataFrame, ano: Optional[int] = None, mes: Optional[str] = None, tipo: Optional[str] = None) -> pd.DataFrame:
-        return filter_by(
-            dataframe = dataframe, 
-            ano = ano, 
-            mes = mes, 
-            tipo = tipo
-        )
 
     @property
     def planos(self):
@@ -79,7 +71,7 @@ class Rankings:
             raise ValueError(f"O tipo de venda deve ser {str(TIPO_VENDA)}")
         
         if tipo_venda:
-            dataframe = self.filter_by(self.dataframe, tipo=tipo_venda)
+            dataframe = filter_by(self.dataframe, tipo=tipo_venda)
             
         quantidade_de_vendas = dataframe[column].value_counts().reset_index()
         quantidade_de_vendas.columns = [column, 'clientes']

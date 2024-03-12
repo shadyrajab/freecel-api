@@ -6,25 +6,17 @@ from utils.functions import filter_by
 class Stats:
     def __init__(self, dataframe: pd.DataFrame, ano: Optional[int] = None, mes: Optional[str] = None, prev_stats: Optional[bool] = None):
         self.full_dataframe = dataframe
-        self.dataframe = self.filter_by(dataframe, ano, mes)
+        self.dataframe = filter_by(dataframe, ano=ano, mes=mes)
         self.ano = ano
-        self.mes = mes.capitalize() if mes else mes
+        self.mes = mes.upper() if mes else mes
         if prev_stats == True:
             self.prev_stats = self.__get_prev_stats()
-
-    def filter_by(self, dataframe: pd.DataFrame, ano: Optional[int] = None, mes: Optional[str] = None, tipo: Optional[str] = None) -> pd.DataFrame:
-        return filter_by(
-            dataframe = dataframe, 
-            ano = ano, 
-            mes = mes, 
-            tipo = tipo
-        )
 
     def years(self) -> list[int]:
         return list(self.full_dataframe['ano'].unique())
     
     def months(self, ano) -> list[str]:
-        return sorted(list(self.filter_by(self.full_dataframe, ano)['mês'].unique()), key=MONTHS.index)
+        return sorted(list(filter_by(self.full_dataframe, ano=ano)['mes'].unique()), key=MONTHS.index)
     
     @property
     def periodo_trabalhado(self) -> int:
@@ -102,13 +94,13 @@ class Stats:
     def get_prev_data(self, years) -> tuple[int, str | None]:
         if not self.ano and not self.mes: return None, None
         if self.ano == min(years) and not self.mes: return None, None
-        if self.ano == min(years) and self.mes.lower() == 'janeiro': return None, None
+        if self.ano == min(years) and self.mes.upper() == 'JANEIRO': return None, None
 
         if self.ano and not self.mes:
             prev_year = self.ano - 1
             return prev_year, None
         
-        prev_year = self.ano - 1 if self.mes == 'Janeiro' else self.ano
+        prev_year = self.ano - 1 if self.mes == 'JANEIRO' else self.ano
         prev_month = MONTHS[MONTHS.index(self.mes) - 1]
         return prev_year, prev_month
     
