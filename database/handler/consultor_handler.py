@@ -1,14 +1,21 @@
 from typing import Optional
+
 from asyncpg.pool import Pool
-from utils.queries import ADD_CONSULTOR_QUERY, REMOVE_CONSULTOR_QUERY, GET_CONSULTORES_QUERY
 from pandas import DataFrame
+
 from models.consultor import Vendedor
 from models.identify import ID
+from utils.queries import (
+    ADD_CONSULTOR_QUERY,
+    GET_CONSULTORES_QUERY,
+    REMOVE_CONSULTOR_QUERY,
+)
+
 
 class ConsultorHandlerDataBase:
     def __aenter__(self, pool: Optional[Pool] = None):
         self.pool = pool
-    
+
     async def get_consultores(self, to_dataframe: Optional[bool] = None):
         async with self.pool.acquire() as connection:
             statement = await connection.prepare(GET_CONSULTORES_QUERY)
@@ -19,13 +26,13 @@ class ConsultorHandlerDataBase:
                 return vendas
             else:
                 return result
-            
+
     async def add_consultor(self, consultor: Vendedor):
-        values = (consultor.name.upper(), )
+        values = (consultor.name.upper(),)
         async with self.pool.acquire() as connection:
             await connection.execute(ADD_CONSULTOR_QUERY, values)
-    
+
     async def remove_consultor(self, id: ID):
-        values = (id.id, )
+        values = (id.id,)
         async with self.pool.acquire() as connection:
             await connection.execute(REMOVE_CONSULTOR_QUERY, values)

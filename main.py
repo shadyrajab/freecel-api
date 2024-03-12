@@ -1,18 +1,20 @@
+import os
+
+import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.gzip import GZipMiddleware
+
 from routes import consultor, produtos, rankings, stats, vendas
-import uvicorn
-import os
 
 app = FastAPI()
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 routes = [
-    consultor.router, 
-    produtos.router, 
-    rankings.router, 
-    stats.router, 
-    vendas.router
+    consultor.router,
+    produtos.router,
+    rankings.router,
+    stats.router,
+    vendas.router,
 ]
 
 for route in routes:

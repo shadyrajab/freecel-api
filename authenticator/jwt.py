@@ -1,8 +1,10 @@
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi import Depends, HTTPException
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+
 from client.client import Client
-from fastapi import HTTPException, Depends
 
 security = HTTPBearer()
+
 
 async def authenticate(credentials: HTTPAuthorizationCredentials = Depends(security)):
     if credentials:
