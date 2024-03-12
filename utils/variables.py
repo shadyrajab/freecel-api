@@ -56,23 +56,23 @@ adabas_mapping = {
 
 
 MONTHS = [
-    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 
-    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+    'JANEIRO', 'FEVEREIRO', 'MARÇO', 'ABRIL', 'MAIO', 'JUNHO', 
+    'JULHO', 'AGOSTO', 'SETEMBRO', 'OUTUBRO', 'NOVEMBRO', 'DEZEMBRO'
 ]
 
 MONTHS_BY_NUMBERS = {
-    'Janeiro': 1,
-    'Fevereiro': 2,
-    'Março': 3,
-    'Abril': 4,
-    'Maio': 5,
-    'Junho': 6,
-    'Julho': 7,
-    'Agosto': 8,
-    'Setembro': 9,
-    'Outubro': 10,
-    'Novembro': 11,
-    'Dezembro': 12
+    'JANEIRO': 1,
+    'FEVEREIRO': 2,
+    'MARÇO': 3,
+    'ABRIL': 4,
+    'MAIO': 5,
+    'JUNHO': 6,
+    'JULHO': 7,
+    'AGOSTO': 8,
+    'SETEMBRO': 9,
+    'OUTUBRO': 10,
+    'NOVEMBRO': 11,
+    'DEZEMBRO': 12
 }
 
 DDDS = [

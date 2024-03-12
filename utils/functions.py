@@ -18,19 +18,9 @@ def get_adabas(equipe, tipo):
     return adabas_mapping.get((equipe, tipo), None)
 
 def filter_by(dataframe: DataFrame, **filters: str):
-    filters = {
-        'ano': filters.get('ano', 'NONE'),
-        'mês': filters.get('mes', 'NONE').capitalize(),
-        'consultor': filters.get('consultor', 'NONE').upper(),
-        'tipo': filters.get('tipo', 'NONE').upper(),
-        'adabas': filters.get('adabas', 'NONE').upper(),
-        'uf': filters.get('uf', 'NONE').upper()
-    }
-
     for column, value in filters.items():
-        if value != 'NONE':
-            if column == 'ano':
-                value = int(value)
+        if value is not None:
+            value = int(value) if column == 'ano' else value.upper()
             dataframe = dataframe[dataframe[column] == value]
 
     return dataframe
