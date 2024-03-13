@@ -12,4 +12,4 @@ async def rankings(
 ):
     async with Client() as client:
         rankings = await client.Ranking(ano, mes, True)
-        return await rankings.to_json()
+        return rankings.to_json()
