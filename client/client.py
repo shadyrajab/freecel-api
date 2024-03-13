@@ -74,10 +74,8 @@ class Client(DataBase):
     def __format(self, dataframe: pd.DataFrame):
         dataframe["ano"] = dataframe["data"].dt.year
         dataframe["mes"] = dataframe["data"].dt.month.apply(lambda mes: get_mes(mes))
-        dataframe[["valor_acumulado", "valor_do_plano", "quantidade_de_produtos"]] = (
-            dataframe[
-                ["valor_acumulado", "valor_do_plano", "quantidade_de_produtos"]
-            ].apply(pd.to_numeric, errors="coerce", downcast="integer")
-        )
+        dataframe[["receita", "preco", "volume"]] = dataframe[
+            ["receita", "preco", "volume"]
+        ].apply(pd.to_numeric, errors="coerce", downcast="integer")
 
         return dataframe
