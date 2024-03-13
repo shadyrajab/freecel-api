@@ -79,7 +79,7 @@ class Freecel(Stats):
         if consultores == 0:
             return 0
 
-        media_por_consultor = dataframe["valor_acumulado"].sum() / consultores
+        media_por_consultor = dataframe["receita"].sum() / consultores
         return media_por_consultor
 
     def __get_prev_freecel(self) -> Self:

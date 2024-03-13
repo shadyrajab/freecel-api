@@ -46,11 +46,11 @@ class Stats:
 
     @property
     def receita(self) -> float:
-        return float(self.dataframe["valor_acumulado"].sum())
+        return float(self.dataframe["receita"].sum())
 
     @property
     def volume(self) -> float:
-        return float(self.dataframe["quantidade_de_produtos"].sum())
+        return float(self.dataframe["volume"].sum())
 
     @property
     def ticket_medio(self) -> float:
