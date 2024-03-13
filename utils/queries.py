@@ -9,7 +9,7 @@ ADD_VENDA_QUERY = """
     )
 """
 
-REMOVE_VENDA_QUERY = "DELETE FROM vendas_concluidas WHERE id = (%s)"
+REMOVE_VENDA_QUERY = "DELETE FROM vendas_concluidas WHERE id = ($1)"
 GET_VENDAS_QUERY = "SELECT * FROM vendas_concluidas"
 REMOVE_PRODUTO_QUERY = "DELETE FROM produtos WHERE id = (%s)"
 ADD_PRODUTO_QUERY = "INSERT INTO produtos (nome, preco) VALUES (%s, %s)"
