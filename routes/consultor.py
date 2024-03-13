@@ -4,6 +4,7 @@ from authenticator.jwt import authenticate
 from client.client import Client
 from models.consultor import Vendedor
 from models.identify import ID
+from params.request_body import UpdateConsultorParams
 
 router = APIRouter()
 
@@ -27,6 +28,13 @@ async def remove_consultor(id: ID):
     async with Client() as client:
         await client.remove_consultor(id)
         return {"message": "Consultor removido com sucesso"}
+
+
+@router.put("/consultores", dependencies=[Depends(authenticate)])
+async def update_consultor(params: UpdateConsultorParams):
+    async with Client() as client:
+        await client.update_consultor(**params.model_dump())
+        return {"message": "Consultor atualizado com sucesso"}
 
 
 @router.get("/consultores/{nome_consultor}", dependencies=[Depends(authenticate)])

@@ -84,3 +84,18 @@ class VendasHandlerDataBase:
         values = (id.id,)
         async with self.pool.acquire() as connection:
             await connection.execute(REMOVE_VENDA_QUERY, values)
+
+    async def update_venda(self, **params):
+        id = params.get("id", None)
+        if id is None:
+            return
+        del params["id"]
+        set_clause = ", ".join(
+            f"{key} = ${i + 1}"
+            for i, (key, value) in enumerate(params.items())
+            if value is not None
+        )
+        values = [value for value in params.values() if value is not None] + [id]
+        query = f"UPDATE vendas_concluidas SET {set_clause} WHERE id = ${len(values)}"
+        async with self.pool.acquire() as connection:
+            await connection.execute(query, *values)
