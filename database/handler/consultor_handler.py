@@ -28,9 +28,13 @@ class ConsultorHandlerDataBase:
                 return result
 
     async def add_consultor(self, consultor: Vendedor):
-        values = (consultor.name.upper(),)
+        values = (
+            consultor.name.upper(),
+            consultor.vinculo,
+            consultor.cargo,
+        )
         async with self.pool.acquire() as connection:
-            await connection.execute(ADD_CONSULTOR_QUERY, values)
+            await connection.execute(ADD_CONSULTOR_QUERY, *values)
 
     async def remove_consultor(self, id: ID):
         values = (id.id,)
