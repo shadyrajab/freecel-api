@@ -10,6 +10,7 @@ USER = getenv("user")
 PASSWORD = getenv("password")
 TOKENEMPRESAS = getenv("tokenEmpresas")
 
+CARGOS = {"SUPERVISOR", "ESTAGIÁRIO", "EFETIVO"}
 TIPO_VENDA = {"FIXA", "AVANÇADA", "MIGRAÇÃO PRÉ-PÓS", "VVN", "ALTAS", "PORTABILIDADE"}
 EQUIPE = {"FREECEL", "VALPARAISO", "PARCEIRO", "GOIÂNIA", "SAMAMBAIA"}
 UF = {
