@@ -7,7 +7,7 @@ from pycpfcnpj import cpfcnpj
 from pydantic import BaseModel, EmailStr, validator
 
 from client.client import Client
-from utils.variables import DDDS, EQUIPE, TIPO_VENDA
+from utils.variables import DDDS, EQUIPE, TIPO_VENDA, STATUS_VENDA
 
 
 class Venda(BaseModel):
@@ -23,18 +23,36 @@ class Venda(BaseModel):
     tipo: str
     ja_cliente: bool
     email: EmailStr
+    ddd: str
+    status: str
+    numero_pedido: str
 
-    @validator("consultor")
-    def validate_consultor(cls, value):
-        consultores = Client().get_consultores()
-        consultores = [consultor[0] for consultor in consultores]
+    @validator("ddd")
+    def validate_ddd(cls, value):
+        if value not in DDDS:
+            raise ValueError(f"O DDD {value} não existe")
+        
+        return value
 
-        if value.upper() not in consultores:
-            raise ValueError(
-                f"Não existe nenhum consultor na base de dados chamado {value}."
-            )
+    @validator("status")
+    def validate_status(cls, value):
+        if value.upper() not in STATUS_VENDA:
+            raise ValueError(f"Não existe nenhum status chamado {value}")
 
         return value.upper()
+
+    # @validator("consultor")
+    # async def validate_consultor(cls, value):
+    #     async with Client() as client:
+    #         consultores = await client.get_consultores()
+    #         consultores = [consultor[0] for consultor in consultores]
+
+    #         if value.upper() not in consultores:
+    #             raise ValueError(
+    #                 f"Não existe nenhum consultor na base de dados chamado {value}."
+    #             )
+
+    #     return value.upper()
 
     @validator("gestor")
     def validate_gestor(cls, value):
@@ -98,16 +116,18 @@ class Venda(BaseModel):
 
         return cnpj
 
-    @validator("plano")
-    def validate_plano(cls, value, values):
-        if int(values.get("preco")) != 0:
-            return value
-        planos = Client().get_produtos()
-        planos = [plano[0] for plano in planos]
+    # @validator("plano")
+    # async def validate_plano(cls, value, values):
+    #     if int(values.get("preco")) != 0:
+    #         return value
+        
+    #     async with Client() as client:
+    #         planos = await client.get_produtos()
+    #         planos = [plano[0] for plano in planos]
 
-        if value.upper() not in planos:
-            raise ValueError(
-                f"Não existe nenhum plano na base de dados chamado {value}."
-            )
+    #         if value.upper() not in planos:
+    #             raise ValueError(
+    #                 f"Não existe nenhum plano na base de dados chamado {value}."
+    #             )
 
-        return value
+    #     return value.upper()
