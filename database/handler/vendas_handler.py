@@ -90,12 +90,17 @@ class VendasHandlerDataBase:
         if id is None:
             return
         del params["id"]
+        for i, (key, value) in enumerate(params.copy().items()):
+            if value is None:
+                del params[key]
         set_clause = ", ".join(
             f"{key} = ${i + 1}"
             for i, (key, value) in enumerate(params.items())
             if value is not None
         )
+
         values = [value for value in params.values() if value is not None] + [id]
         query = f"UPDATE vendas_concluidas SET {set_clause} WHERE id = ${len(values)}"
+        print(query)
         async with self.pool.acquire() as connection:
             await connection.execute(query, *values)
