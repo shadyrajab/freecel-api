@@ -35,7 +35,7 @@ async def add_venda(venda: Venda):
 async def update_venda(params: UpdateVendaParams):
     async with Client() as client:
         await client.update_venda(**params.model_dump())
-
+        return {"message": "Venda atualizada com sucesso"}
 
 @router.delete("/vendas", dependencies=[Depends(authenticate)])
 async def remove_venda(id: ID):
