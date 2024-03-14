@@ -33,19 +33,16 @@ class VendasHandlerDataBase:
 
     async def get_preco(self, produto: str):
         async with self.pool.acquire() as connection:
-            statement = await connection.prepare(GET_PRECO_QUERY, (produto,))
-            preco = await statement.fetchall()
+            preco = await connection.fetch(GET_PRECO_QUERY, produto)
 
-        return preco[0][0]
+        return preco[0]["preco"] if preco else None
 
     async def add_venda(self, venda):
         empresa = Empresa(venda.cnpj)
         adabas = get_adabas(venda.equipe, venda.tipo)
-        DDD = venda.telefone[0:2]
-        preco = self.get_preco(venda.plano) if venda.preco == 0 else venda.preco
-
+        preco = await self.get_preco(venda.plano) if venda.preco == 0 else venda.preco
         receita = preco * venda.volume
-        if DDD not in DDDS_valor_inteiro:
+        if venda.ddd not in DDDS_valor_inteiro:
             receita *= 0.3
 
         values = (
@@ -58,6 +55,7 @@ class VendasHandlerDataBase:
             venda.volume,
             venda.equipe,
             venda.tipo,
+            venda.ddd,
             empresa.uf,
             receita,
             preco,
@@ -75,10 +73,12 @@ class VendasHandlerDataBase:
             empresa.bairro,
             adabas,
             venda.ja_cliente,
+            venda.numero_pedido,
+            venda.status,
         )
 
         async with self.pool.acquire() as connection:
-            await connection.execute(ADD_VENDA_QUERY, values)
+            await connection.execute(ADD_VENDA_QUERY, *values)
 
     async def remove_venda(self, id: ID):
         values = (id.id,)
