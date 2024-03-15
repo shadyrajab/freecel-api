@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional, Union
 
 import pandas as pd
@@ -54,6 +55,9 @@ class Client(DataBase):
     ) -> Union[list, pd.DataFrame]:
         dataframe = self.__format(await self.get_vendas(to_dataframe=True))
         dataframe = filter_by(dataframe, **filters)
+        dataframe["m"] = (
+            datetime.now() - pd.to_datetime(dataframe["data"], unit="ms")
+        ) // pd.Timedelta(days=30)
         if as_json:
             return jsonfy(dataframe)
 
