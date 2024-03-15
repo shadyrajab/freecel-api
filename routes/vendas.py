@@ -24,7 +24,8 @@ async def vendas(
             mes=mes,
             cnpj=cnpj,
             uf=uf,
-            adabas=adabas
+            adabas=adabas,
+            tipo='~MIGRAÇÃO'
         )
         return vendas
 

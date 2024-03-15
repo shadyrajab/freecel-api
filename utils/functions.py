@@ -37,7 +37,10 @@ def filter_by(dataframe: DataFrame, **filters: str) -> DataFrame:
                 if type(value) == str
                 else int(value) if column == "ano" else value
             )
-            dataframe = dataframe[dataframe[column] == value]
+            if column == 'tipo' and value == '~MIGRAÇÃO':
+                dataframe = dataframe[dataframe[column] != 'MIGRAÇÃO']
+            else:
+                dataframe = dataframe[dataframe[column] == value]
 
     return dataframe
 
