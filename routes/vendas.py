@@ -19,7 +19,13 @@ async def vendas(
 ):
     async with Client() as client:
         vendas = await client.vendas(
-            as_json=True, ano=ano, mes=mes, cnpj=cnpj, uf=uf, adabas=adabas
+            as_json=True,
+            ano=ano,
+            mes=mes,
+            cnpj=cnpj,
+            uf=uf,
+            adabas=adabas,
+            ja_cliente=False,
         )
         return vendas
 
