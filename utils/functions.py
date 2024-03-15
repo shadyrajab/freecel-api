@@ -32,7 +32,11 @@ def filter_by(dataframe: DataFrame, **filters: str) -> DataFrame:
     """Função para filtrar o DataFrame de acordo com os filtros passados em **filters"""
     for column, value in filters.items():
         if value is not None:
-            value = int(value) if column == "ano" else value.upper()
+            value = (
+                value.upper()
+                if type(value) == str
+                else int(value) if column == "ano" else value
+            )
             dataframe = dataframe[dataframe[column] == value]
 
     return dataframe
