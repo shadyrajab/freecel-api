@@ -11,5 +11,5 @@ async def migracoes(
     ano: int = Query(None, description="Ano"), mes: str = Query(None, description="Mês")
 ):
     async with Client() as client:
-        migracoes = await client.vendas(as_json=True, ano=ano, mes=mes, ja_cliente=True)
+        migracoes = await client.vendas(as_json=True, ano=ano, mes=mes, tipo="MIGRAÇÃO")
         return migracoes

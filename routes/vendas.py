@@ -24,8 +24,7 @@ async def vendas(
             mes=mes,
             cnpj=cnpj,
             uf=uf,
-            adabas=adabas,
-            ja_cliente=False,
+            adabas=adabas
         )
         return vendas
 
