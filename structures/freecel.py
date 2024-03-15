@@ -4,6 +4,7 @@ import pandas as pd
 
 from structures.stats import Stats
 from utils.functions import filter_by
+from utils.variables import SUPERVISORES
 
 
 class Freecel(Stats):
@@ -76,6 +77,7 @@ class Freecel(Stats):
 
     def __media_por_consultor(self, tipo: Optional[str] = None) -> float:
         dataframe = filter_by(dataframe=self.dataframe, tipo=tipo)
+        dataframe = dataframe[~dataframe['consultor'].isin(SUPERVISORES)]
         consultores = dataframe["consultor"].nunique()
         if consultores == 0:
             return 0

@@ -3,7 +3,7 @@ from typing import Optional
 import pandas as pd
 
 from utils.functions import filter_by, jsonfy
-from utils.variables import TIPO_VENDA
+from utils.variables import SUPERVISORES, TIPO_VENDA
 
 
 class Rankings:
@@ -88,9 +88,10 @@ class Rankings:
         quantidade_de_vendas.columns = [column, "clientes"]
 
         ranking = dataframe.groupby(column, as_index=False).sum(numeric_only=True)
-        ranking.drop(
-            ["ano", "preco", "id", "ja_cliente"], axis=1, inplace=True
-        )
+        if column == "consultor":
+            ranking = ranking[~ranking["consultor"].isin(SUPERVISORES)]
+
+        ranking.drop(["ano", "preco", "id", "ja_cliente"], axis=1, inplace=True)
 
         final_dataframe = pd.merge(ranking, quantidade_de_vendas, on=column)
         if self.jsonfy:
