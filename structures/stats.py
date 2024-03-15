@@ -12,10 +12,11 @@ class Stats:
         dataframe: pd.DataFrame,
         ano: Optional[int] = None,
         mes: Optional[str] = None,
+        equipe: Optional[str] = None,
         prev_stats: Optional[bool] = None,
     ) -> None:
         self.full_dataframe = dataframe
-        self.dataframe = filter_by(dataframe, ano=ano, mes=mes)
+        self.dataframe = filter_by(dataframe, ano=ano, mes=mes, equipe=equipe)
         self.ano = ano
         self.mes = mes.upper() if mes else mes
         if prev_stats is True:

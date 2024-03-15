@@ -12,6 +12,7 @@ class Freecel(Stats):
         dataframe: pd.DataFrame,
         ano: Optional[int] = None,
         mes: Optional[str] = None,
+        equipe: Optional[str] = None,
         jsonfy: Optional[bool] = None,
         prev_freecel: Optional[bool] = None,
     ) -> None:
@@ -19,9 +20,9 @@ class Freecel(Stats):
         self.jsonfy = jsonfy
         self.ano = ano
         self.mes = mes.capitalize() if mes else mes
-        self.dataframe = filter_by(dataframe, ano=ano, mes=mes)
+        self.dataframe = filter_by(dataframe, ano=ano, mes=mes, equipe=equipe)
 
-        super().__init__(self.full_dataframe, ano, mes, True)
+        super().__init__(self.full_dataframe, ano, mes, equipe, True)
 
         if prev_freecel is True:
             self.prev_freecel = self.__get_prev_freecel()
