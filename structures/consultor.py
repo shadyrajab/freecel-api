@@ -22,7 +22,7 @@ class Consultor(Stats):
         self.display_vendas = display_vendas
         self.ano = ano
         self.mes = mes.capitalize() if mes else mes
-        super().__init__(self.full_dataframe, ano, mes, True)
+        super().__init__(self.full_dataframe, ano=ano, mes=mes, prev_stats=True)
 
     @property
     def nome(self) -> str:
