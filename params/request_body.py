@@ -25,7 +25,6 @@ class UpdateVendaParams(BaseModel):
 
 
 class UpdateMigracaoParams(UpdateVendaParams):
-    id: int = Field(description="ID do Produto")
     valor_atual: Optional[float] = Field(None, description="Valor Atual")
     valor_renovacao: Optional[float] = Field(None, description="Valor da Renovação")
     valor_inovacao: Optional[float] = Field(None, description="Valor da Inovação")
