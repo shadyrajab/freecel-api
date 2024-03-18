@@ -10,7 +10,8 @@ async def authenticate(credentials: HTTPAuthorizationCredentials = Depends(secur
     if credentials:
         token = credentials.credentials
         async with Client() as client:
-            if await client.jwt_authenticate(token):
-                return True
+            user = await client.jwt_authenticate(token)
+            if user:
+                return user
 
     raise HTTPException(status_code=401, detail="Autenticação necessária")
