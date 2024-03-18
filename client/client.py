@@ -58,6 +58,12 @@ class Client(DataBase):
         dataframe["m"] = (
             datetime.now() - pd.to_datetime(dataframe["data"], unit="ms")
         ) // pd.Timedelta(days=30)
+        if filters.get("tipo") == "~MIGRAÇÃO":
+            dataframe.drop(
+                axis=1,
+                columns=["valor_atual", "valor_renovacao", "valor_inovacao"],
+                inplace=True,
+            )
         if as_json:
             return jsonfy(dataframe)
 
