@@ -61,7 +61,13 @@ class Client(DataBase):
         if filters.get("tipo") == "~MIGRAÇÃO":
             dataframe.drop(
                 axis=1,
-                columns=["valor_atual", "valor_renovacao", "valor_inovacao"],
+                columns=[
+                    "valor_atual",
+                    "valor_renovacao",
+                    "valor_inovacao",
+                    "pacote_inovacao",
+                    "volume_inovacao",
+                ],
                 inplace=True,
             )
         if as_json:
