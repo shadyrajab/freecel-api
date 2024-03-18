@@ -9,6 +9,15 @@ class UpdateProdutoParams(BaseModel):
     preco: Optional[float] = Field(None, description="Preço do produto")
 
 
+class UpdateMigracaoParams(BaseModel):
+    id: int = Field(description="ID do Produto")
+    valor_atual: Optional[float] = Field(None, description="Valor Atual")
+    valor_renovacao: Optional[float] = Field(None, description="Valor da Renovação")
+    valor_inovacao: Optional[float] = Field(None, description="Valor da Inovação")
+    pacote_inovacao: Optional[str] = Field(None, description="Pacote Inovação")
+    volume_inovacao: Optional[int] = Field(None, description="Volume Inovação")
+
+
 class UpdateVendaParams(BaseModel):
     id: int = Field(description="ID do Produto")
     cnpj: Optional[str] = Field(None, description="CNPJ do Cliente")
