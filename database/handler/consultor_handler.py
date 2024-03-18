@@ -5,6 +5,7 @@ from pandas import DataFrame
 
 from models.consultor import Vendedor
 from models.identify import ID
+from utils.functions import get_clause
 from utils.queries import (
     ADD_CONSULTOR_QUERY,
     GET_CONSULTORES_QUERY,
@@ -39,19 +40,10 @@ class ConsultorHandlerDataBase:
     async def remove_consultor(self, id: ID):
         values = (id.id,)
         async with self.pool.acquire() as connection:
-            await connection.execute(REMOVE_CONSULTOR_QUERY, values)
+            await connection.execute(REMOVE_CONSULTOR_QUERY, *values)
 
     async def update_consultor(self, **params):
-        id = params.get("id", None)
-        if id is None:
-            return
-        del params["id"]
-        set_clause = ", ".join(
-            f"{key} = ${i + 1}"
-            for i, (key, value) in enumerate(params.items())
-            if value is not None
-        )
-        values = [value for value in params.values() if value is not None] + [id]
+        id, set_clause, values = get_clause(**params)
         query = f"UPDATE consultores SET {set_clause} WHERE id = ${len(values)}"
         async with self.pool.acquire() as connection:
             await connection.execute(query, *values)

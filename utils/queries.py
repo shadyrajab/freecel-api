@@ -43,5 +43,5 @@ ADD_CONSULTOR_QUERY = (
     "INSERT INTO consultores (nome, vinculo, cargo) VALUES ($1, $2, $3)"
 )
 GET_CONSULTORES_QUERY = "SELECT * FROM consultores"
-JWT_QUERY = "SELECT * FROM uuids WHERE uuid = $1"
+JWT_QUERY = "SELECT nome FROM uuids WHERE uuid = $1"
 GET_PRECO_QUERY = "SELECT preco FROM produtos WHERE nome = $1"
