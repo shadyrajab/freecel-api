@@ -4,7 +4,8 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(funcName)s - %(message)s",
+    format="%(levelname)s: %(asctime)s - %(message)s",
+    datefmt="%d/%m/%Y %H:%M",
 )
 
 
