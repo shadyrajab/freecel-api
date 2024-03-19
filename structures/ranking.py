@@ -91,7 +91,20 @@ class Rankings:
         if column == "consultor":
             ranking = ranking[~ranking["consultor"].isin(SUPERVISORES)]
 
-        ranking.drop(["ano", "preco", "id", "ja_cliente"], axis=1, inplace=True)
+        ranking.drop(
+            [
+                "ano",
+                "preco",
+                "id",
+                "ja_cliente",
+                "valor_atual",
+                "valor_inovacao",
+                "valor_renovacao",
+                "volume_inovacao",
+            ],
+            axis=1,
+            inplace=True,
+        )
 
         final_dataframe = pd.merge(ranking, quantidade_de_vendas, on=column)
         if self.jsonfy:
