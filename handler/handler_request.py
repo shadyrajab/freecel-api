@@ -32,6 +32,7 @@ async def handle_request(client_method, *user, **kwargs):
             return {
                 "status_code": 200,
                 "message": f"Solicitação {function_name} realizada com sucesso",
+                "id": result,
                 "params": kwargs,
             }
 

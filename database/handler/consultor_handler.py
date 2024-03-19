@@ -35,7 +35,8 @@ class ConsultorHandlerDataBase:
             consultor.cargo,
         )
         async with self.pool.acquire() as connection:
-            await connection.execute(ADD_CONSULTOR_QUERY, *values)
+            id = await connection.fetchval(ADD_CONSULTOR_QUERY, *values)
+            return id
 
     async def remove_consultor(self, id: ID):
         values = (id.id,)
