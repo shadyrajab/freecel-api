@@ -112,3 +112,4 @@
 2024-03-19 09:17:21,313 - INFO - handle_request - update_venda params {'id': 3066, 'valor_renovacao': 34.99, 'valor_inovacao': 12.99} by SHADY
 2024-03-19 09:21:54,597 - ERROR - exception_handler - Ocorreu um erro na solicitação: handle_request() missing 1 required positional argument: 'user'
 2024-03-19 09:22:18,191 - INFO - handle_request - produtos params {'as_json': True} by ()
+2024-03-19 09:48:22,444 - ERROR - exception_handler - Ocorreu um erro na solicitação: [TypeError("'coroutine' object is not iterable"), TypeError('vars() argument must have __dict__ attribute')]

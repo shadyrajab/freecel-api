@@ -43,10 +43,10 @@ async def update_venda(params: UpdateVendaParams, user: str = Depends(authentica
         key: value for key, value in params.model_dump().items() if value is not None
     }
     async with Client() as client:
-        return handle_request(client.update_venda, user, **params_filtered)
+        return await handle_request(client.update_venda, user, **params_filtered)
 
 
 @router.delete("/vendas")
 async def remove_venda(id: ID, user: str = Depends(authenticate)):
     async with Client() as client:
-        return handle_request(client.remove_venda, user, **{"id": id})
+        return await handle_request(client.remove_venda, user, **{"id": id})
