@@ -1,0 +1,114 @@
+2024-03-18 14:56:21,735 - INFO - update_consultor - Consultor {'id': 1, 'nome': None, 'vinculo': 'SAMAMBAIA', 'cargo': None} atualizado por SHADY.
+2024-03-18 14:57:23,562 - INFO - update_consultor - Consultor {'id': 1, 'nome': None, 'vinculo': 'SAMAMBAIA', 'cargo': None} atualizado por SHADY.
+2024-03-18 14:58:03,552 - ERROR - exception_handler - Ocorreu um erro na solicitaï¿½ï¿½o: 'UpdateConsultorParams' object has no attribute 'values'
+2024-03-18 15:01:50,650 - ERROR - exception_handler - Ocorreu um erro na solicitaï¿½ï¿½o: 'UpdateConsultorParams' object has no attribute 'values'
+2024-03-18 15:02:49,142 - ERROR - exception_handler - Ocorreu um erro na solicitaï¿½ï¿½o: ConsultorHandlerDataBase.update_consultor() takes 1 positional argument but 2 were given
+2024-03-18 15:04:13,588 - INFO - update_consultor - Consultor [dict_values([1, None, 'SAMAMBAIA', None])] atualizado por SHADY.
+2024-03-18 15:04:44,223 - INFO - update_consultor - Consultor id=1 nome=None vinculo='SAMAMBAIA' cargo=None atualizado por SHADY.
+2024-03-18 15:06:23,872 - INFO - update_consultor - Consultor id=1 nome=None vinculo='SAMAMBAIA' cargo=None atualizado por SHADY.
+2024-03-18 15:06:36,139 - INFO - update_consultor - Consultor {'id': 1, 'vinculo': 'SAMAMBAIA'} atualizado por SHADY.
+2024-03-18 15:08:23,120 - INFO - update_consultor - Consultor {'id': 1, 'vinculo': 'SAMAMBAIA'} atualizado por SHADY.
+2024-03-18 15:10:18,647 - INFO - update_consultor - Consultor {'id': 1, 'vinculo': 'SAMAMBAIA'} atualizado por SHADY.
+2024-03-18 15:16:43,765 - ERROR - exception_handler - Ocorreu um erro na solicitaï¿½ï¿½o: invalid input for query argument $1: (2,) ('tuple' object cannot be interpreted as an integer)
+2024-03-18 15:17:27,354 - INFO - remove_consultor - Consultor 2 removido por SHADY
+2024-03-18 15:18:02,309 - INFO - add_consultor - Consultor {'name': 'PEDRO HENRIQUE', 'vinculo': 'FREECEL', 'cargo': 'EFETIVO'} adicionado com sucesso por SHADY
+2024-03-18 15:19:32,064 - INFO - remove_consultor - Consultor 3 removido por SHADY
+2024-03-18 16:11:27,735 - INFO - consultor - get consultor {'nome': 'PEDRO HENRIQUE', 'ano': 2023, 'mes': 'janeiro', 'vendas': None}
+2024-03-18 16:35:46,212 - ERROR - handle_request - Consultor error: Object of type Consultor is not JSON serializable
+2024-03-18 16:36:31,698 - ERROR - handle_request - Consultor error: Object of type Consultor is not JSON serializable
+2024-03-18 16:37:04,832 - ERROR - handle_request - Consultor error: Object of type Consultor is not JSON serializable
+2024-03-18 16:38:54,261 - ERROR - handle_request - Consultor error: Object of type Consultor is not JSON serializable
+2024-03-18 16:39:16,026 - ERROR - handle_request - Consultor error: Object of type Consultor is not JSON serializable
+2024-03-18 16:39:42,135 - ERROR - handle_request - Consultor error: Object of type Consultor is not JSON serializable
+2024-03-18 16:43:30,855 - INFO - handle_request - Consultor
+2024-03-18 16:44:09,470 - INFO - handle_request - consultores
+2024-03-18 16:44:09,470 - ERROR - handle_request - consultores error: 'list' object has no attribute 'to_json'
+2024-03-18 16:45:23,401 - INFO - handle_request - consultores
+2024-03-18 16:45:51,540 - INFO - handle_request - update_consultor
+2024-03-18 16:45:51,540 - ERROR - handle_request - update_consultor error: 'NoneType' object has no attribute 'to_json'
+2024-03-18 16:48:28,448 - INFO - handle_request - update_consultor
+2024-03-18 16:48:28,448 - ERROR - handle_request - update_consultor error: 'NoneType' object has no attribute 'to_json'
+2024-03-18 16:50:11,540 - INFO - handle_request - update_consultor
+2024-03-18 16:50:11,540 - ERROR - handle_request - update_consultor error: 'NoneType' object has no attribute 'to_json'
+2024-03-18 16:50:36,405 - INFO - handle_request - update_consultor
+2024-03-18 16:50:36,405 - ERROR - handle_request - update_consultor error: 'NoneType' object has no attribute 'to_json'
+2024-03-18 16:50:58,168 - INFO - handle_request - update_consultor
+2024-03-18 16:50:58,168 - ERROR - handle_request - update_consultor error: 'NoneType' object has no attribute 'to_json'
+2024-03-18 16:51:26,438 - INFO - handle_request - update_consultor
+2024-03-18 16:51:26,438 - ERROR - handle_request - update_consultor params {'id': 1, 'vinculo': 'FREECEL'} error: 'NoneType' object has no attribute 'to_json'
+2024-03-18 16:52:54,763 - INFO - handle_request - consultores
+2024-03-18 16:53:36,489 - INFO - handle_request - consultores params {} by (True,)
+2024-03-18 16:54:13,953 - INFO - handle_request - consultores params {'as_json': True} by ()
+2024-03-18 16:55:51,648 - ERROR - handle_request - Consultor params {'nome': 'PEDRO HENRIQUE', 'ano': 2023, 'mes': 'janeiro', 'as_json': True, 'display_vendas': None} error: Client.Consultor() got an unexpected keyword argument 'as_json'
+2024-03-18 16:56:22,584 - INFO - handle_request - Consultor params {'nome': 'PEDRO HENRIQUE', 'ano': 2023, 'mes': 'janeiro', 'jsonfy': True, 'display_vendas': None} by ()
+2024-03-18 16:59:08,030 - INFO - handle_request - Consultor params {'nome': 'PEDRO HENRIQUE', 'ano': 2023, 'mes': 'janeiro', 'jsonfy': True, 'display_vendas': False} by ()
+2024-03-18 16:59:16,005 - INFO - handle_request - consultores params {'as_json': True} by ()
+2024-03-18 16:59:40,588 - ERROR - handle_request - add_consultor params {'consultor': Vendedor(name='SHADY RAJAB', vinculo='FREECEL', cargo='SUPERVISOR')} error: ConsultorHandlerDataBase.add_consultor() got multiple values for argument 'consultor'
+2024-03-18 17:00:46,992 - ERROR - exception_handler - Ocorreu um erro na solicitaï¿½ï¿½o: routes.consultor.handle_request() argument after ** must be a mapping, not Vendedor
+2024-03-18 17:01:11,631 - ERROR - handle_request - add_consultor params {} error: ConsultorHandlerDataBase.add_consultor() takes 2 positional arguments but 3 were given
+2024-03-18 17:01:38,923 - INFO - handle_request - add_consultor params {} by (Vendedor(name='SHADY RAJAB', vinculo='FREECEL', cargo='SUPERVISOR'),)
+2024-03-18 17:01:38,925 - ERROR - handle_request - add_consultor params {} error: 'NoneType' object has no attribute 'to_json'
+2024-03-18 17:05:00,555 - INFO - handle_request - consultores params {'as_json': True} by ()
+2024-03-18 17:07:02,719 - INFO - handle_request - consultores params {'as_json': True} by ()
+2024-03-18 17:07:24,984 - INFO - handle_request - add_consultor params {} by (Vendedor(name='PEDRO HENRIQUE', vinculo='FREECEL', cargo='EFETIVO'),)
+2024-03-18 17:07:42,766 - INFO - handle_request - consultores params {'as_json': True} by ()
+2024-03-18 17:08:05,046 - INFO - handle_request - Consultor params {'nome': 'PEDRO HENRIQUE', 'ano': 2023, 'mes': 'janeiro', 'jsonfy': True, 'display_vendas': False} by ()
+2024-03-18 17:08:05,346 - ERROR - exception_handler - Ocorreu um erro na solicitaï¿½ï¿½o: [TypeError("'numpy.int8' object is not iterable"), TypeError('vars() argument must have __dict__ attribute')]
+2024-03-18 17:09:42,937 - INFO - handle_request - Consultor params {'nome': 'PEDRO HENRIQUE', 'ano': 2023, 'mes': 'janeiro', 'jsonfy': True, 'display_vendas': False} by ()
+2024-03-18 17:09:43,120 - ERROR - exception_handler - Ocorreu um erro na solicitaï¿½ï¿½o: [TypeError("'numpy.int8' object is not iterable"), TypeError('vars() argument must have __dict__ attribute')]
+2024-03-18 17:10:08,263 - INFO - handle_request - Consultor params {'nome': 'PEDRO HENRIQUE', 'ano': 2023, 'mes': 'janeiro', 'jsonfy': True, 'display_vendas': False} by ()
+2024-03-18 17:11:26,873 - INFO - handle_request - Consultor params {'nome': 'PEDRO HENRIQUE', 'ano': 2023, 'mes': 'janeiro', 'jsonfy': True, 'display_vendas': False} by ()
+2024-03-18 17:11:27,055 - ERROR - exception_handler - Ocorreu um erro na solicitaï¿½ï¿½o: [TypeError("'numpy.int8' object is not iterable"), TypeError('vars() argument must have __dict__ attribute')]
+2024-03-18 17:12:27,449 - INFO - handle_request - Consultor params {'nome': 'PEDRO HENRIQUE', 'ano': 2023, 'mes': 'janeiro', 'jsonfy': True, 'display_vendas': False} by ()
+2024-03-18 17:12:27,649 - ERROR - exception_handler - Ocorreu um erro na solicitaï¿½ï¿½o: [TypeError("'numpy.int8' object is not iterable"), TypeError('vars() argument must have __dict__ attribute')]
+2024-03-18 17:13:11,392 - INFO - handle_request - Consultor params {'nome': 'PEDRO HENRIQUE', 'ano': 2023, 'mes': 'janeiro', 'jsonfy': True, 'display_vendas': False} by ()
+2024-03-18 17:13:30,757 - INFO - handle_request - Consultor params {'nome': 'PEDRO HENRIQUE', 'ano': 2023, 'mes': 'janeiro', 'jsonfy': True, 'display_vendas': False} by ()
+2024-03-18 17:13:37,400 - INFO - handle_request - consultores params {'as_json': True} by ()
+2024-03-18 17:13:56,967 - ERROR - handle_request - update_consultor params {'id': 4, 'vinculo': 'FREECEL'} error: ConsultorHandlerDataBase.update_consultor() takes 1 positional argument but 2 were given
+2024-03-18 17:14:34,017 - ERROR - handle_request - update_consultor params {} error: ConsultorHandlerDataBase.update_consultor() takes 1 positional argument but 2 were given
+2024-03-18 17:14:55,085 - INFO - handle_request - update_consultor params {'id': 4, 'vinculo': 'FREECEL'} by ()
+2024-03-18 17:17:48,466 - INFO - handle_request - update_consultor params {'id': 4, 'vinculo': 'FREECEL'} by ()
+2024-03-18 17:17:48,466 - INFO - handle_request - update_consultor params {'id': 4, 'vinculo': 'FREECEL'}
+2024-03-18 17:18:19,703 - INFO - handle_request - update_consultor params {'id': 4, 'vinculo': 'FREECEL'} by ()
+2024-03-18 17:18:19,703 - INFO - handle_request - update_consultor params {'id': 4, 'vinculo': 'FREECEL'}
+2024-03-18 17:21:08,864 - ERROR - exception_handler - Ocorreu um erro na solicitaï¿½ï¿½o: cannot access local variable 'function' where it is not associated with a value
+2024-03-18 17:21:50,256 - ERROR - handle_request - remove_consultor params {'id': ID(id=4)} error: ConsultorHandlerDataBase.remove_consultor() got multiple values for argument 'id'
+2024-03-18 17:24:31,042 - ERROR - exception_handler - Ocorreu um erro na solicitaï¿½ï¿½o: routes.consultor.handle_request() argument after ** must be a mapping, not ID
+2024-03-18 17:24:51,938 - INFO - handle_request - remove_consultor params {} by (ID(id=4),)
+2024-03-18 17:24:51,938 - INFO - handle_request - remove_consultor params {}
+2024-03-18 17:25:11,612 - INFO - handle_request - consultores params {'as_json': True} by ()
+2024-03-19 08:43:42,635 - INFO - handle_request - consultores params {'as_json': True} by ()
+2024-03-19 08:44:58,748 - ERROR - handle_request - add_consultor params {} error: ConsultorHandlerDataBase.add_consultor() missing 1 required positional argument: 'consultor'
+2024-03-19 08:45:23,710 - ERROR - handle_request - add_consultor params {} error: ConsultorHandlerDataBase.add_consultor() missing 1 required positional argument: 'consultor'
+2024-03-19 08:45:38,996 - ERROR - exception_handler - Ocorreu um erro na solicitaï¿½ï¿½o: routes.consultor.handle_request() argument after ** must be a mapping, not Vendedor
+2024-03-19 08:46:05,052 - ERROR - handle_request - add_consultor params {'name': 'SHADY', 'vinculo': 'FREECEL', 'cargo': 'EFETIVO'} error: ConsultorHandlerDataBase.add_consultor() got an unexpected keyword argument 'name'
+2024-03-19 08:47:22,677 - ERROR - handle_request - add_consultor params {} error: ConsultorHandlerDataBase.add_consultor() missing 1 required positional argument: 'consultor'
+2024-03-19 08:49:13,959 - ERROR - handle_request - add_consultor params {} error: ConsultorHandlerDataBase.add_consultor() missing 1 required positional argument: 'consultor'
+2024-03-19 08:49:50,584 - ERROR - handle_request - add_consultor params {} error: ConsultorHandlerDataBase.add_consultor() missing 1 required positional argument: 'consultor'
+2024-03-19 08:50:37,848 - ERROR - handle_request - add_consultor params {} error: ConsultorHandlerDataBase.add_consultor() missing 1 required positional argument: 'consultor'
+2024-03-19 08:50:54,087 - INFO - handle_request - add_consultor params {'consultor': Vendedor(name='SHADY', vinculo='FREECEL', cargo='EFETIVO')} by ('SHADY',)
+2024-03-19 08:51:27,618 - INFO - handle_request - add_consultor params {'consultor': Vendedor(name='SHADY', vinculo='FREECEL', cargo='EFETIVO')} by ('SHADY',)
+2024-03-19 08:51:27,618 - INFO - handle_request - add_consultor params {'consultor': Vendedor(name='SHADY', vinculo='FREECEL', cargo='EFETIVO')}
+2024-03-19 08:52:19,570 - INFO - handle_request - consultores params {'as_json': True} by ()
+2024-03-19 08:52:36,989 - INFO - handle_request - remove_consultor params {'id': ID(id=6)} by ('SHADY',)
+2024-03-19 08:52:36,989 - INFO - handle_request - remove_consultor params {'id': ID(id=6)}
+2024-03-19 08:52:48,942 - INFO - handle_request - remove_consultor params {'id': ID(id=7)} by ('SHADY',)
+2024-03-19 08:52:48,942 - INFO - handle_request - remove_consultor params {'id': ID(id=7)}
+2024-03-19 08:53:49,938 - INFO - handle_request - update_consultor params {'id': 5, 'vinculo': 'SAMAMBAIA', 'cargo': 'ESTï¿½GIO'} by ('SHADY',)
+2024-03-19 08:53:49,938 - INFO - handle_request - update_consultor params {'id': 5, 'vinculo': 'SAMAMBAIA', 'cargo': 'ESTï¿½GIO'}2024-03-19 09:02:35,058 - INFO - handle_request - Consultor params {'nome': 'PEDRO HENRIQUE', 'ano': 2023, 'mes': 'janeiro', 'jsonfy': True, 'display_vendas': False} by ()
+2024-03-19 09:08:33,610 - INFO - handle_request - vendas params {'as_json': True, 'ano': 2023, 'mes': 'janeiro', 'tipo': 'MIGRAÇÃO'} by ()
+2024-03-19 09:08:48,548 - INFO - handle_request - vendas params {'as_json': True, 'ano': None, 'mes': None, 'tipo': 'MIGRAÇÃO'} by ()
+2024-03-19 09:11:09,698 - ERROR - handle_request - update_venda params {'params': UpdateMigracaoParams(id=3066, cnpj=None, consultor=None, telefone=None, plano=None, gestor=None, tipo=None, status=None, email=None, ja_cliente=None, numero_pedido=None, equipe=None, valor_atual=None, valor_renovacao=34.99, valor_inovacao=12.99, pacote_inovacao=None, volume_inovacao=None)} error: cannot unpack non-iterable NoneType object
+2024-03-19 09:11:58,138 - INFO - handle_request - update_venda params {'id': 3066, 'valor_renovacao': 34.99, 'valor_inovacao': 12.99} by ('SHADY',)
+2024-03-19 09:12:23,535 - INFO - handle_request - update_venda params {'id': 3066, 'valor_renovacao': 34.99, 'valor_inovacao': 12.99} by ('SHADY',)
+2024-03-19 09:12:23,535 - INFO - handle_request - update_venda params {'id': 3066, 'valor_renovacao': 34.99, 'valor_inovacao': 12.99}
+2024-03-19 09:13:52,480 - INFO - handle_request - update_venda params {'id': 3066, 'valor_renovacao': 34.99, 'valor_inovacao': 12.99} by ('SHADY',)
+2024-03-19 09:13:52,480 - INFO - handle_request - update_venda params {'id': 3066, 'valor_renovacao': 34.99, 'valor_inovacao': 12.99}
+2024-03-19 09:14:39,620 - INFO - handle_request - update_venda params {'id': 3066, 'valor_renovacao': 34.99, 'valor_inovacao': 12.99} by ('SHADY',)
+2024-03-19 09:14:39,620 - INFO - handle_request - update_venda params {'id': 3066, 'valor_renovacao': 34.99, 'valor_inovacao': 12.99} by ('SHADY',)
+2024-03-19 09:15:25,339 - INFO - handle_request - update_venda params {'id': 3066, 'valor_renovacao': 34.99, 'valor_inovacao': 12.99} by SHADY
+2024-03-19 09:15:25,339 - INFO - handle_request - update_venda params {'id': 3066, 'valor_renovacao': 34.99, 'valor_inovacao': 12.99} by SHADY
+2024-03-19 09:17:21,313 - INFO - handle_request - update_venda params {'id': 3066, 'valor_renovacao': 34.99, 'valor_inovacao': 12.99} by SHADY
+2024-03-19 09:17:21,313 - INFO - handle_request - update_venda params {'id': 3066, 'valor_renovacao': 34.99, 'valor_inovacao': 12.99} by SHADY
+2024-03-19 09:21:54,597 - ERROR - exception_handler - Ocorreu um erro na solicitação: handle_request() missing 1 required positional argument: 'user'
+2024-03-19 09:22:18,191 - INFO - handle_request - produtos params {'as_json': True} by ()
