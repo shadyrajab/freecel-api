@@ -5,8 +5,8 @@ from pandas import DataFrame
 
 from models.identify import ID
 from models.produtos import Produto
-from utils.queries import ADD_PRODUTO_QUERY, GET_PRODUTOS_QUERY, REMOVE_PRODUTO_QUERY
 from utils.functions import get_clause
+from utils.queries import ADD_PRODUTO_QUERY, GET_PRODUTOS_QUERY, REMOVE_PRODUTO_QUERY
 
 
 class ProdutosHandlerDataBase:

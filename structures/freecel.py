@@ -77,7 +77,7 @@ class Freecel(Stats):
 
     def __media_por_consultor(self, tipo: Optional[str] = None) -> float:
         dataframe = filter_by(dataframe=self.dataframe, tipo=tipo)
-        dataframe = dataframe[~dataframe['consultor'].isin(SUPERVISORES)]
+        dataframe = dataframe[~dataframe["consultor"].isin(SUPERVISORES)]
         consultores = dataframe["consultor"].nunique()
         if consultores == 0:
             return 0

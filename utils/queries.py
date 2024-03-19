@@ -32,7 +32,9 @@ ADD_VENDA_LIST_PARAMS = [
 
 placeholders = ", ".join(["$" + str(i + 1) for i in range(len(ADD_VENDA_LIST_PARAMS))])
 columns = ", ".join(ADD_VENDA_LIST_PARAMS)
-ADD_VENDA_QUERY = f"INSERT INTO vendas_concluidas ({columns}) VALUES ({placeholders}) RETURNING id"
+ADD_VENDA_QUERY = (
+    f"INSERT INTO vendas_concluidas ({columns}) VALUES ({placeholders}) RETURNING id"
+)
 REMOVE_VENDA_QUERY = "DELETE FROM vendas_concluidas WHERE id = ($1)"
 GET_VENDAS_QUERY = "SELECT * FROM vendas_concluidas"
 REMOVE_PRODUTO_QUERY = "DELETE FROM produtos WHERE id = ($1)"

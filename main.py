@@ -23,7 +23,7 @@ routes = [
     stats.router,
     vendas.router,
     migracoes.router,
-    utils.router
+    utils.router,
 ]
 
 for route in routes:

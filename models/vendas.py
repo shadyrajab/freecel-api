@@ -7,7 +7,7 @@ from pycpfcnpj import cpfcnpj
 from pydantic import BaseModel, EmailStr, validator
 
 from client.client import Client
-from utils.variables import DDDS, EQUIPE, TIPO_VENDA, STATUS_VENDA
+from utils.variables import DDDS, EQUIPE, STATUS_VENDA, TIPO_VENDA
 
 
 class Venda(BaseModel):
@@ -31,7 +31,7 @@ class Venda(BaseModel):
     def validate_ddd(cls, value):
         if value not in DDDS:
             raise ValueError(f"O DDD {value} não existe")
-        
+
         return value
 
     @validator("status")
@@ -120,7 +120,7 @@ class Venda(BaseModel):
     # async def validate_plano(cls, value, values):
     #     if int(values.get("preco")) != 0:
     #         return value
-        
+
     #     async with Client() as client:
     #         planos = await client.get_produtos()
     #         planos = [plano[0] for plano in planos]

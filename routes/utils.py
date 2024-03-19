@@ -1,5 +1,6 @@
 from fastapi import APIRouter
-from utils.variables import SUPERVISORES, TIPO_VENDA, EQUIPE, CARGOS, STATUS_VENDA
+
+from utils.variables import CARGOS, EQUIPE, STATUS_VENDA, SUPERVISORES, TIPO_VENDA
 
 router = APIRouter()
 
@@ -11,5 +12,5 @@ async def utils():
         "equipe": EQUIPE,
         "tipos": TIPO_VENDA,
         "cargos": CARGOS,
-        "status": STATUS_VENDA
+        "status": STATUS_VENDA,
     }
