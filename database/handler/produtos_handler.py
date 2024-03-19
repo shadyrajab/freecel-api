@@ -40,6 +40,6 @@ class ProdutosHandlerDataBase:
 
     async def update_produto(self, **params):
         id, set_clause, values = get_clause(**params)
-        query = f"UPDATE produto SET {set_clause} WHERE id = ${len(values)}"
+        query = f"UPDATE produtos SET {set_clause} WHERE id = ${len(values)}"
         async with self.pool.acquire() as connection:
             await connection.execute(query, *values)
