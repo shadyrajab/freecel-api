@@ -8,7 +8,7 @@ from params.request_body import UpdateMigracaoParams
 router = APIRouter()
 
 
-@router.get("/migracoes", dependencies=[Depends(authenticate)])
+@router.get("/migracoes")
 async def migracoes(
     ano: int = Query(None, description="Ano"), mes: str = Query(None, description="Mês")
 ):
@@ -18,7 +18,7 @@ async def migracoes(
         )
 
 
-@router.put("/migracoes", dependencies=[Depends(authenticate)])
+@router.put("/migracoes")
 async def update_migracao(
     params: UpdateMigracaoParams, user: str = Depends(authenticate)
 ):

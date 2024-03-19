@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 
 from authenticator.jwt import authenticate
 from client.client import Client
+from handler.handler_request import handle_request
 from models.identify import ID
 from models.produtos import Produto
 from params.request_body import UpdateProdutoParams
@@ -12,13 +13,13 @@ router = APIRouter()
 @router.get("/produtos", dependencies=[Depends(authenticate)])
 async def produtos():
     async with Client() as client:
-        produtos = await client.produtos(True)
-        return produtos
+        return await handle_request(client.produtos, as_json=True)
 
 
 @router.post("/produtos", dependencies=[Depends(authenticate)])
 async def add_produto(produto: Produto):
     async with Client() as client:
+        return await handle_request()
         await client.add_produto(produto)
         return {"message": "Produto adicionado com sucesso"}
 
