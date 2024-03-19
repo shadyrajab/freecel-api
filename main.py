@@ -9,7 +9,6 @@ from routes import consultor, migracoes, produtos, rankings, stats, vendas
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
-    filename="logs/main.log",
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - def %(funcName)s - %(message)s",
 )

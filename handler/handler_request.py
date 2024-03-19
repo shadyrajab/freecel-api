@@ -3,7 +3,6 @@ import logging
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 logging.basicConfig(
-    filename="logs/consultor.log",
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(funcName)s - %(message)s",
 )
