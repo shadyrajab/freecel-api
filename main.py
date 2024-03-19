@@ -5,7 +5,7 @@ import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.middleware.gzip import GZipMiddleware
 
-from routes import consultor, migracoes, produtos, rankings, stats, vendas
+from routes import consultor, migracoes, produtos, rankings, stats, utils, vendas
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
@@ -23,6 +23,7 @@ routes = [
     stats.router,
     vendas.router,
     migracoes.router,
+    utils.router
 ]
 
 for route in routes:
@@ -44,5 +45,5 @@ if __name__ == "__main__":
         "main:app",
         host="0.0.0.0",
         port=int(os.environ.get("PORT", 5000)),
-        access_log=False
+        access_log=False,
     )
