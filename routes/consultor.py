@@ -1,4 +1,5 @@
 import logging
+from functools import partial
 
 from fastapi import APIRouter, Depends, Query
 
@@ -20,25 +21,25 @@ router = APIRouter()
 
 
 async def handle_request(client_method, *args, **kwargs):
-    function = client_method.__name__
+    function_name = client_method.__name__
     try:
-        result = await client_method(*args, **kwargs)
-        logging.info(f"{function} params {kwargs} by {args}")
-        if function == "Consultor":
+        result = await client_method(**kwargs)
+        logging.info(f"{function_name} params {kwargs} by {args}")
+        if function_name == "Consultor":
             return result.to_json()
 
-        if function in {"update_consultor", "remove_consultor"}:
-            logging.info(f"{function} params {kwargs}")
+        if function_name in {"update_consultor", "remove_consultor", "add_consultor"}:
+            logging.info(f"{function_name} params {kwargs}")
             return {
                 "status_code": 200,
-                "message": f"Solicitação realizada com sucesso {function}",
+                "message": f"Solicitação {function_name} realizada com sucesso",
                 "params": kwargs,
             }
 
         return result
 
     except Exception as e:
-        logging.error(f"{function} params {kwargs} error: {e}")
+        logging.error(f"{function_name} params {kwargs} error: {e}")
         return {
             "status_code": 500,
             "message": "Ocorreu um erro ao atender sua solicitação",
@@ -56,13 +57,15 @@ async def consultores():
 @router.post("/consultores")
 async def add_consultor(consultor: Vendedor, user: str = Depends(authenticate)):
     async with Client() as client:
-        return await handle_request(client.add_consultor, consultor)
+        return await handle_request(
+            client.add_consultor, user, **{"consultor": consultor}
+        )
 
 
 @router.delete("/consultores")
 async def remove_consultor(id: ID, user: str = Depends(authenticate)):
     async with Client() as client:
-        return await handle_request(client.remove_consultor, id)
+        return await handle_request(client.remove_consultor, user, **{"id": id})
 
 
 @router.put("/consultores")
@@ -73,7 +76,7 @@ async def update_consultor(
         key: value for key, value in params.model_dump().items() if value is not None
     }
     async with Client() as client:
-        return await handle_request(client.update_consultor, **params_filtered)
+        return await handle_request(client.update_consultor, user, **params_filtered)
 
 
 @router.get("/consultores/{nome_consultor}")

@@ -77,3 +77,22 @@
 2024-03-18 17:24:51,938 - INFO - handle_request - remove_consultor params {} by (ID(id=4),)
 2024-03-18 17:24:51,938 - INFO - handle_request - remove_consultor params {}
 2024-03-18 17:25:11,612 - INFO - handle_request - consultores params {'as_json': True} by ()
+2024-03-19 08:43:42,635 - INFO - handle_request - consultores params {'as_json': True} by ()
+2024-03-19 08:44:58,748 - ERROR - handle_request - add_consultor params {} error: ConsultorHandlerDataBase.add_consultor() missing 1 required positional argument: 'consultor'
+2024-03-19 08:45:23,710 - ERROR - handle_request - add_consultor params {} error: ConsultorHandlerDataBase.add_consultor() missing 1 required positional argument: 'consultor'
+2024-03-19 08:45:38,996 - ERROR - exception_handler - Ocorreu um erro na solicitação: routes.consultor.handle_request() argument after ** must be a mapping, not Vendedor
+2024-03-19 08:46:05,052 - ERROR - handle_request - add_consultor params {'name': 'SHADY', 'vinculo': 'FREECEL', 'cargo': 'EFETIVO'} error: ConsultorHandlerDataBase.add_consultor() got an unexpected keyword argument 'name'
+2024-03-19 08:47:22,677 - ERROR - handle_request - add_consultor params {} error: ConsultorHandlerDataBase.add_consultor() missing 1 required positional argument: 'consultor'
+2024-03-19 08:49:13,959 - ERROR - handle_request - add_consultor params {} error: ConsultorHandlerDataBase.add_consultor() missing 1 required positional argument: 'consultor'
+2024-03-19 08:49:50,584 - ERROR - handle_request - add_consultor params {} error: ConsultorHandlerDataBase.add_consultor() missing 1 required positional argument: 'consultor'
+2024-03-19 08:50:37,848 - ERROR - handle_request - add_consultor params {} error: ConsultorHandlerDataBase.add_consultor() missing 1 required positional argument: 'consultor'
+2024-03-19 08:50:54,087 - INFO - handle_request - add_consultor params {'consultor': Vendedor(name='SHADY', vinculo='FREECEL', cargo='EFETIVO')} by ('SHADY',)
+2024-03-19 08:51:27,618 - INFO - handle_request - add_consultor params {'consultor': Vendedor(name='SHADY', vinculo='FREECEL', cargo='EFETIVO')} by ('SHADY',)
+2024-03-19 08:51:27,618 - INFO - handle_request - add_consultor params {'consultor': Vendedor(name='SHADY', vinculo='FREECEL', cargo='EFETIVO')}
+2024-03-19 08:52:19,570 - INFO - handle_request - consultores params {'as_json': True} by ()
+2024-03-19 08:52:36,989 - INFO - handle_request - remove_consultor params {'id': ID(id=6)} by ('SHADY',)
+2024-03-19 08:52:36,989 - INFO - handle_request - remove_consultor params {'id': ID(id=6)}
+2024-03-19 08:52:48,942 - INFO - handle_request - remove_consultor params {'id': ID(id=7)} by ('SHADY',)
+2024-03-19 08:52:48,942 - INFO - handle_request - remove_consultor params {'id': ID(id=7)}
+2024-03-19 08:53:49,938 - INFO - handle_request - update_consultor params {'id': 5, 'vinculo': 'SAMAMBAIA', 'cargo': 'ESTÁGIO'} by ('SHADY',)
+2024-03-19 08:53:49,938 - INFO - handle_request - update_consultor params {'id': 5, 'vinculo': 'SAMAMBAIA', 'cargo': 'ESTÁGIO'}
