@@ -9,7 +9,7 @@ logging.basicConfig(
 )
 
 
-async def handle_request(client_method, user, **kwargs):
+async def handle_request(client_method, *user, **kwargs):
     function_name = client_method.__name__
     try:
         result = await client_method(**kwargs)
