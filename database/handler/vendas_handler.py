@@ -78,7 +78,7 @@ class VendasHandlerDataBase:
         )
 
         async with self.pool.acquire() as connection:
-            id = await connection.execute(ADD_VENDA_QUERY, *values)
+            id = await connection.fetchval(ADD_VENDA_QUERY, *values)
             return id
 
     async def remove_venda(self, id: ID):
