@@ -36,7 +36,7 @@ class ProdutosHandlerDataBase:
     async def remove_produto(self, id: ID):
         values = (id.id,)
         async with self.pool.acquire() as connection:
-            await connection.execute(REMOVE_PRODUTO_QUERY, values)
+            await connection.execute(REMOVE_PRODUTO_QUERY, *values)
 
     async def update_produto(self, **params):
         id, set_clause, values = get_clause(**params)
