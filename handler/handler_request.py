@@ -14,7 +14,7 @@ async def handle_request(client_method, *user, **kwargs):
     try:
         result = await client_method(**kwargs)
         logging.info(f"{function_name} params {kwargs} by {user}")
-        if function_name == "Consultor":
+        if function_name in {"Consultor", "Ranking", "Freecel"}:
             return result.to_json()
 
         if function_name in {
@@ -22,6 +22,11 @@ async def handle_request(client_method, *user, **kwargs):
             "remove_consultor",
             "add_consultor",
             "update_venda",
+            "remove_venda",
+            "add_venda",
+            "update_produto",
+            "remove_produto",
+            "add_produto",
         }:
             logging.info(f"{function_name} params {kwargs} by {user}")
             return {

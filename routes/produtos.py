@@ -10,29 +10,30 @@ from params.request_body import UpdateProdutoParams
 router = APIRouter()
 
 
-@router.get("/produtos", dependencies=[Depends(authenticate)])
+@router.get("/produtos")
 async def produtos():
     async with Client() as client:
         return await handle_request(client.produtos, as_json=True)
 
 
-@router.post("/produtos", dependencies=[Depends(authenticate)])
-async def add_produto(produto: Produto):
+@router.post("/produtos")
+async def add_produto(produto: Produto, user: str = Depends(authenticate)):
     async with Client() as client:
-        return await handle_request()
-        await client.add_produto(produto)
-        return {"message": "Produto adicionado com sucesso"}
+        return await handle_request(client.add_produto, user, **{"produto": produto})
 
 
-@router.put("/produtos", dependencies=[Depends(authenticate)])
-async def update_produto(params: UpdateProdutoParams):
+@router.put("/produtos")
+async def update_produto(
+    params: UpdateProdutoParams, user: str = Depends(authenticate)
+):
+    params_filtered = {
+        key: value for key, value in params.model_dump().items() if value is not None
+    }
     async with Client() as client:
-        await client.update_produto(**params.model_dump())
-        return {"message": "Produto atualizado com sucesso"}
+        return await handle_request(client.update_produto, user, **params_filtered)
 
 
-@router.delete("/produtos", dependencies=[Depends(authenticate)])
-async def remove_produto(id: ID):
+@router.delete("/produtos")
+async def remove_produto(id: ID, user: str = Depends(authenticate)):
     async with Client() as client:
-        await client.remove_produto(id)
-        return {"message": "Produto removido com sucesso"}
+        return await handle_request(client.remove_produto, user, **{"id": id})
