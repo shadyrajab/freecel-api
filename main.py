@@ -4,7 +4,6 @@ import os
 import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.middleware.gzip import GZipMiddleware
-from fastapi.responses import JSONResponse
 
 from routes import consultor, migracoes, produtos, rankings, stats, vendas
 
@@ -34,10 +33,11 @@ for route in routes:
 @app.exception_handler(Exception)
 async def exception_handler(request: Request, exc: Exception):
     logging.error(f"Ocorreu um erro na solicitação: {exc}")
-    return JSONResponse(
-        status_code=500,
-        content={"error": "Ocorreu um erro ao atender sua solicitação."},
-    )
+    return {
+        "status_code": 500,
+        "message": "Ocorreu um erro ao atender sua solicitação.",
+        "error": str(exc),
+    }
 
 
 if __name__ == "__main__":
