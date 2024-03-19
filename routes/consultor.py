@@ -1,51 +1,13 @@
-import logging
-from functools import partial
-
 from fastapi import APIRouter, Depends, Query
 
 from authenticator.jwt import authenticate
 from client.client import Client
+from handler.handler_request import handle_request
 from models.consultor import Vendedor
 from models.identify import ID
 from params.request_body import UpdateConsultorParams
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-logging.basicConfig(
-    filename="logs/consultor.log",
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(funcName)s - %(message)s",
-)
-
 router = APIRouter()
-
-
-async def handle_request(client_method, *args, **kwargs):
-    function_name = client_method.__name__
-    try:
-        result = await client_method(**kwargs)
-        logging.info(f"{function_name} params {kwargs} by {args}")
-        if function_name == "Consultor":
-            return result.to_json()
-
-        if function_name in {"update_consultor", "remove_consultor", "add_consultor"}:
-            logging.info(f"{function_name} params {kwargs}")
-            return {
-                "status_code": 200,
-                "message": f"Solicitação {function_name} realizada com sucesso",
-                "params": kwargs,
-            }
-
-        return result
-
-    except Exception as e:
-        logging.error(f"{function_name} params {kwargs} error: {e}")
-        return {
-            "status_code": 500,
-            "message": "Ocorreu um erro ao atender sua solicitação",
-            "params": kwargs,
-            "exception": str(e),
-        }
 
 
 @router.get("/consultores")
