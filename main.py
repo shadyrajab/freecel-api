@@ -5,7 +5,7 @@ import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.middleware.gzip import GZipMiddleware
 
-from routes import consultor, migracoes, produtos, rankings, stats, utils, vendas
+from routes import consultor, migracoes, produtos, rankings, stats, utils, vendas, chamadas
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
@@ -24,6 +24,7 @@ routes = [
     vendas.router,
     migracoes.router,
     utils.router,
+    chamadas.router
 ]
 
 for route in routes:
