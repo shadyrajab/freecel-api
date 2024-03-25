@@ -1,7 +1,7 @@
 from typing import Optional
 
 from asyncpg.pool import Pool
-from pandas import DataFrame
+import pandas as pd
 
 from empresas.empresas_aqui import Empresa
 from models.identify import ID
@@ -26,7 +26,7 @@ class VendasHandlerDataBase:
 
             if to_dataframe:
                 columns = [desc[0] for desc in statement.get_attributes()]
-                vendas = DataFrame(result, columns=columns)
+                vendas = pd.DataFrame(result, columns=columns)
                 return vendas
             else:
                 return result

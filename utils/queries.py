@@ -47,3 +47,4 @@ ADD_CONSULTOR_QUERY = (
 GET_CONSULTORES_QUERY = "SELECT * FROM consultores"
 JWT_QUERY = "SELECT nome FROM uuids WHERE uuid = $1"
 GET_PRECO_QUERY = "SELECT preco FROM produtos WHERE nome = $1"
+GET_CHAMADAS = "SELECT * FROM chamadas"

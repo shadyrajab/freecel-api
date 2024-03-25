@@ -93,6 +93,15 @@ class Client(DataBase):
 
         return consultores
 
+    async def chamadas(
+        self, as_json: Optional[bool] = None
+    ) -> Union[list, pd.DataFrame]:
+        chamadas = await self.get_chamadas(to_dataframe=True)
+        if as_json:
+            return jsonfy(chamadas)
+
+        return chamadas
+
     def __format(self, dataframe: pd.DataFrame) -> pd.DataFrame:
         dataframe["ano"] = dataframe["data"].dt.year
         dataframe["mes"] = dataframe["data"].dt.month.apply(lambda mes: get_mes(mes))
