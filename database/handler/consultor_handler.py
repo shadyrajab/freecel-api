@@ -14,7 +14,7 @@ from utils.queries import (
 
 
 class ConsultorHandlerDataBase:
-    def __aenter__(self, pool: Optional[Pool] = None):
+    def __init__(self, pool: Optional[Pool] = None):
         self.pool = pool
 
     async def get_consultores(self, to_dataframe: Optional[bool] = None):

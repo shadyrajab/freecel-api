@@ -27,6 +27,8 @@ async def handle_request(client_method, *user, **kwargs):
             "update_produto",
             "remove_produto",
             "add_produto",
+            "add_chamada",
+            "remove_chamada"
         }:
             logging.info(f"{function_name} params {kwargs} by {user}")
             return {
