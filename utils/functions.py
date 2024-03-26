@@ -49,6 +49,10 @@ def get_adabas(equipe, tipo) -> str:
 
 
 def filter_by(dataframe: DataFrame, **filters: str) -> DataFrame:
+    for _i, (key, value) in enumerate(filters.copy().items()):
+        if value is None:
+            del filters[key]
+
     if "data_inicio" and "data_fim" in filters.keys():
         dataframe = dataframe.loc[
             (dataframe["data"] >= filters.get("data_inicio"))
@@ -59,16 +63,15 @@ def filter_by(dataframe: DataFrame, **filters: str) -> DataFrame:
         del filters["data_fim"]
 
     for column, value in filters.items():
-        if value is not None:
-            value = (
-                value.upper()
-                if type(value) == str
-                else int(value) if column == "ano" else value
-            )
-            if column == "tipo" and value == "~MIGRAÇÃO":
-                dataframe = dataframe[dataframe[column] != "MIGRAÇÃO"]
-            else:
-                dataframe = dataframe[dataframe[column] == value]
+        value = (
+            value.upper()
+            if type(value) == str
+            else int(value) if column == "ano" else value
+        )
+        if column == "tipo" and value == "~MIGRAÇÃO":
+            dataframe = dataframe[dataframe[column] != "MIGRAÇÃO"]
+        else:
+            dataframe = dataframe[dataframe[column] == value]
 
     return dataframe
 

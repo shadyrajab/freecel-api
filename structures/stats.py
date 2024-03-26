@@ -17,11 +17,14 @@ class Stats:
         prev_stats: Optional[bool] = None,
     ) -> None:
         self.full_dataframe = dataframe
+        self.data_inicio = self.get_data_inicio(self.full_dataframe, data_inicio)
+        self.data_fim = self.get_dafa_fim(data_fim)
         self.dataframe = filter_by(
-            dataframe, data_inicio=data_inicio, data_fim=data_fim, equipe=equipe
+            dataframe,
+            data_inicio=self.data_inicio,
+            data_fim=self.data_fim,
+            equipe=equipe,
         )
-        self.data_inicio = data_inicio
-        self.data_fim = data_fim
         if prev_stats is True:
             self.prev_stats = self.__get_prev_stats()
 
@@ -100,14 +103,10 @@ class Stats:
     def delta_volume_media(self) -> int:
         return self.calculate_delta(self.volume_media, self.prev_stats.volume_media)
 
-    @property
-    def dates(self) -> list[dict]:
-        return [{f"{year}": self.months(year)} for year in self.years()]
-
     def calculate_delta(self, now_metric, prev_metric) -> float:
         return now_metric - prev_metric
 
-    def get_prev_data(self) -> tuple[int, str | None]:
+    def get_prev_data(self) -> tuple[str]:
         data_inicio = datetime.strptime(self.data_inicio, "%d-%m-%Y")
         data_fim = datetime.strptime(self.data_fim, "%d-%m-%Y")
         diff = (data_fim - data_inicio).days
@@ -119,3 +118,17 @@ class Stats:
         prev_data_inicio, prev_data_fim = self.get_prev_data()
         prev_stats = Stats(self.full_dataframe, prev_data_inicio, prev_data_fim)
         return prev_stats
+
+    @staticmethod
+    def get_data_inicio(dataframe, data_inicio):
+        if data_inicio is None:
+            return dataframe["data"].min().strftime("%d-%m-%Y")
+
+        return data_inicio
+
+    @staticmethod
+    def get_dafa_fim(data_fim):
+        if data_fim is None:
+            return datetime.now().strftime("%d-%m-%Y")
+
+        return data_fim

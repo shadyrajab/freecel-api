@@ -20,13 +20,18 @@ class Freecel(Stats):
     ) -> None:
         self.full_dataframe = dataframe
         self.jsonfy = jsonfy
-        self.data_inicio = data_inicio
-        self.data_fim = data_fim
+        self.data_inicio = self.get_data_inicio(self.full_dataframe, data_inicio)
+        self.data_fim = self.get_dafa_fim(data_fim)
         self.dataframe = filter_by(
-            dataframe, data_inicio=data_inicio, data_fim=data_fim, equipe=equipe
+            dataframe,
+            data_inicio=self.data_inicio,
+            data_fim=self.data_fim,
+            equipe=equipe,
         )
 
-        super().__init__(self.full_dataframe, data_inicio, data_fim, equipe, True)
+        super().__init__(
+            self.full_dataframe, self.data_inicio, self.data_fim, equipe, True
+        )
 
         if prev_freecel is True:
             self.prev_freecel = self.__get_prev_freecel()
@@ -92,6 +97,8 @@ class Freecel(Stats):
         prev_data_inicio, prev_data_fim = self.get_prev_data()
         prev_data_inicio = str(prev_data_inicio.strftime("%d-%m-%Y"))
         prev_data_fim = str(prev_data_fim.strftime("%d-%m-%Y"))
-        prev_freecel = Freecel(self.full_dataframe, str(prev_data_inicio), str(prev_data_fim))
+        prev_freecel = Freecel(
+            self.full_dataframe, str(prev_data_inicio), str(prev_data_fim)
+        )
 
         return prev_freecel
