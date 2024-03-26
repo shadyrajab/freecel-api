@@ -42,13 +42,13 @@ class Client(DataBase):
 
     async def Freecel(
         self,
-        ano: Optional[int] = None,
-        mes: Optional[str] = None,
+        data_inicio: Optional[int] = None,
+        data_fim: Optional[str] = None,
         equipe: Optional[str] = None,
         jsonfy: Optional[bool] = None,
     ) -> Freecel:
         dataframe = self.__format(await self.get_vendas(to_dataframe=True))
-        return Freecel(dataframe, ano, mes, equipe, jsonfy, True)
+        return Freecel(dataframe, data_inicio, data_fim, equipe, jsonfy, True)
 
     async def vendas(
         self, as_json: Optional[bool] = None, **filters: str

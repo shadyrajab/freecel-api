@@ -49,7 +49,15 @@ def get_adabas(equipe, tipo) -> str:
 
 
 def filter_by(dataframe: DataFrame, **filters: str) -> DataFrame:
-    """Função para filtrar o DataFrame de acordo com os filtros passados em **filters"""
+    if "data_inicio" and "data_fim" in filters.keys():
+        dataframe = dataframe.loc[
+            (dataframe["data"] >= filters.get("data_inicio"))
+            & (dataframe["data"] <= filters.get("data_fim"))
+        ]
+
+        del filters["data_inicio"]
+        del filters["data_fim"]
+
     for column, value in filters.items():
         if value is not None:
             value = (

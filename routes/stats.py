@@ -8,11 +8,15 @@ router = APIRouter()
 
 @router.get("/stats")
 async def stats(
-    ano: int = Query(None, description="Ano"),
-    mes: str = Query(None, description="Mês"),
+    data_inicio: str = Query(None, description="Data Inicial"),
+    data_fim: str = Query(None, description="Data Final"),
     equipe: str = Query(None, description="Equipe"),
 ):
     async with Client() as client:
         return await handle_request(
-            client.Freecel, ano=ano, mes=mes, equipe=equipe, jsonfy=True
+            client.Freecel,
+            data_inicio=data_inicio,
+            data_fim=data_fim,
+            equipe=equipe,
+            jsonfy=True,
         )
