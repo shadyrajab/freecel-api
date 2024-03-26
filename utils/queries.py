@@ -28,6 +28,7 @@ ADD_VENDA_LIST_PARAMS = [
     "ja_cliente",
     "numero_pedido",
     "status",
+    "data_abertura"
 ]
 
 placeholders = ", ".join(["$" + str(i + 1) for i in range(len(ADD_VENDA_LIST_PARAMS))])

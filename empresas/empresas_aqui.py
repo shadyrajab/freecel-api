@@ -9,7 +9,13 @@ class Empresa:
 
     @property
     def porte(self):
-        return self.empresa.get("porte", None)
+        porte = {
+            0: "NÃO INFORMADO",
+            1: "MICROEMPRESA",
+            3: "PEQUENO PORTE",
+            5: "MÉDIO/GRANDE PORTE",
+        }.get(self.empresa.get("porte", 0))
+        return porte
 
     @property
     def bairro(self):
@@ -29,7 +35,10 @@ class Empresa:
 
     @property
     def matriz(self):
-        return self.empresa.get("matriz", None)
+        matriz = {0: "NÃO INFORMADO", 1: "MATRIZ", 2: "FILIAL"}.get(
+            self.empresa.get("matriz", 0)
+        )
+        return matriz
 
     @property
     def municipio(self):
@@ -54,6 +63,10 @@ class Empresa:
     @property
     def quadro_funcionarios(self):
         return self.empresa.get("quadro_funcionarios", None)
+
+    @property
+    def data_abertura(self):
+        return self.empresa.get("data_empresa", None)
 
     def get_empresa(self, cnpj: str):
         url = f"https://www.empresaqui.com.br/api/{TOKENEMPRESAS}/{cnpj}"

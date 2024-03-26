@@ -75,6 +75,7 @@ class VendasHandlerDataBase:
             venda.ja_cliente,
             venda.numero_pedido,
             venda.status,
+            empresa.data_abertura,
         )
 
         async with self.pool.acquire() as connection:
