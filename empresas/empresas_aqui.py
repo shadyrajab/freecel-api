@@ -5,7 +5,7 @@ from utils.variables import TOKENEMPRESAS
 
 class Empresa:
     def __init__(self, cnpj: str):
-        self.empresa = self.get_empresa(cnpj)
+        self.empresa = self.__get_empresa(cnpj)
 
     @property
     def porte(self):
@@ -68,7 +68,7 @@ class Empresa:
     def data_abertura(self):
         return self.empresa.get("data_empresa", None)
 
-    def get_empresa(self, cnpj: str):
+    def __get_empresa(self, cnpj: str):
         url = f"https://www.empresaqui.com.br/api/{TOKENEMPRESAS}/{cnpj}"
         response = request("GET", url=url)
         if response.status_code == 200 and response.text:
