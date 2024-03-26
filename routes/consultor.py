@@ -44,8 +44,8 @@ async def update_consultor(
 @router.get("/consultores/{nome_consultor}")
 async def consultor(
     nome_consultor: str,
-    ano: int = Query(None, description="Ano"),
-    mes: str = Query(None, description="Mês"),
+    data_inicio: str = Query(None, description="Data Inicial"),
+    data_fim: str = Query(None, description="Data Final"),
     display_vendas: bool = Query(False, description="Mostrar vendas"),
 ):
     nome_consultor = nome_consultor.replace("_", " ").upper()
@@ -53,8 +53,8 @@ async def consultor(
         return await handle_request(
             client.Consultor,
             nome=nome_consultor,
-            ano=ano,
-            mes=mes,
+            data_inicio=data_inicio,
+            data_fim=data_fim,
             jsonfy=True,
             display_vendas=display_vendas,
         )
