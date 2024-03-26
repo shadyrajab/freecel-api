@@ -33,12 +33,13 @@ class Client(DataBase):
 
     async def Ranking(
         self,
-        ano: Optional[int] = None,
-        mes: Optional[str] = None,
+        data_inicio: Optional[int] = None,
+        data_fim: Optional[str] = None,
+        equipe: Optional[str] = None,
         jsonfy: Optional[bool] = None,
     ) -> Rankings:
         dataframe = self.__format(await self.get_vendas(to_dataframe=True))
-        return Rankings(dataframe, ano, mes, jsonfy)
+        return Rankings(dataframe, data_inicio, data_fim, equipe, jsonfy)
 
     async def Freecel(
         self,
