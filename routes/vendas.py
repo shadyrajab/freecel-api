@@ -16,6 +16,7 @@ async def vendas(
     mes: str = Query(None, description="Mês"),
     cnpj: str = Query(None, description="CNPJ"),
     uf: str = Query(None, description="UF"),
+    equipe: str = Query(None, description="Equipe"),
     adabas: str = Query(None, description="ADABAS"),
 ):
     async with Client() as client:
@@ -26,6 +27,7 @@ async def vendas(
             mes=mes,
             cnpj=cnpj,
             uf=uf,
+            equipe=equipe,
             adabas=adabas,
             tipo="~MIGRAÇÃO",
         )
