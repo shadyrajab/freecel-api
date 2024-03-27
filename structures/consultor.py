@@ -11,18 +11,18 @@ class Consultor(Stats):
     def __init__(
         self,
         dataframe: pd.DataFrame,
-        data_inicio: Optional[int] = None,
-        data_fim: Optional[str] = None,
+        ano: Optional[int] = None,
+        mes: Optional[str] = None,
         jsonfy: Optional[bool] = None,
         display_vendas: Optional[bool] = None,
     ) -> None:
         self.full_dataframe = dataframe
-        self.dataframe = filter_by(dataframe, data_inicio=data_inicio, data_fim=data_fim)
+        self.dataframe = filter_by(dataframe, ano=ano, mes=mes)
         self.jsonfy = jsonfy
         self.display_vendas = display_vendas
-        self.data_inicio = data_inicio
-        self.data_fim = data_fim
-        super().__init__(self.full_dataframe, data_inicio=data_inicio, data_fim=data_fim, prev_stats=True)
+        self.ano = ano
+        self.mes = mes.capitalize() if mes else mes
+        super().__init__(self.full_dataframe, ano=ano, mes=mes, prev_stats=True)
 
     @property
     def nome(self) -> str:

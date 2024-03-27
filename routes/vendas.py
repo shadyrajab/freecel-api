@@ -12,9 +12,8 @@ router = APIRouter()
 
 @router.get("/vendas")
 async def vendas(
-    data_inicio: str = Query(None, description="Data Inicial"),
-    data_fim: str = Query(None, description="Mês"),
-    equipe: str = Query(None, description="Equipe"),
+    ano: int = Query(None, description="Ano"),
+    mes: str = Query(None, description="Mês"),
     cnpj: str = Query(None, description="CNPJ"),
     uf: str = Query(None, description="UF"),
     adabas: str = Query(None, description="ADABAS"),
@@ -23,9 +22,8 @@ async def vendas(
         return await handle_request(
             client.vendas,
             as_json=True,
-            data_inicio=data_inicio,
-            data_fim=data_fim,
-            equipe=equipe,
+            ano=ano,
+            mes=mes,
             cnpj=cnpj,
             uf=uf,
             adabas=adabas,

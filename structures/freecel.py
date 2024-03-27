@@ -1,4 +1,3 @@
-from datetime import datetime
 from typing import List, Optional, Self
 
 import pandas as pd
@@ -12,26 +11,19 @@ class Freecel(Stats):
     def __init__(
         self,
         dataframe: pd.DataFrame,
-        data_inicio: Optional[int] = None,
-        data_fim: Optional[str] = None,
+        ano: Optional[int] = None,
+        mes: Optional[str] = None,
         equipe: Optional[str] = None,
         jsonfy: Optional[bool] = None,
         prev_freecel: Optional[bool] = None,
     ) -> None:
         self.full_dataframe = dataframe
         self.jsonfy = jsonfy
-        self.data_inicio = self.get_data_inicio(self.full_dataframe, data_inicio)
-        self.data_fim = self.get_dafa_fim(data_fim)
-        self.dataframe = filter_by(
-            dataframe,
-            data_inicio=self.data_inicio,
-            data_fim=self.data_fim,
-            equipe=equipe,
-        )
+        self.ano = ano
+        self.mes = mes.capitalize() if mes else mes
+        self.dataframe = filter_by(dataframe, ano=ano, mes=mes, equipe=equipe)
 
-        super().__init__(
-            self.full_dataframe, self.data_inicio, self.data_fim, equipe, True
-        )
+        super().__init__(self.full_dataframe, ano, mes, equipe, True)
 
         if prev_freecel is True:
             self.prev_freecel = self.__get_prev_freecel()
@@ -94,11 +86,7 @@ class Freecel(Stats):
         return media_por_consultor
 
     def __get_prev_freecel(self) -> Self:
-        prev_data_inicio, prev_data_fim = self.get_prev_data()
-        prev_data_inicio = str(prev_data_inicio.strftime("%d-%m-%Y"))
-        prev_data_fim = str(prev_data_fim.strftime("%d-%m-%Y"))
-        prev_freecel = Freecel(
-            self.full_dataframe, str(prev_data_inicio), str(prev_data_fim)
-        )
+        prev_year, prev_month = self.get_prev_data(self.years())
+        prev_freecel = Freecel(self.full_dataframe, prev_year, prev_month)
 
         return prev_freecel

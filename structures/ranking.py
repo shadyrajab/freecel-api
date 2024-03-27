@@ -10,18 +10,14 @@ class Rankings:
     def __init__(
         self,
         dataframe: pd.DataFrame,
-        data_inicio: Optional[int] = None,
-        data_fim: Optional[str] = None,
-        equipe: Optional[str] = None,
+        ano: Optional[int] = None,
+        mes: Optional[str] = None,
         jsonfy: Optional[bool] = None,
     ) -> None:
-        self.dataframe = filter_by(
-            dataframe, data_inicio=data_inicio, data_fim=data_fim, equipe=equipe
-        )
+        self.dataframe = filter_by(dataframe, ano=ano, mes=mes)
         self.jsonfy = jsonfy
-        self.data_inicio = data_inicio
-        self.data_fim = data_fim
-        self.equipe = equipe
+        self.ano = ano
+        self.mes = mes.capitalize() if mes else mes
 
     @property
     def planos(self):

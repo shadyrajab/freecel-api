@@ -21,35 +21,34 @@ class Client(DataBase):
     async def Consultor(
         self,
         nome: str,
-        data_inicio: Optional[int] = None,
-        data_fim: Optional[str] = None,
+        ano: Optional[int] = None,
+        mes: Optional[str] = None,
         jsonfy: Optional[bool] = None,
         display_vendas: Optional[bool] = None,
     ) -> Consultor:
         dataframe = self.__format(await self.get_vendas(to_dataframe=True))
         return Consultor(
-            dataframe[dataframe["consultor"] == nome], data_inicio, data_fim, jsonfy, display_vendas
+            dataframe[dataframe["consultor"] == nome], ano, mes, jsonfy, display_vendas
         )
 
     async def Ranking(
         self,
-        data_inicio: Optional[int] = None,
-        data_fim: Optional[str] = None,
-        equipe: Optional[str] = None,
+        ano: Optional[int] = None,
+        mes: Optional[str] = None,
         jsonfy: Optional[bool] = None,
     ) -> Rankings:
         dataframe = self.__format(await self.get_vendas(to_dataframe=True))
-        return Rankings(dataframe, data_inicio, data_fim, equipe, jsonfy)
+        return Rankings(dataframe, ano, mes, jsonfy)
 
     async def Freecel(
         self,
-        data_inicio: Optional[int] = None,
-        data_fim: Optional[str] = None,
+        ano: Optional[int] = None,
+        mes: Optional[str] = None,
         equipe: Optional[str] = None,
         jsonfy: Optional[bool] = None,
     ) -> Freecel:
         dataframe = self.__format(await self.get_vendas(to_dataframe=True))
-        return Freecel(dataframe, data_inicio, data_fim, equipe, jsonfy, True)
+        return Freecel(dataframe, ano, mes, equipe, jsonfy, True)
 
     async def vendas(
         self, as_json: Optional[bool] = None, **filters: str
