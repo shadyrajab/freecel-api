@@ -1,28 +1,14 @@
-from typing import Optional
-
 import pandas as pd
 
 from structures.ranking import Rankings
 from structures.stats import Stats
-from utils.functions import filter_by, jsonfy
+from utils.functions import jsonfy
 
 
 class Consultor(Stats):
-    def __init__(
-        self,
-        dataframe: pd.DataFrame,
-        data_inicio: Optional[int] = None,
-        data_fim: Optional[str] = None,
-        jsonfy: Optional[bool] = None,
-        display_vendas: Optional[bool] = None,
-    ) -> None:
-        self.full_dataframe = dataframe
-        self.dataframe = filter_by(dataframe, data_inicio=data_inicio, data_fim=data_fim)
-        self.jsonfy = jsonfy
-        self.display_vendas = display_vendas
-        self.data_inicio = data_inicio
-        self.data_fim = data_fim
-        super().__init__(self.full_dataframe, data_inicio=data_inicio, data_fim=data_fim, prev_stats=True)
+    def __init__(self, dataframe: pd.DataFrame) -> None:
+        self.dataframe = dataframe
+        super().__init__(self.dataframe)
 
     @property
     def nome(self) -> str:
@@ -30,21 +16,15 @@ class Consultor(Stats):
 
     @property
     def ranking_planos(self) -> pd.DataFrame:
-        return Rankings(self.dataframe, jsonfy=True).planos
+        return Rankings(self.dataframe).planos
 
     @property
     def ranking_produtos(self) -> pd.DataFrame:
-        return Rankings(self.dataframe, jsonfy=True).produtos
+        return Rankings(self.dataframe).produtos
 
     @property
     def vendas(self):
-        if not self.display_vendas:
-            return {}
-
-        if self.jsonfy:
-            return jsonfy(self.dataframe)
-
-        return self.dataframe
+        return jsonfy(self.dataframe)
 
     def to_json(self):
         data = {}

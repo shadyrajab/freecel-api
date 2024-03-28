@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Optional, Union
 
 import pandas as pd
 
@@ -7,7 +6,7 @@ from database.connection import DataBase
 from structures.consultor import Consultor
 from structures.freecel import Freecel
 from structures.ranking import Rankings
-from utils.functions import filter_by, get_mes, jsonfy
+from utils.functions import get_mes, jsonfy
 
 
 class Client(DataBase):
@@ -18,44 +17,23 @@ class Client(DataBase):
     async def __aexit__(self, exc_type, exc, tb):
         await super().__aexit__(exc_type, exc, tb)
 
-    async def Consultor(
-        self,
-        nome: str,
-        data_inicio: Optional[int] = None,
-        data_fim: Optional[str] = None,
-        jsonfy: Optional[bool] = None,
-        display_vendas: Optional[bool] = None,
-    ) -> Consultor:
-        dataframe = self.__format(await self.get_vendas(to_dataframe=True))
-        return Consultor(
-            dataframe[dataframe["consultor"] == nome], data_inicio, data_fim, jsonfy, display_vendas
-        )
+    async def Consultor(self, **filters: str) -> Consultor:
+        dataframe = self.__format(await self.get_vendas(**filters))
+        return Consultor(dataframe)
 
-    async def Ranking(
-        self,
-        data_inicio: Optional[int] = None,
-        data_fim: Optional[str] = None,
-        equipe: Optional[str] = None,
-        jsonfy: Optional[bool] = None,
-    ) -> Rankings:
-        dataframe = self.__format(await self.get_vendas(to_dataframe=True))
-        return Rankings(dataframe, data_inicio, data_fim, equipe, jsonfy)
+    async def Ranking(self, **filters: str) -> Rankings:
+        dataframe = self.__format(await self.get_vendas(**filters))
+        return Rankings(dataframe)
 
-    async def Freecel(
-        self,
-        data_inicio: Optional[int] = None,
-        data_fim: Optional[str] = None,
-        equipe: Optional[str] = None,
-        jsonfy: Optional[bool] = None,
-    ) -> Freecel:
-        dataframe = self.__format(await self.get_vendas(to_dataframe=True))
-        return Freecel(dataframe, data_inicio, data_fim, equipe, jsonfy, True)
+    async def Freecel(self, **filters: str) -> Freecel:
+        dataframe = self.__format(await self.get_vendas(**filters))
+        return Freecel(dataframe)
 
-    async def vendas(
-        self, as_json: Optional[bool] = None, **filters: str
-    ) -> Union[list, pd.DataFrame]:
-        dataframe = self.__format(await self.get_vendas(to_dataframe=True))
-        dataframe = filter_by(dataframe, **filters)
+    async def vendas(self, **filters: str) -> dict:
+        vendas = await self.get_vendas(**filters)
+        if len(vendas) == 0:
+            return vendas
+        dataframe = self.__format(vendas)
         dataframe["m"] = (
             datetime.now() - pd.to_datetime(dataframe["data"], unit="ms")
         ) // pd.Timedelta(days=30)
@@ -71,37 +49,20 @@ class Client(DataBase):
                 ],
                 inplace=True,
             )
-        if as_json:
-            return jsonfy(dataframe)
 
-        return dataframe
+        return jsonfy(dataframe)
 
-    async def produtos(
-        self, as_json: Optional[bool] = None
-    ) -> Union[list, pd.DataFrame]:
-        produtos = await self.get_produtos(to_dataframe=True)
-        if as_json:
-            return jsonfy(produtos)
+    async def produtos(self) -> dict:
+        produtos = await self.get_produtos()
+        return jsonfy(produtos)
 
-        return produtos
+    async def consultores(self) -> dict:
+        consultores = await self.get_consultores()
+        return jsonfy(consultores)
 
-    async def consultores(
-        self, as_json: Optional[bool] = None
-    ) -> Union[list, pd.DataFrame]:
-        consultores = await self.get_consultores(to_dataframe=True)
-        if as_json:
-            return jsonfy(consultores)
-
-        return consultores
-
-    async def chamadas(
-        self, as_json: Optional[bool] = None
-    ) -> Union[list, pd.DataFrame]:
-        chamadas = await self.get_chamadas(to_dataframe=True)
-        if as_json:
-            return jsonfy(chamadas)
-
-        return chamadas
+    async def chamadas(self) -> dict:
+        chamadas = await self.get_chamadas()
+        return jsonfy(chamadas)
 
     def __format(self, dataframe: pd.DataFrame) -> pd.DataFrame:
         dataframe["ano"] = dataframe["data"].dt.year

@@ -8,8 +8,8 @@ router = APIRouter()
 
 @router.get("/stats")
 async def stats(
-    data_inicio: str = Query(None, description="Data Inicial"),
-    data_fim: str = Query(None, description="Data Final"),
+    data_inicio: str = Query(..., description="Data Inicial"),
+    data_fim: str = Query(..., description="Data Final"),
     equipe: str = Query(None, description="Equipe"),
 ):
     async with Client() as client:
@@ -18,5 +18,5 @@ async def stats(
             data_inicio=data_inicio,
             data_fim=data_fim,
             equipe=equipe,
-            jsonfy=True,
+            tipo="~MIGRAÇÃO",
         )

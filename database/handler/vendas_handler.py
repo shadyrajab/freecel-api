@@ -1,17 +1,13 @@
+from datetime import datetime
 from typing import Optional
 
-from asyncpg.pool import Pool
 import pandas as pd
+from asyncpg.pool import Pool
 
 from empresas.empresas_aqui import Empresa
 from models.identify import ID
 from utils.functions import get_adabas, get_clause
-from utils.queries import (
-    ADD_VENDA_QUERY,
-    GET_PRECO_QUERY,
-    GET_VENDAS_QUERY,
-    REMOVE_VENDA_QUERY,
-)
+from utils.queries import ADD_VENDA_QUERY, GET_PRECO_QUERY, REMOVE_VENDA_QUERY
 from utils.variables import DDDS_valor_inteiro
 
 
@@ -19,17 +15,16 @@ class VendasHandlerDataBase:
     def __init__(self, pool: Optional[Pool] = None) -> None:
         self.pool = pool
 
-    async def get_vendas(self, to_dataframe: Optional[bool] = False):
+    async def get_vendas(self, **filters):
+        QUERY, values = self.__GET_QUERY(**filters)
         async with self.pool.acquire() as connection:
-            statement = await connection.prepare(GET_VENDAS_QUERY)
-            result = await statement.fetch()
-
-            if to_dataframe:
-                columns = [desc[0] for desc in statement.get_attributes()]
-                vendas = pd.DataFrame(result, columns=columns)
-                return vendas
-            else:
-                return result
+            result = await connection.fetch(QUERY, *values)
+            if len(result) == 0:
+                return []
+            
+            columns = result[0].keys()
+            vendas = pd.DataFrame(result, columns=columns)
+            return vendas
 
     async def get_preco(self, produto: str):
         async with self.pool.acquire() as connection:
@@ -92,3 +87,24 @@ class VendasHandlerDataBase:
         query = f"UPDATE vendas_concluidas SET {set_clause} WHERE id = ${len(values)}"
         async with self.pool.acquire() as connection:
             await connection.execute(query, *values)
+
+    def __GET_QUERY(self, **filters):
+        data_inicio = datetime.strptime(filters.get("data_inicio"), "%d-%m-%Y")
+        data_fim = datetime.strptime(filters.get("data_fim"), "%d-%m-%Y")
+        method = "=" if filters.get("tipo") == "MIGRAÇÃO" else "!="
+        periodo = ('MIGRAÇÃO', data_inicio, data_fim)
+
+        del filters["data_inicio"]
+        del filters["data_fim"]
+        del filters["tipo"]
+        
+        conditions = []
+        values = []
+        values.extend(periodo)
+        for key, value in filters.items():
+            if value is not None:
+                conditions.append(f"AND {key} = ${len(values) + 1}")
+                values.append(value)
+
+        QUERY = f"SELECT * FROM vendas_concluidas WHERE tipo {method} $1 AND data BETWEEN $2 AND $3 {" ".join(conditions)}"
+        return QUERY, values

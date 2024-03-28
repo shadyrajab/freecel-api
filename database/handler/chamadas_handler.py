@@ -3,7 +3,6 @@ from typing import Optional
 import pandas as pd
 from asyncpg.pool import Pool
 
-from models.chamadas import Chamada
 from models.identify import ID
 from utils.queries import ADD_CHAMADA_QUERY, GET_CHAMADAS_QUERY, REMOVE_CHAMADA_QUERY
 
@@ -12,17 +11,13 @@ class ChamadasHandlerDatabase:
     def __init__(self, pool: Optional[Pool] = None):
         self.pool = pool
 
-    async def get_chamadas(self, to_dataframe: Optional[bool] = False):
+    async def get_chamadas(self):
         async with self.pool.acquire() as connection:
             statement = await connection.prepare(GET_CHAMADAS_QUERY)
             result = await statement.fetch()
-
-            if to_dataframe:
-                columns = [desc[0] for desc in statement.get_attributes()]
-                chamadas = pd.DataFrame(result, columns=columns)
-                return chamadas
-            else:
-                return result
+            columns = [desc[0] for desc in statement.get_attributes()]
+            chamadas = pd.DataFrame(result, columns=columns)
+            return chamadas
 
     async def add_chamada(self, chamada):
         values = (

@@ -13,16 +13,13 @@ class ProdutosHandlerDataBase:
     def __init__(self, pool: Optional[Pool] = None) -> None:
         self.pool = pool
 
-    async def get_produtos(self, to_dataframe: Optional[bool] = False):
+    async def get_produtos(self):
         async with self.pool.acquire() as connection:
             statement = await connection.prepare(GET_PRODUTOS_QUERY)
             result = await statement.fetch()
-            if to_dataframe:
-                columns = [desc[0] for desc in statement.get_attributes()]
-                produtos = DataFrame(result, columns=columns)
-                return produtos
-            else:
-                return result
+            columns = [desc[0] for desc in statement.get_attributes()]
+            produtos = DataFrame(result, columns=columns)
+            return produtos
 
     async def add_produto(self, produto: Produto):
         values = (

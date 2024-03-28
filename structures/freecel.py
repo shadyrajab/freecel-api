@@ -1,5 +1,4 @@
-from datetime import datetime
-from typing import List, Optional, Self
+from typing import List, Optional
 
 import pandas as pd
 
@@ -9,32 +8,10 @@ from utils.variables import SUPERVISORES
 
 
 class Freecel(Stats):
-    def __init__(
-        self,
-        dataframe: pd.DataFrame,
-        data_inicio: Optional[int] = None,
-        data_fim: Optional[str] = None,
-        equipe: Optional[str] = None,
-        jsonfy: Optional[bool] = None,
-        prev_freecel: Optional[bool] = None,
-    ) -> None:
-        self.full_dataframe = dataframe
-        self.jsonfy = jsonfy
-        self.data_inicio = self.get_data_inicio(self.full_dataframe, data_inicio)
-        self.data_fim = self.get_dafa_fim(data_fim)
-        self.dataframe = filter_by(
-            dataframe,
-            data_inicio=self.data_inicio,
-            data_fim=self.data_fim,
-            equipe=equipe,
-        )
+    def __init__(self, dataframe: pd.DataFrame) -> None:
+        self.dataframe = dataframe
 
-        super().__init__(
-            self.full_dataframe, self.data_inicio, self.data_fim, equipe, True
-        )
-
-        if prev_freecel is True:
-            self.prev_freecel = self.__get_prev_freecel()
+        super().__init__(dataframe)
 
     @property
     def media_consultor_geral(self) -> float:
@@ -65,12 +42,6 @@ class Freecel(Stats):
         return self.__media_por_consultor("VVN")
 
     @property
-    def delta_media_consultor_geral(self) -> float:
-        return self.calculate_delta(
-            self.media_consultor_geral, self.prev_freecel.media_consultor_geral
-        )
-
-    @property
     def ufs(self) -> List[str]:
         return list(self.dataframe["uf"].unique())
 
@@ -92,13 +63,3 @@ class Freecel(Stats):
 
         media_por_consultor = dataframe["receita"].sum() / consultores
         return media_por_consultor
-
-    def __get_prev_freecel(self) -> Self:
-        prev_data_inicio, prev_data_fim = self.get_prev_data()
-        prev_data_inicio = str(prev_data_inicio.strftime("%d-%m-%Y"))
-        prev_data_fim = str(prev_data_fim.strftime("%d-%m-%Y"))
-        prev_freecel = Freecel(
-            self.full_dataframe, str(prev_data_inicio), str(prev_data_fim)
-        )
-
-        return prev_freecel

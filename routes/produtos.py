@@ -13,7 +13,7 @@ router = APIRouter()
 @router.get("/produtos")
 async def produtos():
     async with Client() as client:
-        return await handle_request(client.produtos, as_json=True)
+        return await handle_request(client.produtos)
 
 
 @router.post("/produtos")

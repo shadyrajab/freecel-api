@@ -11,7 +11,7 @@ router = APIRouter()
 @router.get("/chamadas")
 async def chamadas():
     async with Client() as client:
-        return await handle_request(client.chamadas, as_json=True)
+        return await handle_request(client.chamadas)
 
 
 @router.post("/chamadas")

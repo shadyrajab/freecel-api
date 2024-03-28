@@ -17,16 +17,13 @@ class ConsultorHandlerDataBase:
     def __init__(self, pool: Optional[Pool] = None):
         self.pool = pool
 
-    async def get_consultores(self, to_dataframe: Optional[bool] = None):
+    async def get_consultores(self):
         async with self.pool.acquire() as connection:
             statement = await connection.prepare(GET_CONSULTORES_QUERY)
             result = await statement.fetch()
-            if to_dataframe:
-                columns = [desc[0] for desc in statement.get_attributes()]
-                vendas = DataFrame(result, columns=columns)
-                return vendas
-            else:
-                return result
+            columns = [desc[0] for desc in statement.get_attributes()]
+            vendas = DataFrame(result, columns=columns)
+            return vendas
 
     async def add_consultor(self, consultor: Vendedor):
         values = (

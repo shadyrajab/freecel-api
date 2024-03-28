@@ -13,7 +13,7 @@ router = APIRouter()
 @router.get("/consultores")
 async def consultores():
     async with Client() as client:
-        return await handle_request(client.consultores, as_json=True)
+        return await handle_request(client.consultores)
 
 
 @router.post("/consultores")
@@ -43,18 +43,17 @@ async def update_consultor(
 
 @router.get("/consultores/{nome_consultor}")
 async def consultor(
-    nome_consultor: str,
-    data_inicio: str = Query(None, description="Data Inicial"),
-    data_fim: str = Query(None, description="Data Final"),
-    display_vendas: bool = Query(False, description="Mostrar vendas"),
+    consultor: str = Query(..., description="Consultor"),
+    data_inicio: str = Query(..., description="Data Inicial"),
+    data_fim: str = Query(..., description="Data Final"),
+
 ):
-    nome_consultor = nome_consultor.replace("_", " ").upper()
+    nome = consultor.replace("_", " ").upper()
     async with Client() as client:
         return await handle_request(
             client.Consultor,
-            nome=nome_consultor,
+            consultor=nome,
             data_inicio=data_inicio,
             data_fim=data_fim,
-            jsonfy=True,
-            display_vendas=display_vendas,
+            tipo="~MIGRAÇÃO"
         )

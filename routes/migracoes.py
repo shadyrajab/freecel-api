@@ -10,11 +10,15 @@ router = APIRouter()
 
 @router.get("/migracoes")
 async def migracoes(
-    ano: int = Query(None, description="Ano"), mes: str = Query(None, description="Mês")
+    data_inicio: str = Query(..., description="Ano"),
+    data_fim: str = Query(..., description="Mês"),
 ):
     async with Client() as client:
         return await handle_request(
-            client.vendas, as_json=True, ano=ano, mes=mes, tipo="MIGRAÇÃO"
+            client.vendas,
+            data_inicio=data_inicio,
+            data_fim=data_fim,
+            tipo="MIGRAÇÃO",
         )
 
 

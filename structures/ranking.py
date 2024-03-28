@@ -7,21 +7,8 @@ from utils.variables import SUPERVISORES, TIPO_VENDA
 
 
 class Rankings:
-    def __init__(
-        self,
-        dataframe: pd.DataFrame,
-        data_inicio: Optional[int] = None,
-        data_fim: Optional[str] = None,
-        equipe: Optional[str] = None,
-        jsonfy: Optional[bool] = None,
-    ) -> None:
-        self.dataframe = filter_by(
-            dataframe, data_inicio=data_inicio, data_fim=data_fim, equipe=equipe
-        )
-        self.jsonfy = jsonfy
-        self.data_inicio = data_inicio
-        self.data_fim = data_fim
-        self.equipe = equipe
+    def __init__(self, dataframe: pd.DataFrame) -> None:
+        self.dataframe = dataframe
 
     @property
     def planos(self):
@@ -111,7 +98,4 @@ class Rankings:
         )
 
         final_dataframe = pd.merge(ranking, quantidade_de_vendas, on=column)
-        if self.jsonfy:
-            return jsonfy(final_dataframe)
-
-        return final_dataframe
+        return jsonfy(final_dataframe)
