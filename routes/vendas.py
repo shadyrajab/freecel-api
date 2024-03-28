@@ -28,7 +28,7 @@ async def vendas(
             cnpj=cnpj,
             uf=uf,
             adabas=adabas,
-            tipo="MIGRAÇÃO"
+            tipo="~MIGRAÇÃO"
         )
 
 
