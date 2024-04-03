@@ -18,7 +18,7 @@ async def vendas(
     cnpj: str = Query(None, description="CNPJ"),
     uf: list = Query(None, description="UF"),
     adabas: str = Query(None, description="ADABAS"),
-    tipos: list = Query(None, description="Tipos de Venda"),
+    tipo: list = Query(None, description="Tipos de Venda"),
     status: list = Query(None, description="Status da Venda"),
     responsavel: str = Query(None, description="Responsável pela Venda"),
     plano: list = Query(None, description="Planos das Vendas"),
@@ -33,7 +33,7 @@ async def vendas(
             uf=uf,
             adabas=adabas,
             venda = "~MIGRAÇÃO",
-            tipo=tipos,
+            tipo=tipo,
             status=status,
             responsavel=responsavel,
             plano=plano
