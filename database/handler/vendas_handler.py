@@ -26,8 +26,6 @@ class VendasHandlerDataBase:
             vendas = pd.DataFrame(result, columns=columns)
             return vendas
 
-        return {}
-
     async def get_preco(self, produto: str):
         async with self.pool.acquire() as connection:
             preco = await connection.fetch(GET_PRECO_QUERY, produto)
