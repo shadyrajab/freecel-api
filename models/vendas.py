@@ -6,7 +6,6 @@ from typing import Optional
 from pycpfcnpj import cpfcnpj
 from pydantic import BaseModel, EmailStr, validator
 
-from client.client import Client
 from utils.variables import DDDS, EQUIPE, STATUS_VENDA, TIPO_VENDA
 
 
@@ -40,19 +39,6 @@ class Venda(BaseModel):
             raise ValueError(f"Não existe nenhum status chamado {value}")
 
         return value.upper()
-
-    # @validator("consultor")
-    # async def validate_consultor(cls, value):
-    #     async with Client() as client:
-    #         consultores = await client.get_consultores()
-    #         consultores = [consultor[0] for consultor in consultores]
-
-    #         if value.upper() not in consultores:
-    #             raise ValueError(
-    #                 f"Não existe nenhum consultor na base de dados chamado {value}."
-    #             )
-
-    #     return value.upper()
 
     @validator("gestor")
     def validate_gestor(cls, value):
@@ -115,19 +101,3 @@ class Venda(BaseModel):
             raise ValueError(f"O CNPJ ou CPF informado está inválido.")
 
         return cnpj
-
-    # @validator("plano")
-    # async def validate_plano(cls, value, values):
-    #     if int(values.get("preco")) != 0:
-    #         return value
-
-    #     async with Client() as client:
-    #         planos = await client.get_produtos()
-    #         planos = [plano[0] for plano in planos]
-
-    #         if value.upper() not in planos:
-    #             raise ValueError(
-    #                 f"Não existe nenhum plano na base de dados chamado {value}."
-    #             )
-
-    #     return value.upper()
