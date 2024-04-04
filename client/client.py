@@ -34,13 +34,13 @@ class Client(DataBase):
         if len(vendas) == 0:
             return vendas
         dataframe = self.__format(vendas)
-        dataframe["m"] = (
-            datetime.now() - pd.to_datetime(dataframe["data"], unit="ms")
-        ) // pd.Timedelta(days=30)
-        if filters.get("tipo") == "~MIGRAÇÃO":
+        if filters.get("venda") == "~MIGRAÇÃO":
             dataframe.drop(
                 axis=1,
                 columns=[
+                    "volume_migracao",
+                    "m",
+                    "tipo_m",
                     "valor_atual",
                     "valor_renovacao",
                     "valor_inovacao",
