@@ -36,15 +36,11 @@ class Rankings:
 
     @property
     def migracao(self) -> pd.DataFrame:
-        return self.__get_ranking("consultor", "MIGRAÇÃO PRÉ-PÓS")
+        return self.__get_ranking("consultor", "MIGRAÇÃO PRÉ/PÓS")
 
     @property
     def altas(self) -> pd.DataFrame:
         return self.__get_ranking("consultor", "ALTAS")
-
-    @property
-    def portabilidade(self) -> pd.DataFrame:
-        return self.__get_ranking("consultor", "PORTABILIDADE")
 
     @property
     def periodo_trabalhado(self) -> int:
@@ -70,7 +66,7 @@ class Rankings:
     ) -> pd.DataFrame:
         dataframe = self.dataframe.copy()
         if tipo_venda and tipo_venda not in TIPO_VENDA:
-            raise ValueError(f"O tipo de venda deve ser {str(TIPO_VENDA)}")
+            raise ValueError(f"O tipo de venda {tipo_venda} não existe")
 
         if tipo_venda:
             dataframe = filter_by(self.dataframe, tipo=tipo_venda)
@@ -86,6 +82,7 @@ class Rankings:
             [
                 "preco",
                 "id",
+                "m",
                 "ja_cliente",
                 "valor_atual",
                 "valor_inovacao",
