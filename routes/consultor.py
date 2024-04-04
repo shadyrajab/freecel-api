@@ -56,4 +56,5 @@ async def consultor(
             data_inicio=data_inicio,
             data_fim=data_fim,
             venda="~MIGRAÇÃO",
+            status="CONCLUÍDO"
         )

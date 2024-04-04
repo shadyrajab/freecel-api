@@ -19,4 +19,5 @@ async def stats(
             data_fim=data_fim,
             equipe=equipe,
             venda="~MIGRAÇÃO",
+            status="CONCLUÍDO"
         )

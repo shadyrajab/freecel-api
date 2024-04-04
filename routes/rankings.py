@@ -18,5 +18,6 @@ async def rankings(
             data_inicio=data_inicio,
             data_fim=data_fim,
             equipe=equipe,
-            venda="~MIGRAÇÃO"
+            venda="~MIGRAÇÃO",
+            status="CONCLUÍDO"
         )
