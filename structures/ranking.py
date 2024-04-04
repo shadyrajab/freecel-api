@@ -84,7 +84,6 @@ class Rankings:
 
         ranking.drop(
             [
-                "ano",
                 "preco",
                 "id",
                 "ja_cliente",
