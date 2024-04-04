@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, Request
 
 from authenticator.jwt import authenticate
 from client.client import Client
@@ -43,17 +43,17 @@ async def update_consultor(
 
 @router.get("/consultores/{nome_consultor}")
 async def consultor(
-    consultor: str = Query(..., description="Consultor"),
+    request: Request,
     data_inicio: str = Query(..., description="Data Inicial"),
     data_fim: str = Query(..., description="Data Final"),
-
 ):
-    nome = consultor.replace("_", " ").upper()
+    nome_consultor = request.path_params["nome_consultor"]
+    nome = nome_consultor.replace("_", " ").upper()
     async with Client() as client:
         return await handle_request(
             client.Consultor,
             consultor=nome,
             data_inicio=data_inicio,
             data_fim=data_fim,
-            venda="~MIGRAÇÃO"
+            venda="~MIGRAÇÃO",
         )
