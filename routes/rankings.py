@@ -10,7 +10,7 @@ router = APIRouter()
 async def rankings(
     data_inicio: str = Query(..., description="Data Inicial"),
     data_fim: str = Query(..., description="Data Final"),
-    equipe: str = Query(None, description="Equipe"),
+    equipe: list = Query(None, description="Equipe"),
 ):
     async with Client() as client:
         return await handle_request(
