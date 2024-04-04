@@ -18,5 +18,5 @@ async def stats(
             data_inicio=data_inicio,
             data_fim=data_fim,
             equipe=equipe,
-            tipo="~MIGRAÇÃO",
+            venda="~MIGRAÇÃO",
         )
