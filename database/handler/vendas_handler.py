@@ -32,10 +32,10 @@ class VendasHandlerDataBase:
 
         return preco[0]["preco"] if preco else None
 
-    async def add_venda(self, venda):
+    async def add_venda(self, user, venda):
         empresa = Empresa(venda.cnpj)
         adabas = get_adabas(venda.equipe, venda.tipo)
-        preco = await self.get_preco(venda.plano) if venda.preco == 0 else venda.preco
+        preco = await self.get_preco(venda.plano) if not venda.preco else venda.preco
         receita = preco * venda.volume
         if venda.ddd not in DDDS_valor_inteiro:
             receita *= 0.3
@@ -43,6 +43,7 @@ class VendasHandlerDataBase:
         values = (
             venda.cnpj,
             venda.telefone,
+            user,
             venda.consultor,
             venda.data,
             venda.gestor,

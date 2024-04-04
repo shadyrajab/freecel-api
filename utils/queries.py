@@ -1,6 +1,7 @@
 ADD_VENDA_LIST_PARAMS = [
     "cnpj",
     "telefone",
+    "responsavel",
     "consultor",
     "data",
     "gestor",

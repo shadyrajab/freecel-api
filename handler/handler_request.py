@@ -12,7 +12,11 @@ logging.basicConfig(
 async def handle_request(client_method, *user, **kwargs):
     function_name = client_method.__name__
     try:
-        result = await client_method(**kwargs)
+        if function_name == "add_venda":
+            result = await client_method(*user, **kwargs)
+        else:
+            result = await client_method(**kwargs)
+
         logging.info(f"{function_name} params {kwargs} by {user}")
         if function_name in {"Consultor", "Ranking", "Freecel"}:
             return result.to_json()
