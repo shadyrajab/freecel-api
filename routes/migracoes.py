@@ -18,7 +18,7 @@ async def migracoes(
             client.vendas,
             data_inicio=data_inicio,
             data_fim=data_fim,
-            tipo="MIGRAÇÃO",
+            venda="MIGRAÇÃO",
         )
 
 

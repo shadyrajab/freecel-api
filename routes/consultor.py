@@ -55,5 +55,5 @@ async def consultor(
             consultor=nome,
             data_inicio=data_inicio,
             data_fim=data_fim,
-            tipo="~MIGRAÇÃO"
+            venda="~MIGRAÇÃO"
         )
