@@ -12,7 +12,46 @@ TOKENEMPRESAS = getenv("tokenEmpresas")
 
 CARGOS = {"SUPERVISOR", "ESTAGIÁRIO", "EFETIVO"}
 SUPERVISORES = {"FLAVIO HENRIQUE LEMOS DOS NASCIMENTO"}
-TIPO_VENDA = {"FIXA", "AVANÇADA", "MIGRAÇÃO PRÉ-PÓS", "VVN", "ALTAS", "PORTABILIDADE"}
+TIPO_VENDA = {
+    "FIXA",
+    "AVANÇADA",
+    "VVN",
+    "INTERNET_TOTALIZACAO",
+    "INTERNET",
+    "JÁ CLIENTE",
+    "MIGRAÇÃO",
+    "MIGRAÇÃO PRÉ/PÓS",
+    "MIGRAÇÃO PRÉ/PÓS - VIVO TOTAL",
+    "MIGRAÇÃO PRÉ/PÓS + TROCA",
+    "MIGRAÇÃO+TROCA",
+    "NOVO",
+    "NOVO - VIVO TOTAL",
+    "PORTABILIDADE",
+    "PORTABILIDADE - VIVO TOTAL",
+    "PORTABILIDADE CNPJ – CNPJ",
+    "PORTABILIDADE PF + TT PF/PJ",
+    "SERVIÇO",
+    "TROCA",
+    "NOVO_TOTALIZACAO",
+    "TT PF/PJ + MIGRAÇÃO",
+    "TT PJ/PJ",
+    "JÁ CLIENTE - VIVO TOTAL",
+    "FWT",
+    "BASE_TOTALIZACAO",
+    "PORTABILIDADE_TOTALIZACAO",
+    "MIGRAÇÃO PRÉ/PÓS_TOTALIZACAO",
+    "TT PF/PJ",
+    "PORTABILIDADE PF + TT PF/PJ - VIVO TOTAL",
+    "PORTABILIDADE FWT",
+    "RENEGOCIAÇÃO",
+    "RENEGOCIÇÃO + PORTABILIDADE",
+    "RERNEGOCIAÇÃO + MIGRAÇÃO",
+    "TRANSF. TITULARIDADE PÓS PF-PJ + MIGRAÇÃO - FWT",
+    "TRANSF. TITULARIDADE PÓS PF-PJ + MIGRAÇÃO",
+    "TOTALIZAÇÃO",
+    "PEN",
+}
+
 EQUIPE = {"FREECEL", "VALPARAISO", "PARCEIRO", "GOIÂNIA", "SAMAMBAIA"}
 UF = {
     "AC",
@@ -28,8 +67,7 @@ UF = {
     "MT",
     "MS",
     "MG",
-    "TO" 
-    "PA",
+    "TO" "PA",
     "PB",
     "PR",
     "PE",
@@ -197,8 +235,7 @@ DDDS_valor_inteiro = [
     "93",
     "94",
     "95",
-    "96," 
-    "97",
+    "96," "97",
     "98",
     "99",
 ]
@@ -231,7 +268,7 @@ STATUS_VENDA = [
     "EXPIRADO",
     "EM ANALISE",
     "AGUARDANDO SAV",
-    "FATURANDO- INSTALADO",
+    "FATURANDO - INSTALADO",
     "AGUARDANDO 1º PEDIDO",
     "ABERTA",
     "CONCLUÍDO / PAGO",
