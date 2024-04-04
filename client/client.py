@@ -65,8 +65,6 @@ class Client(DataBase):
         return jsonfy(chamadas)
 
     def __format(self, dataframe: pd.DataFrame) -> pd.DataFrame:
-        dataframe["ano"] = dataframe["data"].dt.year
-        dataframe["mes"] = dataframe["data"].dt.month.apply(lambda mes: get_mes(mes))
         dataframe[["receita", "preco", "volume"]] = dataframe[
             ["receita", "preco", "volume"]
         ].apply(pd.to_numeric, errors="coerce", downcast="integer")
