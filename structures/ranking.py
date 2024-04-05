@@ -2,7 +2,7 @@ from typing import Optional
 
 import pandas as pd
 
-from utils.functions import filter_by, jsonfy
+from utils.functions import jsonfy
 from utils.variables import ALTAS, AVANCADA, FIXA, MIGRACAO, SUPERVISORES, VVN
 
 
