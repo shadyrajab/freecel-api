@@ -3,8 +3,7 @@ from typing import List, Optional
 import pandas as pd
 
 from structures.stats import Stats
-from utils.functions import filter_by
-from utils.variables import SUPERVISORES
+from utils.variables import ALTAS, AVANCADA, FIXA, MIGRACAO, SUPERVISORES, VVN
 
 
 class Freecel(Stats):
@@ -19,27 +18,23 @@ class Freecel(Stats):
 
     @property
     def media_consultor_altas(self) -> float:
-        return self.__media_por_consultor("ALTAS")
+        return self.__media_por_consultor(ALTAS)
 
     @property
     def media_consultor_migracao(self) -> float:
-        return self.__media_por_consultor("MIGRAÇÃO PRÉ/PÓS")
+        return self.__media_por_consultor(MIGRACAO)
 
     @property
     def media_consultor_fixa(self) -> float:
-        return self.__media_por_consultor("FIXA")
+        return self.__media_por_consultor(FIXA)
 
     @property
     def media_consultor_avancada(self) -> float:
-        return self.__media_por_consultor("AVANÇADA")
-
-    @property
-    def media_consultor_portabilidade(self) -> float:
-        return self.__media_por_consultor("PORTABILIDADE")
+        return self.__media_por_consultor(AVANCADA)
 
     @property
     def media_consultor_vvn(self) -> float:
-        return self.__media_por_consultor("VVN")
+        return self.__media_por_consultor(VVN)
 
     @property
     def ufs(self) -> List[str]:
@@ -55,7 +50,10 @@ class Freecel(Stats):
         return data
 
     def __media_por_consultor(self, tipo: Optional[str] = None) -> float:
-        dataframe = filter_by(dataframe=self.dataframe, tipo=tipo)
+        dataframe = self.dataframe.copy()
+        if tipo:
+            dataframe = dataframe[dataframe["tipo"].isin(tipo)]
+
         dataframe = dataframe[~dataframe["consultor"].isin(SUPERVISORES)]
         consultores = dataframe["consultor"].nunique()
         if consultores == 0:
