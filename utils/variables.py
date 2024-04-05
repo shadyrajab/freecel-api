@@ -10,6 +10,12 @@ USER = getenv("user")
 PASSWORD = getenv("password")
 TOKENEMPRESAS = getenv("tokenEmpresas")
 
+PAYLOAD = {
+    "action": "login",
+    "user": getenv("userGestao"),
+    "password": getenv("passwordGestao"),
+}
+
 CARGOS = {"SUPERVISOR", "ESTAGIÁRIO", "EFETIVO"}
 SUPERVISORES = {"FLAVIO HENRIQUE LEMOS DOS NASCIMENTO"}
 ALTAS = [
