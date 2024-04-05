@@ -3,7 +3,7 @@ from typing import Optional
 import pandas as pd
 
 from utils.functions import filter_by, jsonfy
-from utils.variables import SUPERVISORES, TIPO_VENDA
+from utils.variables import ALTAS, AVANCADA, FIXA, MIGRACAO, SUPERVISORES, VVN
 
 
 class Rankings:
@@ -24,23 +24,23 @@ class Rankings:
 
     @property
     def fixa(self) -> pd.DataFrame:
-        return self.__get_ranking("consultor", "FIXA")
+        return self.__get_ranking("consultor", FIXA)
 
     @property
     def avancada(self) -> pd.DataFrame:
-        return self.__get_ranking("consultor", "AVANÇADA")
+        return self.__get_ranking("consultor", AVANCADA)
 
     @property
     def vvn(self) -> pd.DataFrame:
-        return self.__get_ranking("consultor", "VVN")
+        return self.__get_ranking("consultor", VVN)
 
     @property
     def migracao(self) -> pd.DataFrame:
-        return self.__get_ranking("consultor", "MIGRAÇÃO PRÉ/PÓS")
+        return self.__get_ranking("consultor", MIGRACAO)
 
     @property
     def altas(self) -> pd.DataFrame:
-        return self.__get_ranking("consultor", "ALTAS")
+        return self.__get_ranking("consultor", ALTAS)
 
     @property
     def periodo_trabalhado(self) -> int:
@@ -65,11 +65,8 @@ class Rankings:
         self, column: str, tipo_venda: Optional[str] = None
     ) -> pd.DataFrame:
         dataframe = self.dataframe.copy()
-        if tipo_venda and tipo_venda not in TIPO_VENDA:
-            raise ValueError(f"O tipo de venda {tipo_venda} não existe")
-
         if tipo_venda:
-            dataframe = filter_by(self.dataframe, tipo=tipo_venda)
+            dataframe = dataframe[dataframe["tipo"].isin(tipo_venda)]
 
         quantidade_de_vendas = dataframe[column].value_counts().reset_index()
         quantidade_de_vendas.columns = [column, "clientes"]
