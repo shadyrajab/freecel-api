@@ -23,7 +23,7 @@ class Freecel(Stats):
 
     @property
     def media_consultor_migracao(self) -> float:
-        return self.__media_por_consultor("MIGRAÇÃO PRÉ-PÓS")
+        return self.__media_por_consultor("MIGRAÇÃO PRÉ/PÓS")
 
     @property
     def media_consultor_fixa(self) -> float:
