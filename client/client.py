@@ -60,10 +60,6 @@ class Client(DataBase):
         consultores = await self.get_consultores()
         return jsonfy(consultores)
 
-    async def chamadas(self) -> dict:
-        chamadas = await self.get_chamadas()
-        return jsonfy(chamadas)
-
     def __format(self, dataframe: pd.DataFrame) -> pd.DataFrame:
         dataframe[["receita", "preco", "volume"]] = dataframe[
             ["receita", "preco", "volume"]

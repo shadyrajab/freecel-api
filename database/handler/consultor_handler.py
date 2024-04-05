@@ -9,6 +9,7 @@ from utils.functions import get_clause
 from utils.queries import (
     ADD_CONSULTOR_QUERY,
     GET_CONSULTORES_QUERY,
+    GET_EQUIPE_FLAVIO,
     REMOVE_CONSULTOR_QUERY,
 )
 
@@ -22,8 +23,16 @@ class ConsultorHandlerDataBase:
             statement = await connection.prepare(GET_CONSULTORES_QUERY)
             result = await statement.fetch()
             columns = [desc[0] for desc in statement.get_attributes()]
-            vendas = DataFrame(result, columns=columns)
-            return vendas
+            consultores = DataFrame(result, columns=columns)
+            return consultores
+
+    async def get_equipe_flavio(self):
+        async with self.pool.acquire() as connection:
+            statement = await connection.prepare(GET_EQUIPE_FLAVIO)
+            result = await statement.fetch()
+            columns = [desc[0] for desc in statement.get_attributes()]
+            equipe = DataFrame(result, columns=columns)
+            return equipe
 
     async def add_consultor(self, consultor: Vendedor):
         values = (
