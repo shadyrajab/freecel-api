@@ -30,6 +30,9 @@ class UpdateMigracaoParams(UpdateVendaParams):
     valor_inovacao: Optional[float] = Field(None, description="Valor da Inovação")
     pacote_inovacao: Optional[str] = Field(None, description="Pacote Inovação")
     volume_inovacao: Optional[int] = Field(None, description="Volume Inovação")
+    m: Optional[int] = Field(None, description="Valor de M")
+    tipo_m: Optional[str] = Field(None, description="O tipo de M")
+    volume_migracao: Optional[int] = Field(None, description="Quantidade de Migração")
 
 
 class UpdateConsultorParams(BaseModel):
