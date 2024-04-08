@@ -11,22 +11,22 @@ class VivoGestaoChamadas:
     def __init__(self, data_inicio: str, data_fim: str, consultores: pd.DataFrame):
         self.data_inicio = datetime.strptime(data_inicio, "%d-%m-%Y")
         self.data_fim = datetime.strptime(data_fim, "%d-%m-%Y")
-        self.session_id, self.remote_ip = self.login_vivo_gestao()
+        self.session_id, self.remote_ip = self.__login_vivo_gestao()
         self.consultores = consultores
 
         self.threads = []
         self.records = []
 
-        self.create_threads()
-        self.run_threads()
+        self.__create_threads()
+        self.__run_threads()
 
-    def login_vivo_gestao(self):
+    def __login_vivo_gestao(self):
         URL = "https://vivogestao.vivoempresas.com.br/Portal/api/datapackcompanyinfo"
         response = requests.post(URL, json=PAYLOAD)
         data = response.json()
         return data["sessionId"], data["remoteIp"]
 
-    def create_threads(self):
+    def __create_threads(self):
         start_date = (
             int(datetime.combine(self.data_inicio, time.min).timestamp()) * 1000
         )
@@ -48,7 +48,7 @@ class VivoGestaoChamadas:
             thread.start()
             self.threads.append(thread)
 
-    def run_threads(self):
+    def __run_threads(self):
         for thread in self.threads:
             thread.join()
 
