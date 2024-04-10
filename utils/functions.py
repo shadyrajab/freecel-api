@@ -3,7 +3,7 @@ from json import load
 
 from pandas import DataFrame
 
-from utils.variables import MONTHS, adabas_mapping
+from utils.variables import CATEGORIAS, MONTHS, adabas_mapping
 
 
 def get_clause(**params):
@@ -41,7 +41,8 @@ def jsonfy(dataframe: DataFrame):
 
 
 def get_adabas(equipe, tipo) -> str:
-    return adabas_mapping.get((equipe, tipo), None)
+    categoria = CATEGORIAS.get(tipo)
+    return adabas_mapping.get((equipe, categoria), None)
 
 
 def filter_by(dataframe: DataFrame, **filters: str) -> DataFrame:
