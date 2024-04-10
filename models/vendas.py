@@ -88,7 +88,7 @@ class Venda(BaseModel):
         if value.upper() not in TIPO_VENDA:
             raise ValueError(
                 f"""
-                O tipo de venda informado está inválido. O tipo deve ser {str(EQUIPE)}, não {value}
+                O tipo de venda informado está inválido. O tipo deve ser {str(TIPO_VENDA)}, não {value}
             """
             )
 
