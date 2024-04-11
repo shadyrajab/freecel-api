@@ -76,13 +76,6 @@ class Venda(BaseModel):
 
         return value.upper()
 
-    @validator("volume")
-    def validate_volume(cls, value):
-        if value < 1:
-            raise ValueError(f"O Volume da venda não pode ser menor do que 1.")
-
-        return ceil(value)
-
     @validator("tipo")
     def validate_tipo(cls, value):
         if value.upper() not in TIPO_VENDA:
