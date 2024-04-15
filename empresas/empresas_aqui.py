@@ -66,7 +66,7 @@ class Empresa:
 
     @property
     def data_abertura(self):
-        return self.empresa.get("data_empresa", None)
+        return self.empresa.get("data_abertura", None)
 
     def __get_empresa(self, cnpj: str):
         url = f"https://www.empresaqui.com.br/api/{TOKENEMPRESAS}/{cnpj}"
