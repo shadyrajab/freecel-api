@@ -10,11 +10,11 @@ class Empresa:
     @property
     def porte(self):
         porte = {
-            0: "NÃO INFORMADO",
-            1: "MICROEMPRESA",
-            3: "PEQUENO PORTE",
-            5: "MÉDIO/GRANDE PORTE",
-        }.get(self.empresa.get("porte", 0))
+            "0": None,
+            "1": "MICROEMPRESA",
+            "3": "PEQUENO PORTE",
+            "5": "MÉDIO/GRANDE PORTE",
+        }.get(self.empresa.get("porte", "0"))
         return porte
 
     @property
@@ -35,8 +35,8 @@ class Empresa:
 
     @property
     def matriz(self):
-        matriz = {0: "NÃO INFORMADO", 1: "MATRIZ", 2: "FILIAL"}.get(
-            self.empresa.get("matriz", 0)
+        matriz = {"0": None, "1": "MATRIZ", "2": "FILIAL"}.get(
+            self.empresa.get("matriz", "0")
         )
         return matriz
 
