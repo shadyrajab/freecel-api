@@ -1,12 +1,10 @@
-from datetime import datetime
-
 import pandas as pd
 
 from database.connection import DataBase
 from structures.consultor import Consultor
 from structures.freecel import Freecel
 from structures.ranking import Rankings
-from utils.functions import get_mes, jsonfy
+from utils.functions import jsonfy
 
 
 class Client(DataBase):
