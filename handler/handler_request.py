@@ -1,6 +1,6 @@
 import logging
 
-from fastapi import Response
+from fastapi.responses import JSONResponse 
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -37,7 +37,7 @@ async def handle_request(client_method, *user, **kwargs):
             "remove_chamada",
         }:
             logging.info(f"{function_name} params {kwargs} by {user}")
-            return Response(
+            return JSONResponse(
                 content={
                     "status_code": 200,
                     "message": f"Solicitação {function_name} realizada com sucesso",
@@ -51,7 +51,7 @@ async def handle_request(client_method, *user, **kwargs):
 
     except Exception as e:
         logging.error(f"{function_name} params {kwargs} error: {e}")
-        return Response(
+        return JSONResponse(
             content={
                 "message": "Ocorreu um erro ao atender sua solicitação",
                 "params": kwargs,
