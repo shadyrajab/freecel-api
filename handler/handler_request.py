@@ -1,5 +1,7 @@
 import logging
 
+from fastapi import Response
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 logging.basicConfig(
@@ -32,23 +34,28 @@ async def handle_request(client_method, *user, **kwargs):
             "remove_produto",
             "add_produto",
             "add_chamada",
-            "remove_chamada"
+            "remove_chamada",
         }:
             logging.info(f"{function_name} params {kwargs} by {user}")
-            return {
-                "status_code": 200,
-                "message": f"Solicitação {function_name} realizada com sucesso",
-                "id": result,
-                "params": kwargs,
-            }
+            return Response(
+                content={
+                    "status_code": 200,
+                    "message": f"Solicitação {function_name} realizada com sucesso",
+                    "id": result,
+                    "params": kwargs,
+                },
+                status_code=200,
+            )
 
         return result
 
     except Exception as e:
         logging.error(f"{function_name} params {kwargs} error: {e}")
-        return {
-            "status_code": 500,
-            "message": "Ocorreu um erro ao atender sua solicitação",
-            "params": kwargs,
-            "exception": str(e),
-        }
+        return Response(
+            content={
+                "message": "Ocorreu um erro ao atender sua solicitação",
+                "params": kwargs,
+                "exception": str(e),
+            },
+            status_code=500,
+        )
