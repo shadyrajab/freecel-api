@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from requests import request
 
 from utils.variables import TOKENEMPRESAS
@@ -66,7 +68,11 @@ class Empresa:
 
     @property
     def data_abertura(self):
-        return self.empresa.get("data_abertura", None)
+        data_abertura = self.empresa.get("data_abertura", None)
+        if data_abertura is not None:
+            data_abertura = datetime.strptime(data_abertura, '%Y%m%d')
+
+        return data_abertura
 
     def __get_empresa(self, cnpj: str):
         url = f"https://www.empresaqui.com.br/api/{TOKENEMPRESAS}/{cnpj}"
