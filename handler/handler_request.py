@@ -1,6 +1,7 @@
 import logging
 
-from fastapi.responses import JSONResponse 
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -38,12 +39,14 @@ async def handle_request(client_method, *user, **kwargs):
         }:
             logging.info(f"{function_name} params {kwargs} by {user}")
             return JSONResponse(
-                content={
-                    "status_code": 200,
-                    "message": f"Solicitação {function_name} realizada com sucesso",
-                    "id": result,
-                    "params": kwargs,
-                },
+                content=jsonable_encoder(
+                    {
+                        "status_code": 200,
+                        "message": f"Solicitação {function_name} realizada com sucesso",
+                        "id": result,
+                        "params": kwargs,
+                    }
+                ),
                 status_code=200,
             )
 
@@ -52,10 +55,12 @@ async def handle_request(client_method, *user, **kwargs):
     except Exception as e:
         logging.error(f"{function_name} params {kwargs} error: {e}")
         return JSONResponse(
-            content={
-                "message": "Ocorreu um erro ao atender sua solicitação",
-                "params": kwargs,
-                "exception": str(e),
-            },
+            content=jsonable_encoder(
+                {
+                    "message": "Ocorreu um erro ao atender sua solicitação",
+                    "params": kwargs,
+                    "exception": str(e),
+                }
+            ),
             status_code=500,
         )
