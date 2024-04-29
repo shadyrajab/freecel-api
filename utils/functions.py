@@ -75,3 +75,9 @@ def filter_by(dataframe: DataFrame, **filters: str) -> DataFrame:
 
 def get_mes(mes) -> str:
     return MONTHS[mes - 1]
+
+
+def remove_rbar(x):
+    if type(x) is not str:
+        return x
+    return x.replace("\r", " ")

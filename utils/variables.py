@@ -65,6 +65,35 @@ MIGRACAO = [
 
 TIPO_VENDA = ALTAS + FIXA + AVANCADA + VVN + MIGRACAO
 
+TERMO_COLUMNS = ["Nº", "Comp.", "DDD", "Nº da Linha"]
+COMPOSICAO_COLUMNS = [
+    "Comp.",
+    "DDD",
+    "Qtde.",
+    "Negociação",
+    "Conta",
+    "Plano e Vlr. Unit.",
+    "Serviço Vlr. Unit.",
+    "Benefício da Oferta X Valor de Prateleira Unitário*",
+    "Trade In",
+    "Vlr. Unit. Composição/Comprometimento",
+    "Aparelho",
+    "Desconto de Aparelho",
+    "Prazo de Vigência",
+]
+
+INDEX_COLUMNS = [
+    "Nº",
+    "Comp.",
+    "Negociação",
+    "DDD_x",
+    "Telefone",
+    "Plano e Vlr. Unit.",
+    "M",
+    "Recomendação",
+    "Recomendação UP",
+]
+
 EQUIPE = {"FREECEL", "VALPARAISO", "PARCEIRO", "GOIÂNIA", "SAMAMBAIA"}
 UF = {
     "AC",
