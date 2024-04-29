@@ -1,7 +1,6 @@
 gunicorn==21.2.0
 uvicorn==0.27.0.post1
 pandas==2.1.4
-psycopg2==2.9.9
 python-dotenv==1.0.0
 fastapi==0.109.2
 pytz==2023.3.post1
@@ -11,3 +10,6 @@ cpf-cnpj-validate==1.4
 email-validator==2.1.0.post1
 asyncpg==0.29.0
 pytest==8.1.1
+python-multipart==0.0.9
+tabula-py==2.9.0
+PyPDF2==3.0.1
