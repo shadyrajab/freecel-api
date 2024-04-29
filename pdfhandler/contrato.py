@@ -27,8 +27,11 @@ def read_termo_complementar(termo_complementar: str):
 
 
 def read_desc_composicao(contrato, page: int):
-    composicao = tabula.read_pdf(contrato, pages=page, lattice=True)[2]
-    composicao = composicao.iloc[2:, 0:26]
+    composicao = tabula.read_pdf(contrato, pages=page, lattice=True)
+
+    for table in composicao:
+        if len(table.columns) == 39:
+            composicao = table.iloc[2:, 0:26]
 
     if composicao["Unnamed: 14"].isnull().any():
         composicao["Unnamed: 14"] = "Não Informado"
@@ -53,6 +56,7 @@ async def read_contract_pdf(contrato):
         if "\nID\nComposição\nDDD\nQtde.\nNegociação\nConta\n" in page.extract_text():
             desc_composicao = i + 1
 
+    print(desc_composicao)
     return (
         read_termo_complementar(termo_complementar),
         read_desc_composicao(contrato, desc_composicao),
