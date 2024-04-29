@@ -7,31 +7,6 @@
     <description>Extract tables from PDF files</description>
     <url>http://github.com/tabulapdf/tabula-java</url>
 
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>http://www.opensource.org/licenses/mit-license.php</url>
-        </license>
-    </licenses>
-
-    <developers>
-        <developer>
-            <name>Manuel Aristaran</name>
-            <organization>Tabula</organization>
-            <organizationUrl>http://github.com/tabulapdf</organizationUrl>
-        </developer>
-        <developer>
-            <name>Jeremy B. Merrill</name>
-            <organization>Tabula</organization>
-            <organizationUrl>http://github.com/tabulapdf</organizationUrl>
-        </developer>
-        <developer>
-            <name>Mike Tigas</name>
-            <organization>Tabula</organization>
-            <organizationUrl>http://github.com/tabulapdf</organizationUrl>
-        </developer>
-    </developers>
-
     <repositories>
       <repository>
         <id>snapshots</id>
@@ -266,18 +241,6 @@
         <groupId>org.apache.pdfbox</groupId>
         <artifactId>pdfbox</artifactId>
         <version>2.0.28</version>
-    </dependency>
-
-    <dependency>
-        <groupId>org.bouncycastle</groupId>
-        <artifactId>bcprov-jdk15on</artifactId>
-        <version>1.70</version>
-    </dependency>
-
-    <dependency>
-        <groupId>org.bouncycastle</groupId>
-        <artifactId>bcmail-jdk15on</artifactId>
-        <version>1.70</version>
     </dependency>
 
     <dependency>
