@@ -22,4 +22,5 @@ async def read_visao_pdf(visao):
                 }
             ]
         )
-    return visao
+    
+    return visao[0]
