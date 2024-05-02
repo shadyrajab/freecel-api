@@ -1,6 +1,5 @@
 import asyncpg
 
-from database.handler.chamadas_handler import ChamadasHandlerDatabase
 from database.handler.consultor_handler import ConsultorHandlerDataBase
 from database.handler.produtos_handler import ProdutosHandlerDataBase
 from database.handler.vendas_handler import VendasHandlerDataBase
@@ -9,10 +8,7 @@ from utils.variables import DATABASE, HOST, PASSWORD, USER
 
 
 class DataBase(
-    ConsultorHandlerDataBase,
-    ProdutosHandlerDataBase,
-    VendasHandlerDataBase,
-    ChamadasHandlerDatabase,
+    ConsultorHandlerDataBase, ProdutosHandlerDataBase, VendasHandlerDataBase
 ):
     async def __aenter__(self):
         self.pool = await asyncpg.create_pool(
