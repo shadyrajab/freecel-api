@@ -2,7 +2,7 @@ from datetime import datetime
 
 from requests import request
 
-from utils.variables import TOKENEMPRESAS
+from utils.env import TOKENEMPRESAS
 
 
 class Empresa:
