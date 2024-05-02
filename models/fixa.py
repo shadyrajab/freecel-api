@@ -30,3 +30,6 @@ class VendaFixaRequestModel(VendaRequestModel):
 
     def to_tuple(self) -> Tuple:
         return tuple(self.__dict__.values())
+
+    def keys_to_tuple(self) -> Tuple:
+        return tuple(self.__dict__.keys())

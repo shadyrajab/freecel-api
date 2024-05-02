@@ -23,5 +23,8 @@ class VendaMovelRequestModel(VendaRequestModel):
         data_entrega = datetime.strptime(data_entrega, "%d-%m-%Y")
         return data_entrega
 
-    def to_tuple(self) -> Tuple:
+    def values_to_tuple(self) -> Tuple:
         return tuple(self.__dict__.values())
+
+    def keys_to_tuple(self) -> Tuple:
+        return tuple(self.__dict__.keys())
