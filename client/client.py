@@ -32,22 +32,6 @@ class Client(DataBase):
         if len(vendas) == 0:
             return vendas
         dataframe = self.__format(vendas)
-        if filters.get("venda") == "~MIGRAÇÃO":
-            dataframe.drop(
-                axis=1,
-                columns=[
-                    "volume_migracao",
-                    "m",
-                    "tipo_m",
-                    "valor_atual",
-                    "valor_renovacao",
-                    "valor_inovacao",
-                    "pacote_inovacao",
-                    "volume_inovacao",
-                ],
-                inplace=True,
-            )
-
         return jsonfy(dataframe)
 
     async def produtos(self) -> dict:

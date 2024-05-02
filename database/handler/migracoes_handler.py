@@ -1,14 +1,16 @@
 # from datetime import datetime
 from typing import Optional
 
+import pandas as pd
 from asyncpg.pool import Pool
 
 from models.identify import ID
 from models.migracao import MigracaoRequestModel
 from utils.queries import REMOVE_MIGRACOES_QUERY
+from utils.query_builder import get_vendas_query
 
 
-class MigracoesHandlerDatabase:
+class MigracaoHandlerDatabase:
     def __init__(self, pool: Optional[Pool] = None) -> None:
         self.pool = pool
 
@@ -22,3 +24,14 @@ class MigracoesHandlerDatabase:
         print(values)
         async with self.pool.acquire() as connection:
             await connection.execute()
+
+    async def get_migracoes(self, **filters):
+        QUERY, values = get_vendas_query(database="migracoes", **filters)
+        async with self.pool.acquire() as connection:
+            result = await connection.fetch(QUERY, *values)
+            if len(result) == 0:
+                return {"message": "Não foram encontrados dados para sua solicitação."}
+
+            columns = result[0].keys()
+            vendas = pd.DataFrame(result, columns=columns)
+            return vendas

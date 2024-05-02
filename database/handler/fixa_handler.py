@@ -1,8 +1,12 @@
 from typing import Optional
 
+import pandas as pd
 from asyncpg.pool import Pool
 
 from models.fixa import VendaFixaRequestModel
+from models.identify import ID
+from utils.queries import REMOVE_VENDA_FIXA_QUERY
+from utils.query_builder import get_vendas_query
 
 
 class FixaHandlerDatabase:
@@ -14,3 +18,19 @@ class FixaHandlerDatabase:
         print(values)
         async with self.pool.acquire() as connection:
             await connection.execute()
+
+    async def remove_venda_fixa(self, id: ID):
+        values = (id.id,)
+        async with self.pool.acquire() as connection:
+            await connection.execute(REMOVE_VENDA_FIXA_QUERY, *values)
+
+    async def get_migracoes(self, **filters):
+        QUERY, values = get_vendas_query(database="vendas_fixa", **filters)
+        async with self.pool.acquire() as connection:
+            result = await connection.fetch(QUERY, *values)
+            if len(result) == 0:
+                return {"message": "Não foram encontrados dados para sua solicitação."}
+
+            columns = result[0].keys()
+            vendas = pd.DataFrame(result, columns=columns)
+            return vendas
