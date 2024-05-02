@@ -1,19 +1,24 @@
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Tuple
 
 import pandas as pd
 from asyncpg.pool import Pool
 
-from empresas.empresas_aqui import Empresa
 from models.identify import ID
-from utils.functions import get_adabas, get_clause
-from utils.queries import ADD_VENDA_QUERY, GET_PRECO_QUERY, REMOVE_VENDA_QUERY
-from utils.variables import DDDS_valor_inteiro
+from utils.functions import get_clause
+from utils.queries import GET_PRECO_QUERY, REMOVE_VENDA_QUERY
 
 
 class VendasHandlerDataBase:
-    def __init__(self, pool: Optional[Pool] = None) -> None:
+    def __init__(self, tipo_venda: str, pool: Optional[Pool] = None) -> None:
         self.pool = pool
+        self.tipo_venda = tipo_venda
+
+    async def get_preco(self, produto: str):
+        async with self.pool.acquire() as connection:
+            preco = await connection.fetch(GET_PRECO_QUERY, produto)
+
+        return preco[0]["preco"] if preco else None
 
     async def get_vendas(self, **filters):
         QUERY, values = self.__GET_QUERY(**filters)
@@ -26,56 +31,15 @@ class VendasHandlerDataBase:
             vendas = pd.DataFrame(result, columns=columns)
             return vendas
 
-    async def get_preco(self, produto: str):
-        async with self.pool.acquire() as connection:
-            preco = await connection.fetch(GET_PRECO_QUERY, produto)
-
-        return preco[0]["preco"] if preco else None
-
-    async def add_venda(self, user, venda):
-        empresa = Empresa(venda.cnpj)
-        adabas = get_adabas(venda.equipe, venda.tipo)
-        preco = await self.get_preco(venda.plano) if not venda.preco else venda.preco
-        receita = preco * venda.volume
-        if venda.ddd not in DDDS_valor_inteiro:
-            receita *= 0.3
-
-        values = (
-            venda.cnpj,
-            venda.telefone,
-            user,
-            venda.consultor,
-            venda.data,
-            venda.gestor,
-            venda.plano,
-            venda.volume,
-            venda.equipe,
-            venda.tipo,
-            venda.ddd,
-            empresa.uf,
-            receita,
-            preco,
-            venda.email,
-            empresa.quadro_funcionarios,
-            empresa.faturamento,
-            empresa.cnae,
-            empresa.cep,
-            empresa.municipio,
-            empresa.porte,
-            empresa.capital_social,
-            empresa.natureza_juridica,
-            empresa.matriz,
-            empresa.regime_tributario,
-            empresa.bairro,
-            adabas,
-            venda.ja_cliente,
-            venda.numero_pedido,
-            venda.status,
-            empresa.data_abertura,
-        )
+    async def add_venda(self, values: Tuple[str], QUERY: str):
+        # adabas = get_adabas(venda.equipe, venda.tipo)
+        # preco = await self.get_preco(venda.plano) if not venda.preco else venda.preco
+        # receita = preco * venda.volume
+        # if venda.ddd not in DDDS_valor_inteiro:
+        #     receita *= 0.3
 
         async with self.pool.acquire() as connection:
-            id = await connection.fetchval(ADD_VENDA_QUERY, *values)
+            id = await connection.fetchval(QUERY, *values)
             return id
 
     async def remove_venda(self, id: ID):
@@ -115,5 +79,5 @@ class VendasHandlerDataBase:
 
                     conditions.append("AND " + "(" + " OR ".join(or_conditions) + ")")
 
-        QUERY = f"SELECT * FROM vendas_concluidas WHERE tipo {method} $1 AND data BETWEEN $2 AND $3 {" ".join(conditions)}"
+        QUERY = f"SELECT * FROM vendas_{self.tipo_venda} WHERE tipo {method} $1 AND data BETWEEN $2 AND $3 {" ".join(conditions)}"
         return QUERY, values

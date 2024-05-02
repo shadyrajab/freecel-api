@@ -1,10 +1,10 @@
 import asyncpg
 
+from database.handler.abstract.vendas_handler import VendasHandlerDataBase
 from database.handler.consultor_handler import ConsultorHandlerDataBase
 from database.handler.produtos_handler import ProdutosHandlerDataBase
-from database.handler.vendas_handler import VendasHandlerDataBase
 from utils.queries import JWT_QUERY
-from utils.variables import DATABASE, HOST, PASSWORD, USER
+from utils.env import DATABASE, HOST, PASSWORD, USER
 
 
 class DataBase(
