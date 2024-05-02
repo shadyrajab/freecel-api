@@ -13,8 +13,7 @@ async def migracoes(
 ):
     async with Client() as client:
         return await handle_request(
-            client.vendas,
+            client.get_migracoes,
             data_inicio=data_inicio,
             data_fim=data_fim,
-            venda="MIGRAÇÃO",
         )
