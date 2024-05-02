@@ -4,7 +4,7 @@ from datetime import datetime, time
 import pandas as pd
 import requests
 
-from utils.variables import PAYLOAD
+from utils.env import PAYLOAD
 
 
 class VivoGestaoChamadas:
