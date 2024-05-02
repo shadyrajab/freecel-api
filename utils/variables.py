@@ -1,23 +1,4 @@
-from os import getenv
-
-from dotenv import load_dotenv
-
-load_dotenv()
-
-HOST = getenv("host")
-DATABASE = getenv("database")
-USER = getenv("user")
-PASSWORD = getenv("password")
-TOKENEMPRESAS = getenv("tokenEmpresas")
-
-PAYLOAD = {
-    "action": "login",
-    "user": getenv("userGestao"),
-    "password": getenv("passwordGestao"),
-}
-
 CARGOS = {"SUPERVISOR", "ESTAGIÁRIO", "EFETIVO"}
-SUPERVISORES = {"FLAVIO HENRIQUE LEMOS DOS NASCIMENTO"}
 ALTAS = [
     "INTERNET_TOTALIZACAO",
     "INTERNET",
@@ -94,7 +75,6 @@ INDEX_COLUMNS = [
     "Recomendação UP",
 ]
 
-EQUIPE = {"FREECEL", "VALPARAISO", "PARCEIRO", "GOIÂNIA", "SAMAMBAIA"}
 UF = {
     "AC",
     "AL",
@@ -315,74 +295,4 @@ DDDS_valor_inteiro = [
     "96," "97",
     "98",
     "99",
-]
-
-STATUS_VENDA = [
-    "AGUARDANDO CHAMADO",
-    "CREDITO NEGADO",
-    "AGUARDANDO CONSULTOR",
-    "AGUARDANDO GERAÇÃO DO CONTRATO",
-    "AGUARDANDO SS",
-    "ANALISE BKO",
-    "ANALISE DE CREDITO",
-    "CANCELADO",
-    "CHECK LIST PENDENTE",
-    "CHECKLIST",
-    "CONCLUÍDO",
-    "CONCLUÍDO-EXECUTADO PARCIALMENTE",
-    "CREDITO REPROVADO",
-    "EXECUTADO PARCIALMENTE",
-    "FATURANDO",
-    "FATURANDO-PORTABILIDADE",
-    "INPUT",
-    "MESA DE FRAUDE",
-    "REPROVADO POR FRAUDE",
-    "SEM ESTOQUE",
-    "BACKOFFICE REPROVADO",
-    "AGUARDANDO CASO",
-    "REFAZER",
-    "PENDENTE",
-    "EXPIRADO",
-    "EM ANALISE",
-    "AGUARDANDO SAV",
-    "AGUARDANDO 1º PEDIDO",
-    "ABERTA",
-    "CONCLUÍDO / PAGO",
-    "Simulação Reprovada",
-    "SIMPLIFIQUE",
-    "VALIDAÇÃO DE DOCUMENTOS",
-    "PORTABILIDADE NEGADA* CHAMADO",
-    "PORTABILIDADE CANCELADA",
-    "CABEAMENTO",
-    "CAIXA OBSTRUIDA",
-    "TT PJ/PJ",
-    "TT PF/PJ",
-    "CANCELADO",
-    "CONTRATO ENVIADO PARA ÁREA COMERCIAL",
-    "ENVIADO",
-    "INDISPONIVEL",
-    "NECESSIDADE DE CABEAMENTO",
-    "PORTA QUEIMADA",
-    "RACO",
-    "REPROVADO",
-    "REPROVADO NO SAV",
-    "SUPORTE",
-    "RETIDO",
-    "SAV",
-    "MIGRAÇAO DE TECNOLOGIA",
-    "AGUARDANDO CHAMADO",
-    "ATIVO MIGRAÇÃO",
-    "ANALISE DE CREDITO",
-    "MESA DE FRAUDE",
-    "MESA DE CRÉDITO",
-    "AGUARDANDO INPUT",
-    "ENVIADO MIGRAÇÃO",
-    "ATIVO METALICO",
-    "ENVIADO-PAGO",
-    "FATURANDO INSTALADO",
-    "ENVIADO METALICO",
-    "PENDENCIA TECNICA",
-    "REPROVADO SUPORTE",
-    "CREDITO REPROVADO",
-    "TOTALIZAÇÃO",
 ]

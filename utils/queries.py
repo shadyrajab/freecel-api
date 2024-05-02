@@ -37,6 +37,12 @@ columns = ", ".join(ADD_VENDA_LIST_PARAMS)
 ADD_VENDA_QUERY = (
     f"INSERT INTO vendas_concluidas ({columns}) VALUES ({placeholders}) RETURNING id"
 )
+ADD_VENDA_MOVEL_QUERY = (
+    f"INSERT INTO vendas_movel ({columns}) VALUES ({placeholders}) RETURNING id"
+)
+ADD_VENDA_FIXA_QUERY = (
+    f"INSERT INTO vendas_fixa ({columns}) VALUES ({placeholders}) RETURNING id"
+)
 REMOVE_VENDA_QUERY = "DELETE FROM vendas_concluidas WHERE id = ($1)"
 GET_VENDAS_QUERY = "SELECT * FROM vendas_concluidas"
 REMOVE_PRODUTO_QUERY = "DELETE FROM produtos WHERE id = ($1)"
@@ -50,3 +56,5 @@ GET_CONSULTORES_QUERY = "SELECT * FROM consultores"
 JWT_QUERY = "SELECT nome FROM uuids WHERE uuid = $1"
 GET_PRECO_QUERY = "SELECT preco FROM produtos WHERE nome = $1"
 GET_EQUIPE_FLAVIO = "SELECT * FROM equipe_flavio"
+REMOVE_MIGRACOES_QUERY = "SELECT * FROM migracoes"
+REMOVE_VENDA_FIXA_QUERY = "DELETE FROM vendas_fixa WHERE ID = ($1)"
