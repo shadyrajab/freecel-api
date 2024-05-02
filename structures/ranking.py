@@ -3,7 +3,8 @@ from typing import Optional
 import pandas as pd
 
 from utils.functions import jsonfy
-from utils.variables import ALTAS, AVANCADA, FIXA, MIGRACAO, SUPERVISORES, VVN
+from utils.variables import ALTAS, AVANCADA, FIXA, MIGRACAO, VVN
+from utils.utils import SUPERVISORES
 
 
 class Rankings:
@@ -64,6 +65,7 @@ class Rankings:
     def __get_ranking(
         self, column: str, tipo_venda: Optional[str] = None
     ) -> pd.DataFrame:
+        # Refatorar
         dataframe = self.dataframe.copy()
         if tipo_venda:
             dataframe = dataframe[dataframe["tipo"].isin(tipo_venda)]

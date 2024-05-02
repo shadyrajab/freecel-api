@@ -3,7 +3,8 @@ from typing import List, Optional
 import pandas as pd
 
 from structures.stats import Stats
-from utils.variables import ALTAS, AVANCADA, FIXA, MIGRACAO, SUPERVISORES, VVN
+from utils.utils import SUPERVISORES
+from utils.variables import ALTAS, AVANCADA, FIXA, MIGRACAO, VVN
 
 
 class Freecel(Stats):
