@@ -5,10 +5,10 @@ from pdfhandler.simplifique import read_simplifique_pdf
 from pdfhandler.visao import read_visao_pdf
 from utils.functions import jsonfy
 
-router = APIRouter()
+router = APIRouter(prefix="/simulacao", tags=["Simulação"])
 
 
-@router.post("/simulacao")
+@router.post("/")
 async def simulacao(
     simplifique: UploadFile = File(...),
     contrato: UploadFile = File(...),

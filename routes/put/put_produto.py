@@ -5,10 +5,10 @@ from client.client import Client
 from handler.handler_request import handle_request
 from params.request_body import UpdateProdutoParams
 
-router = APIRouter()
+router = APIRouter(prefix="/produtos", tags=["Produtos"])
 
 
-@router.put("/produtos")
+@router.put("/")
 async def update_produto(
     params: UpdateProdutoParams, user: str = Depends(authenticate)
 ):
@@ -17,4 +17,3 @@ async def update_produto(
     }
     async with Client() as client:
         return await handle_request(client.update_produto, user, **params_filtered)
-    

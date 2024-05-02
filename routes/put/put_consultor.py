@@ -5,10 +5,10 @@ from client.client import Client
 from handler.handler_request import handle_request
 from params.request_body import UpdateConsultorParams
 
-router = APIRouter()
+router = APIRouter(prefix="/consultores", tags=["Consultores"])
 
 
-@router.put("/consultores")
+@router.put("/")
 async def update_consultor(
     params: UpdateConsultorParams, user: str = Depends(authenticate)
 ):

@@ -3,10 +3,10 @@ from fastapi import APIRouter, Query
 from client.client import Client
 from handler.handler_request import handle_request
 
-router = APIRouter()
+router = APIRouter(prefix="/stats", tags=["Stats"])
 
 
-@router.get("/stats")
+@router.get("/")
 async def stats(
     data_inicio: str = Query(..., description="Data Inicial"),
     data_fim: str = Query(..., description="Data Final"),
@@ -19,5 +19,5 @@ async def stats(
             data_fim=data_fim,
             equipe=equipe,
             venda="~MIGRAÇÃO",
-            status="CONCLUÍDO"
+            status="CONCLUÍDO",
         )

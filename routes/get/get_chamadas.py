@@ -4,10 +4,10 @@ from authenticator.jwt import authenticate
 from client.client import Client
 from vivo.gestao import VivoGestaoChamadas
 
-router = APIRouter()
+router = APIRouter(prefix="/chamadas", tags=["Chamadas"])
 
 
-@router.get("/chamadas", dependencies=[Depends(authenticate)])
+@router.get("/", dependencies=[Depends(authenticate)])
 async def chamadas(
     data_inicio: str = Query(..., description="Data Inicial da Consulta"),
     data_fim: str = Query(..., description="Data Final da Consulta"),

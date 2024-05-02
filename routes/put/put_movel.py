@@ -7,10 +7,10 @@ from models.apimodels.identify import ID
 from models.apimodels.vendas import Venda
 from params.request_body import UpdateVendaParams
 
-router = APIRouter()
+router = APIRouter(prefix="/vendas", tags=["Vendas"])
 
 
-@router.put("/vendas/movel")
+@router.put("/movel")
 async def update_venda(params: UpdateVendaParams, user: str = Depends(authenticate)):
     params_filtered = {
         key: value for key, value in params.model_dump().items() if value is not None

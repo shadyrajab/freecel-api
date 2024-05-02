@@ -5,10 +5,10 @@ from client.client import Client
 from handler.handler_request import handle_request
 from models.apimodels.identify import ID
 
-router = APIRouter()
+router = APIRouter(prefix="/vendas", tags=["Vendas"])
 
 
-@router.delete("/vendas/movel")
+@router.delete("/movel")
 async def remove_movel(id: ID, user: str = Depends(authenticate)):
     async with Client() as client:
         return await handle_request(client.remove_venda, user, **{"id": id})
