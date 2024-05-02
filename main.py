@@ -5,10 +5,21 @@ import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.middleware.gzip import GZipMiddleware
 
-from routes.delete import del_consultor, del_movel, del_produto
+from routes.delete import (
+    del_aparelho,
+    del_consultor,
+    del_fixa,
+    del_inovacao,
+    del_migracao,
+    del_movel,
+    del_produto,
+)
 from routes.get import (
+    get_aparelhos,
     get_chamadas,
     get_consultores,
+    get_fixa,
+    get_inovacoes,
     get_migracoes,
     get_movel,
     get_produtos,
@@ -57,6 +68,13 @@ routes = [
         put_movel,
         put_produto,
         post_fixa,
+        del_aparelho,
+        del_fixa,
+        del_inovacao,
+        del_migracao,
+        get_aparelhos,
+        get_fixa,
+        get_inovacoes,
     ]
 ]
 

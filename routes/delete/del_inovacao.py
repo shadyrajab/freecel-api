@@ -5,7 +5,7 @@ from client.client import Client
 from handler.handler_request import handle_request
 from models.identify import ID
 
-router = APIRouter(prefix="/vendas/inovacao", tags=["inovacao"])
+router = APIRouter(prefix="/vendas/inovacao", tags=["vendas/inovacao"])
 
 
 @router.delete("/")
