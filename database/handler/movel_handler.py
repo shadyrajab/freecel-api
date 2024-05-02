@@ -23,7 +23,7 @@ class MovelHandlerDatabase(VendasHandlerDataBase):
         async with self.pool.acquire() as connection:
             await connection.execute()
 
-    async def get_venda_movel(self, **filters):
+    async def get_vendas_movel(self, **filters):
         QUERY, values = get_vendas_query(database="vendas_movel", **filters)
         async with self.pool.acquire() as connection:
             result = await connection.fetch(QUERY, *values)

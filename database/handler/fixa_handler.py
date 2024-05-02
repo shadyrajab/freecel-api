@@ -24,7 +24,7 @@ class FixaHandlerDatabase:
         async with self.pool.acquire() as connection:
             await connection.execute(REMOVE_VENDA_FIXA_QUERY, *values)
 
-    async def get_migracoes(self, **filters):
+    async def get_vendas_fixa(self, **filters):
         QUERY, values = get_vendas_query(database="vendas_fixa", **filters)
         async with self.pool.acquire() as connection:
             result = await connection.fetch(QUERY, *values)

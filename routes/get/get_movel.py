@@ -21,14 +21,13 @@ async def vendas_movel(
 ):
     async with Client() as client:
         return await handle_request(
-            client.vendas,
+            client.get_vendas_movel,
             data_inicio=data_inicio,
             data_fim=data_fim,
             equipe=equipe,
             cnpj=cnpj,
             uf=uf,
             adabas=adabas,
-            venda="~MIGRAÇÃO",
             tipo=tipo,
             status=status,
             responsavel=responsavel,

@@ -28,7 +28,7 @@ class AparelhoHandlerDatabase(VendasHandlerDataBase):
         async with self.pool.acquire() as connection:
             await connection.execute(REMOVE_APARELHO_QUERY, *values)
 
-    async def get_inovacoes(self, **filters):
+    async def get_aparelhos(self, **filters):
         QUERY, values = get_vendas_query(database="aparelhos", **filters)
         async with self.pool.acquire() as connection:
             result = await connection.fetch(QUERY, *values)
