@@ -1,15 +1,13 @@
 import asyncpg
 
-from database.handler.abstract.vendas_handler import VendasHandlerDataBase
 from database.handler.consultor_handler import ConsultorHandlerDataBase
+from database.handler.fixa_handler import FixaHandlerDatabase
 from database.handler.produtos_handler import ProdutosHandlerDataBase
-from utils.queries import JWT_QUERY
 from utils.env import DATABASE, HOST, PASSWORD, USER
+from utils.queries import JWT_QUERY
 
 
-class DataBase(
-    ConsultorHandlerDataBase, ProdutosHandlerDataBase, VendasHandlerDataBase
-):
+class DataBase(ConsultorHandlerDataBase, ProdutosHandlerDataBase, FixaHandlerDatabase):
     async def __aenter__(self):
         self.pool = await asyncpg.create_pool(
             host=HOST, database=DATABASE, user=USER, password=PASSWORD

@@ -4,7 +4,7 @@ from typing import Optional
 # import pandas as pd
 from asyncpg.pool import Pool
 
-from models.requestmodels.identify import ID
+from models.identify import ID
 from utils.queries import REMOVE_MIGRACOES_QUERY
 
 

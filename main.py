@@ -16,7 +16,13 @@ from routes.get import (
     get_stats,
     get_utils,
 )
-from routes.post import post_consultor, post_movel, post_produto, post_simulacao
+from routes.post import (
+    post_consultor,
+    post_fixa,
+    post_movel,
+    post_produto,
+    post_simulacao,
+)
 from routes.put import put_consultor, put_migracao, put_movel, put_produto
 
 logger = logging.getLogger(__name__)
@@ -50,6 +56,7 @@ routes = [
         put_migracao,
         put_movel,
         put_produto,
+        post_fixa,
     ]
 ]
 

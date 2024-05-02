@@ -5,7 +5,14 @@ from typing import Optional
 from pycpfcnpj import cpfcnpj
 from pydantic import BaseModel, EmailStr, validator
 
-from utils.utils import EQUIPES, STATUS_MOVEL, TIPOS_MOVEL
+from utils.utils import (
+    EQUIPES,
+    STATUS_FIXA,
+    STATUS_MOVEL,
+    TIPOS_FIXA,
+    TIPOS_MIGRACAO,
+    TIPOS_MOVEL,
+)
 from utils.variables import DDDS
 
 
@@ -32,13 +39,6 @@ class VendaRequestModel(BaseModel):
             raise ValueError(f"O DDD {value} não existe")
 
         return value
-
-    @validator("status")
-    def validate_status(cls, value):
-        if value.upper() not in STATUS_MOVEL:
-            raise ValueError(f"Não existe nenhum status da móvel chamado {value}")
-
-        return value.upper()
 
     @validator("gestor")
     def validate_gestor(cls, value):
@@ -75,8 +75,15 @@ class VendaRequestModel(BaseModel):
 
     @validator("tipo")
     def validate_tipo(cls, value):
-        if value.upper() not in TIPOS_MOVEL:
-            raise ValueError(f"Não existe nenhum tipo da móvel chamado {value}")
+        if value.upper() not in TIPOS_MOVEL + TIPOS_FIXA + TIPOS_MIGRACAO:
+            raise ValueError(f"Não existe nenhum tipo chamado {value}")
+
+        return value.upper()
+
+    @validator("status")
+    def validate_status(cls, value):
+        if value.upper() not in STATUS_MOVEL + STATUS_FIXA:
+            raise ValueError(f"Não existe nenhum status chamado {value}")
 
         return value.upper()
 

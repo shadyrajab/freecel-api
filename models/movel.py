@@ -24,7 +24,4 @@ class VendaMovelRequestModel(VendaRequestModel):
         return data_entrega
 
     def to_tuple(self) -> Tuple:
-        attributes = {}
-        for cls in self.__class__.mro():
-            attributes.update(vars(cls))
-        return tuple(attributes[attr] for attr in attributes)
+        return tuple(self.__dict__.values())
