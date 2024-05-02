@@ -5,7 +5,8 @@ from typing import Optional
 from pycpfcnpj import cpfcnpj
 from pydantic import BaseModel, EmailStr, validator
 
-from utils.variables import DDDS, EQUIPE, STATUS_VENDA, TIPO_VENDA
+from utils.utils import EQUIPES, STATUS_MOVEL, TIPOS_MOVEL
+from utils.variables import DDDS
 
 
 class Venda(BaseModel):
@@ -34,8 +35,8 @@ class Venda(BaseModel):
 
     @validator("status")
     def validate_status(cls, value):
-        if value.upper() not in STATUS_VENDA:
-            raise ValueError(f"Não existe nenhum status chamado {value}")
+        if value.upper() not in STATUS_MOVEL:
+            raise ValueError(f"Não existe nenhum status da móvel chamado {value}")
 
         return value.upper()
 
@@ -53,7 +54,7 @@ class Venda(BaseModel):
             raise ValueError(
                 """
                 O número de telefone informado está inválido. Informe o número DDD e os 9 dígitos 
-                do telefone
+                do telefone.
             """
             )
 
@@ -61,28 +62,21 @@ class Venda(BaseModel):
 
     @validator("data")
     def validate_data(cls, value):
+        # Erro potencial
         value = datetime.strptime(value, "%d-%m-%Y")
         return value
 
     @validator("equipe")
     def validate_equipe(cls, value):
-        if value.upper() not in EQUIPE:
-            raise ValueError(
-                f"""
-                O nome da equipe informado está inválido. O nome da equipe deve ser {str(EQUIPE)}, não {value}
-            """
-            )
+        if value.upper() not in EQUIPES:
+            raise ValueError(f"A equipe {value} não existe")
 
         return value.upper()
 
     @validator("tipo")
     def validate_tipo(cls, value):
-        if value.upper() not in TIPO_VENDA:
-            raise ValueError(
-                f"""
-                O tipo de venda informado está inválido. O tipo deve ser {str(TIPO_VENDA)}, não {value}
-            """
-            )
+        if value.upper() not in TIPOS_MOVEL:
+            raise ValueError(f"Não existe nenhum tipo da móvel chamado {value}")
 
         return value.upper()
 

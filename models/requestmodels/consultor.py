@@ -1,6 +1,7 @@
 from pydantic import BaseModel, validator
 
-from utils.variables import CARGOS, EQUIPE
+from utils.variables import CARGOS
+from utils.utils import EQUIPES
 
 
 class Vendedor(BaseModel):
@@ -10,7 +11,7 @@ class Vendedor(BaseModel):
 
     @validator("vinculo")
     def validate_vinculo(cls, value):
-        if value not in EQUIPE:
+        if value not in EQUIPES:
             raise ValueError(f"A equipe {value} não existe")
 
         return value.upper()

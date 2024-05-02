@@ -3,8 +3,6 @@ from fastapi import APIRouter, Depends
 from authenticator.jwt import authenticate
 from client.client import Client
 from handler.handler_request import handle_request
-from models.apimodels.identify import ID
-from models.apimodels.vendas import Venda
 from params.request_body import UpdateVendaParams
 
 router = APIRouter(prefix="/vendas", tags=["Vendas"])
