@@ -5,7 +5,7 @@ from database.handler.fixa_handler import FixaHandlerDatabase
 from database.handler.migracoes_handler import MigracaoRequestModel
 from database.handler.movel_handler import VendaMovelRequestModel
 from database.handler.produtos_handler import ProdutosHandlerDataBase
-from database.handler.troca_aparelho_handler import TrocaAparelhoRequestModel
+from database.handler.aparelho_handler import TrocaAparelhoRequestModel
 from utils.env import DATABASE, HOST, PASSWORD, USER
 from utils.queries import JWT_QUERY
 
