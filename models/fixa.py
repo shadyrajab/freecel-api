@@ -3,7 +3,7 @@ from typing import Tuple
 
 from pydantic import validator
 
-from .abstract.vendas import VendaRequestModel
+from .abstract.venda import VendaRequestModel
 
 
 class VendaFixaRequestModel(VendaRequestModel):

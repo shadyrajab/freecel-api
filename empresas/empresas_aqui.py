@@ -10,6 +10,10 @@ class Empresa:
         self.empresa = self.__get_empresa(cnpj)
 
     @property
+    def razao_social(self):
+        return self.empresa.get("razao", None)
+
+    @property
     def porte(self):
         porte = {
             "0": None,
@@ -70,7 +74,7 @@ class Empresa:
     def data_abertura(self):
         data_abertura = self.empresa.get("data_abertura", None)
         if data_abertura is not None:
-            data_abertura = datetime.strptime(data_abertura, '%Y%m%d')
+            data_abertura = datetime.strptime(data_abertura, "%Y%m%d")
 
         return data_abertura
 
