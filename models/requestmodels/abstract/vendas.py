@@ -9,7 +9,7 @@ from utils.utils import EQUIPES, STATUS_MOVEL, TIPOS_MOVEL
 from utils.variables import DDDS
 
 
-class Venda(BaseModel):
+class VendaRequestModel(BaseModel):
     cnpj: str
     telefone: str
     consultor: str

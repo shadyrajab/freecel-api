@@ -1,4 +1,23 @@
-from pydantic import BaseModel
+from datetime import datetime
 
-class VendaMovelRequestModel(BaseModel):
-    pass
+from pydantic import validator
+
+from .abstract.vendas import VendaRequestModel
+
+
+class VendaMovelRequestModel(VendaRequestModel):
+    data_ativacao: str
+    data_entrega: str
+    historico: str
+
+    @validator("data_ativacao")
+    def validate_data_ativacao(cls, data_ativacao):
+        # Erro potencial
+        data_ativacao = datetime.strptime(data_ativacao, "%d-%m-%Y")
+        return data_ativacao
+
+    @validator("data_entrega")
+    def validate_data_entrega(cls, data_entrega):
+        # Erro potencial
+        data_entrega = datetime.strptime(data_entrega, "%d-%m-%Y")
+        return data_entrega
