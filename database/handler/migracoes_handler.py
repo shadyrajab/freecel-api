@@ -1,10 +1,10 @@
 # from datetime import datetime
 from typing import Optional
 
-# import pandas as pd
 from asyncpg.pool import Pool
 
 from models.identify import ID
+from models.migracao import MigracaoRequestModel
 from utils.queries import REMOVE_MIGRACOES_QUERY
 
 
@@ -17,4 +17,8 @@ class MigracoesHandlerDatabase:
         async with self.pool.acquire() as connection:
             await connection.execute(REMOVE_MIGRACOES_QUERY, *values)
 
-    # async def add_migracao(self, )
+    async def add_migracao(self, venda: MigracaoRequestModel):
+        values = venda.to_tuple()
+        print(values)
+        async with self.pool.acquire() as connection:
+            await connection.execute()

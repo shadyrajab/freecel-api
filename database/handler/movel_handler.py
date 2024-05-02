@@ -13,5 +13,8 @@ class FixaHandlerDatabase(VendasHandlerDataBase):
 
         super().__init__(pool)
 
-    async def add_venda_fixa(self, user: str, venda: VendaMovelRequestModel, tipo: str):
-        return await self.add_venda(user, venda, tipo)
+    async def add_venda_movel(self, user: str, venda: VendaMovelRequestModel):
+        values = venda.to_tuple()
+        print(values)
+        async with self.pool.acquire() as connection:
+            await connection.execute()
