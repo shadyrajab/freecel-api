@@ -11,7 +11,7 @@ from utils.queries import (
     GET_EQUIPE_FLAVIO,
     REMOVE_CONSULTOR_QUERY,
 )
-from utils.query_builder import get_clause
+from utils.query_builder import update_anth_query_builder
 
 
 class ConsultorHandlerDataBase:
@@ -50,6 +50,6 @@ class ConsultorHandlerDataBase:
             await connection.execute(REMOVE_CONSULTOR_QUERY, *values)
 
     async def update_consultor(self, **params):
-        QUERY, values = get_clause(database="consultores", **params)
+        QUERY, values = update_anth_query_builder(database="consultores", **params)
         async with self.pool.acquire() as connection:
             await connection.execute(QUERY, *values)

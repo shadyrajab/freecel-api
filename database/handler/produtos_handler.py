@@ -6,7 +6,7 @@ from pandas import DataFrame
 from models.identify import ID
 from models.produtos import Produto
 from utils.queries import ADD_PRODUTO_QUERY, GET_PRODUTOS_QUERY, REMOVE_PRODUTO_QUERY
-from utils.query_builder import get_clause
+from utils.query_builder import update_anth_query_builder
 
 
 class ProdutosHandlerDataBase:
@@ -36,6 +36,6 @@ class ProdutosHandlerDataBase:
             await connection.execute(REMOVE_PRODUTO_QUERY, *values)
 
     async def update_produto(self, **params):
-        QUERY, values = get_clause(database="produtos", **params)
+        QUERY, values = update_anth_query_builder(database="produtos", **params)
         async with self.pool.acquire() as connection:
             await connection.execute(QUERY, *values)

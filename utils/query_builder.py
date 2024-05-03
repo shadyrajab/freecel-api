@@ -1,7 +1,16 @@
 from datetime import datetime
 
 
-def get_clause(database: str, **params):
+def post_vendas_query_builder(database: str, **values):
+    colunas = ", ".join(values.keys())
+    values = values.values()
+    clause = ", ".join([f"'{v}'" for v in values])
+    QUERY = f"INSERT INTO {database} ({colunas}) VALUES ({clause});"
+
+    return QUERY, tuple(values)
+
+
+def update_anth_query_builder(database: str, **params):
     id = params.get("id", None)
     if id is None:
         return
@@ -21,7 +30,7 @@ def get_clause(database: str, **params):
     return QUERY, values
 
 
-def get_vendas_query(database: str, **filters):
+def get_vendas_query_builder(database: str, **filters):
     data_inicio = datetime.strptime(filters.get("data_inicio"), "%d-%m-%Y")
     data_fim = datetime.strptime(filters.get("data_fim"), "%d-%m-%Y")
     periodo = (data_inicio, data_fim)

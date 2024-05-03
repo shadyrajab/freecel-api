@@ -6,7 +6,11 @@ from asyncpg.pool import Pool
 from models.aparelho import TrocaAparelhoRequestModel
 from models.identify import ID
 from utils.queries import REMOVE_APARELHO_QUERY
-from utils.query_builder import get_clause, get_vendas_query
+from utils.query_builder import (
+    get_vendas_query_builder,
+    post_vendas_query_builder,
+    update_anth_query_builder,
+)
 
 
 class AparelhoHandlerDatabase:
@@ -15,9 +19,9 @@ class AparelhoHandlerDatabase:
 
     async def add_aparelho(self, user: str, venda: TrocaAparelhoRequestModel):
         values = venda.to_dict()
-        print(values)
+        QUERY, values = post_vendas_query_builder(database="aparelhos", **values)
         async with self.pool.acquire() as connection:
-            await connection.execute()
+            await connection.execute(QUERY, *values)
 
     async def remove_aparelho(self, id: ID):
         values = (id.id,)
@@ -25,7 +29,7 @@ class AparelhoHandlerDatabase:
             await connection.execute(REMOVE_APARELHO_QUERY, *values)
 
     async def get_aparelhos(self, **filters):
-        QUERY, values = get_vendas_query(database="aparelhos", **filters)
+        QUERY, values = get_vendas_query_builder(database="aparelhos", **filters)
         async with self.pool.acquire() as connection:
             result = await connection.fetch(QUERY, *values)
             if len(result) == 0:
@@ -36,6 +40,6 @@ class AparelhoHandlerDatabase:
             return vendas
 
     async def update_aparelho(self, **params):
-        QUERY, values = get_clause(database="aparelhos", **params)
+        QUERY, values = update_anth_query_builder(database="aparelhos", **params)
         async with self.pool.acquire() as connection:
             await connection.execute(QUERY, *values)

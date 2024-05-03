@@ -6,7 +6,11 @@ from asyncpg.pool import Pool
 from models.fixa import VendaFixaRequestModel
 from models.identify import ID
 from utils.queries import REMOVE_VENDA_FIXA_QUERY
-from utils.query_builder import get_clause, get_vendas_query
+from utils.query_builder import (
+    get_vendas_query_builder,
+    post_vendas_query_builder,
+    update_anth_query_builder,
+)
 
 
 class FixaHandlerDatabase:
@@ -15,9 +19,9 @@ class FixaHandlerDatabase:
 
     async def add_venda_fixa(self, venda: VendaFixaRequestModel):
         values = venda.to_dict()
-        print(values)
+        QUERY, values = post_vendas_query_builder(database="vendas_fixa", *values)
         async with self.pool.acquire() as connection:
-            await connection.execute()
+            await connection.execute(QUERY, *values)
 
     async def remove_venda_fixa(self, id: ID):
         values = (id.id,)
@@ -25,7 +29,7 @@ class FixaHandlerDatabase:
             await connection.execute(REMOVE_VENDA_FIXA_QUERY, *values)
 
     async def get_vendas_fixa(self, **filters):
-        QUERY, values = get_vendas_query(database="vendas_fixa", **filters)
+        QUERY, values = get_vendas_query_builder(database="vendas_fixa", **filters)
         async with self.pool.acquire() as connection:
             result = await connection.fetch(QUERY, *values)
             if len(result) == 0:
@@ -36,6 +40,6 @@ class FixaHandlerDatabase:
             return vendas
 
     async def update_venda_fixa(self, **params):
-        QUERY, values = get_clause(database="vendas_fixa", **params)
+        QUERY, values = update_anth_query_builder(database="vendas_fixa", **params)
         async with self.pool.acquire() as connection:
             await connection.execute(QUERY, *values)
