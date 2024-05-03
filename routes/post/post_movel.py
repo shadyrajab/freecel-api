@@ -11,4 +11,4 @@ router = APIRouter(prefix="/vendas/movel", tags=["vendas/movel"])
 @router.post("/")
 async def add_venda_movel(venda: VendaMovelRequestModel, user: str = Depends(authenticate)):
     async with Client() as client:
-        return await handle_request(client.add_venda, user, **{"venda": venda})
+        return await handle_request(client.add_venda_movel, user, **{"venda": venda})

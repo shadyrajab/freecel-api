@@ -27,7 +27,6 @@ class VendaRequestModel(BaseModel):
     volume: int
     equipe: str
     tipo: str
-    ja_cliente: bool
     email: EmailStr
     ddd: str
     status: str
