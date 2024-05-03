@@ -40,6 +40,7 @@ from routes.post import (
 from routes.put import (
     put_aparelho,
     put_consultor,
+    put_fixa,
     put_inovacao,
     put_migracao,
     put_movel,
@@ -90,6 +91,7 @@ routes = [
         post_migracao,
         put_aparelho,
         put_inovacao,
+        put_fixa,
     ]
 ]
 
