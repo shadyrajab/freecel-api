@@ -6,7 +6,7 @@ from asyncpg.pool import Pool
 from models.identify import ID
 from models.inovacao import InovacaoRequestModel
 from utils.queries import REMOVE_INOVACAO_QUERY
-from utils.query_builder import get_vendas_query
+from utils.query_builder import get_clause, get_vendas_query
 
 
 class InovacaoHandlerDatabase:
@@ -34,3 +34,8 @@ class InovacaoHandlerDatabase:
         values = (id.id,)
         async with self.pool.acquire() as connection:
             await connection.execute(REMOVE_INOVACAO_QUERY, *values)
+
+    async def update_inovacao(self, **params):
+        QUERY, values = get_clause(database="inovacoes", **params)
+        async with self.pool.acquire() as connection:
+            await connection.execute(QUERY, *values)

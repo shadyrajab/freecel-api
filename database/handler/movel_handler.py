@@ -6,7 +6,7 @@ from asyncpg.pool import Pool
 from models.identify import ID
 from models.movel import VendaMovelRequestModel
 from utils.queries import REMOVE_VENDA_MOVEL
-from utils.query_builder import get_vendas_query
+from utils.query_builder import get_clause, get_vendas_query
 
 from .abstract.vendas_handler import VendasHandlerDataBase
 
@@ -38,3 +38,8 @@ class MovelHandlerDatabase(VendasHandlerDataBase):
         values = (id.id,)
         async with self.pool.acquire() as connection:
             await connection.execute(REMOVE_VENDA_MOVEL, *values)
+
+    async def update_venda_movel(self, **params):
+        QUERY, values = get_clause(database="vendas_movel", **params)
+        async with self.pool.acquire() as connection:
+            await connection.execute(QUERY, *values)

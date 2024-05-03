@@ -6,7 +6,7 @@ from asyncpg.pool import Pool
 from models.aparelho import TrocaAparelhoRequestModel
 from models.identify import ID
 from utils.queries import REMOVE_APARELHO_QUERY
-from utils.query_builder import get_vendas_query
+from utils.query_builder import get_vendas_query, get_clause
 
 from .abstract.vendas_handler import VendasHandlerDataBase
 
@@ -38,3 +38,8 @@ class AparelhoHandlerDatabase(VendasHandlerDataBase):
             columns = result[0].keys()
             vendas = pd.DataFrame(result, columns=columns)
             return vendas
+
+    async def update_aparelho(self, **params):
+        QUERY, values = get_clause(database="aparelhos", **params)
+        async with self.pool.acquire() as connection:
+            await connection.execute(QUERY, *values)

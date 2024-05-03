@@ -28,13 +28,23 @@ from routes.get import (
     get_utils,
 )
 from routes.post import (
+    post_aparelho,
     post_consultor,
     post_fixa,
+    post_inovacao,
+    post_migracao,
     post_movel,
     post_produto,
     post_simulacao,
 )
-from routes.put import put_consultor, put_migracao, put_movel, put_produto
+from routes.put import (
+    put_aparelho,
+    put_consultor,
+    put_inovacao,
+    put_migracao,
+    put_movel,
+    put_produto,
+)
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
@@ -75,6 +85,11 @@ routes = [
         get_movel,
         post_movel,
         put_movel,
+        post_aparelho,
+        post_inovacao,
+        post_migracao,
+        put_aparelho,
+        put_inovacao,
     ]
 ]
 

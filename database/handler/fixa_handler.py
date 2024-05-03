@@ -6,7 +6,7 @@ from asyncpg.pool import Pool
 from models.fixa import VendaFixaRequestModel
 from models.identify import ID
 from utils.queries import REMOVE_VENDA_FIXA_QUERY
-from utils.query_builder import get_vendas_query
+from utils.query_builder import get_clause, get_vendas_query
 
 
 class FixaHandlerDatabase:
@@ -34,3 +34,8 @@ class FixaHandlerDatabase:
             columns = result[0].keys()
             vendas = pd.DataFrame(result, columns=columns)
             return vendas
+
+    async def update_venda_fixa(self, **params):
+        QUERY, values = get_clause(database="vendas_fixa", **params)
+        async with self.pool.acquire() as connection:
+            await connection.execute(QUERY, *values)

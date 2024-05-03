@@ -7,7 +7,7 @@ from asyncpg.pool import Pool
 from models.identify import ID
 from models.migracao import MigracaoRequestModel
 from utils.queries import REMOVE_MIGRACOES_QUERY
-from utils.query_builder import get_vendas_query
+from utils.query_builder import get_clause, get_vendas_query
 
 
 class MigracaoHandlerDatabase:
@@ -19,7 +19,7 @@ class MigracaoHandlerDatabase:
         async with self.pool.acquire() as connection:
             await connection.execute(REMOVE_MIGRACOES_QUERY, *values)
 
-    async def add_migracao(self, venda: MigracaoRequestModel):
+    async def add_migracao(self, user: str, venda: MigracaoRequestModel):
         values = venda.to_tuple()
         print(values)
         async with self.pool.acquire() as connection:
@@ -35,3 +35,8 @@ class MigracaoHandlerDatabase:
             columns = result[0].keys()
             vendas = pd.DataFrame(result, columns=columns)
             return vendas
+
+    async def update_migracao(self, **params):
+        QUERY, values = get_clause(database="migracoes", **params)
+        async with self.pool.acquire() as connection:
+            await connection.execute(QUERY, *values)
