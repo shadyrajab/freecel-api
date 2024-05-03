@@ -8,14 +8,10 @@ from models.movel import VendaMovelRequestModel
 from utils.queries import REMOVE_VENDA_MOVEL
 from utils.query_builder import get_clause, get_vendas_query
 
-from .abstract.vendas_handler import VendasHandlerDataBase
 
-
-class MovelHandlerDatabase(VendasHandlerDataBase):
+class MovelHandlerDatabase:
     def __init__(self, pool: Optional[Pool] = None) -> None:
         self.pool = pool
-
-        super().__init__(pool)
 
     async def add_venda_movel(self, user: str, venda: VendaMovelRequestModel):
         values = venda.to_tuple()

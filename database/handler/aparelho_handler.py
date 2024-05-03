@@ -6,16 +6,12 @@ from asyncpg.pool import Pool
 from models.aparelho import TrocaAparelhoRequestModel
 from models.identify import ID
 from utils.queries import REMOVE_APARELHO_QUERY
-from utils.query_builder import get_vendas_query, get_clause
-
-from .abstract.vendas_handler import VendasHandlerDataBase
+from utils.query_builder import get_clause, get_vendas_query
 
 
-class AparelhoHandlerDatabase(VendasHandlerDataBase):
+class AparelhoHandlerDatabase:
     def __init__(self, pool: Optional[Pool] = None) -> None:
         self.pool = pool
-
-        super().__init__(pool)
 
     async def add_aparelho(self, user: str, venda: TrocaAparelhoRequestModel):
         values = venda.to_tuple()
