@@ -1,6 +1,6 @@
 import re
 from datetime import datetime
-from typing import Dict, Optional
+from typing import Dict, Optional, Union
 
 from pycpfcnpj import cpfcnpj
 from pydantic import EmailStr, validator
@@ -21,13 +21,14 @@ class VendaRequestModel(Empresa):
     telefone: str
     consultor: str
     data_input: str
-    data_recebimento: str  # Essa merda aqui é pra preencher automaticamente
+    data_recebimento: Optional[Union[datetime, str]] = datetime.now()
     gestor: str
     preco: Optional[float] = None
     plano: str
     volume: int
     equipe: str
     tipo: str
+    esteira: Optional[str] = "MÓVEL"
     email: EmailStr
     ddd: str
     status: str
@@ -68,9 +69,11 @@ class VendaRequestModel(Empresa):
         return value
 
     @validator("data_recebimento")
-    def validate_data_recebimento(cls, value):
+    def validate_data_input(cls, value):
         # Erro potencial
-        value = datetime.strptime(value, "%d-%m-%Y")
+        if isinstance(value, str):
+            value = datetime.strptime(value, "%d-%m-%Y")
+
         return value
 
     @validator("equipe")
