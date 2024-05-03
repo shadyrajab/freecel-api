@@ -5,7 +5,7 @@ from pdfhandler.simplifique import read_simplifique_pdf
 from pdfhandler.visao import read_visao_pdf
 from utils.functions import jsonfy
 
-router = APIRouter(prefix="/simulacao", tags=["Simulação"])
+router = APIRouter(prefix="/simulacao", tags=["simulação"])
 
 
 @router.post("/")

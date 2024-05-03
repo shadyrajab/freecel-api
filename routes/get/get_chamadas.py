@@ -4,7 +4,7 @@ from authenticator.jwt import authenticate
 from client.client import Client
 from vivo.gestao import VivoGestaoChamadas
 
-router = APIRouter(prefix="/chamadas", tags=["Chamadas"])
+router = APIRouter(prefix="/chamadas", tags=["chamadas"])
 
 
 @router.get("/", dependencies=[Depends(authenticate)])

@@ -3,7 +3,7 @@ from fastapi import APIRouter, Query
 from client.client import Client
 from handler.handler_request import handle_request
 
-router = APIRouter(prefix="/rankings", tags=["Rankings"])
+router = APIRouter(prefix="/rankings", tags=["stats"])
 
 
 @router.get("/")

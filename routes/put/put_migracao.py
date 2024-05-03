@@ -5,7 +5,7 @@ from client.client import Client
 from handler.handler_request import handle_request
 from params.request_body import UpdateMigracaoParams
 
-router = APIRouter(prefix="/migracoes", tags=["Migrações"])
+router = APIRouter(prefix="/migracoes", tags=["migração"])
 
 
 @router.put("/")

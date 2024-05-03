@@ -5,7 +5,7 @@ from client.client import Client
 from handler.handler_request import handle_request
 from models.produtos import Produto
 
-router = APIRouter(prefix="/produtos", tags=["Produtos"])
+router = APIRouter(prefix="/produtos", tags=["produtos"])
 
 
 @router.post("/")

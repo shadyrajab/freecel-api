@@ -49,23 +49,19 @@ routes = [
     route.router
     for route in [
         del_consultor,
-        del_movel,
         del_produto,
         get_chamadas,
         get_consultores,
         get_migracoes,
-        get_movel,
         get_produtos,
         get_rankings,
         get_stats,
         get_utils,
         post_consultor,
-        post_movel,
         post_produto,
         post_simulacao,
         put_consultor,
         put_migracao,
-        put_movel,
         put_produto,
         post_fixa,
         del_aparelho,
@@ -75,6 +71,10 @@ routes = [
         get_aparelhos,
         get_fixa,
         get_inovacoes,
+        del_movel,
+        get_movel,
+        post_movel,
+        put_movel,
     ]
 ]
 

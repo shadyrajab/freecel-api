@@ -2,7 +2,7 @@ from fastapi import APIRouter
 
 from utils.utils import EQUIPES, SUPERVISORES, TIPOS_FIXA, TIPOS_MIGRACAO, TIPOS_MOVEL
 
-router = APIRouter(prefix="/utils", tags=["Utils"])
+router = APIRouter(prefix="/utils", tags=["utils"])
 
 
 @router.get("/tipos_fixa")
