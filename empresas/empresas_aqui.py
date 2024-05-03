@@ -64,10 +64,6 @@ class Empresa(BaseModel):
         return self.empresa.get("cnae_principal")
 
     @property
-    def uf(self):
-        return self.empresa.get("log_uf")
-
-    @property
     def quadro_funcionarios(self):
         return self.empresa.get("quadro_funcionarios")
 
