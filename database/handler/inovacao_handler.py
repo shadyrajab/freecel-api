@@ -21,7 +21,8 @@ class InovacaoHandlerDatabase:
         values = venda.to_dict()
         QUERY, values = post_vendas_query_builder(database="inovacoes", *values)
         async with self.pool.acquire() as connection:
-            await connection.execute(QUERY, *values)
+            id = await connection.execute(QUERY, *values)
+            return id
 
     async def get_inovacoes(self, **filters):
         QUERY, values = get_vendas_query_builder(database="inovacoes", **filters)

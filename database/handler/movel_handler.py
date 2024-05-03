@@ -21,7 +21,8 @@ class MovelHandlerDatabase:
         values = venda.to_dict()
         QUERY, values = post_vendas_query_builder(database="vendas_movel", **values)
         async with self.pool.acquire() as connection:
-            await connection.execute(QUERY, *values)
+            id = await connection.fetchval(QUERY, *values)
+            return id
 
     async def get_vendas_movel(self, **filters):
         QUERY, values = get_vendas_query_builder(database="vendas_movel", **filters)

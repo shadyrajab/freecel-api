@@ -32,7 +32,7 @@ class VendaRequestModel(Empresa):
     email: EmailStr
     ddd: str
     status: str
-    numero_pedido: str
+    n_pedido: str
     observacao: str
 
     @validator("ddd")

@@ -21,7 +21,8 @@ class FixaHandlerDatabase:
         values = venda.to_dict()
         QUERY, values = post_vendas_query_builder(database="vendas_fixa", *values)
         async with self.pool.acquire() as connection:
-            await connection.execute(QUERY, *values)
+            id = await connection.execute(QUERY, *values)
+            return id
 
     async def remove_venda_fixa(self, id: ID):
         values = (id.id,)

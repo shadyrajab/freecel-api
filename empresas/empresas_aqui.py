@@ -30,7 +30,11 @@ class Empresa(BaseModel):
 
     @property
     def bairro(self):
-        return self.empresa.get("log_bairro")
+        log_bairro = self.empresa.get("log_bairro")
+        if log_bairro is not None:
+            log_bairro = log_bairro.replace("'", "")
+
+        return log_bairro
 
     @property
     def regime_tributario(self):
@@ -53,7 +57,11 @@ class Empresa(BaseModel):
 
     @property
     def municipio(self):
-        return self.empresa.get("log_municipio")
+        log_municipio = self.empresa.get("log_municipio")
+        if log_municipio is not None:
+            log_municipio = log_municipio.replace("'", "")
+
+        return log_municipio
 
     @property
     def faturamento(self):
