@@ -1,6 +1,26 @@
 from datetime import datetime
 
 
+def get_clause(database: str, **params):
+    id = params.get("id", None)
+    if id is None:
+        return
+    del params["id"]
+    for i, (key, value) in enumerate(params.copy().items()):
+        if value is None:
+            del params[key]
+    set_clause = ", ".join(
+        f"{key} = ${i + 1}"
+        for i, (key, value) in enumerate(params.items())
+        if value is not None
+    )
+
+    values = [value for value in params.values() if value is not None] + [id]
+
+    QUERY = f"UPDATE {database} SET {set_clause} WHERE id = ${len(values)}"
+    return QUERY, values
+
+
 def get_vendas_query(database: str, **filters):
     data_inicio = datetime.strptime(filters.get("data_inicio"), "%d-%m-%Y")
     data_fim = datetime.strptime(filters.get("data_fim"), "%d-%m-%Y")
