@@ -31,6 +31,7 @@ class VendaRequestModel(Empresa):
     ddd: str
     status: str
     numero_pedido: str
+    observacao: str
 
     @validator("ddd")
     def validate_ddd(cls, value):
