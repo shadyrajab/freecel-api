@@ -69,7 +69,7 @@ class VendaRequestModel(Empresa):
         return value
 
     @validator("data_recebimento")
-    def validate_data_input(cls, value):
+    def validate_data_recebimento(cls, value):
         # Erro potencial
         if isinstance(value, str):
             value = datetime.strptime(value, "%d-%m-%Y")
