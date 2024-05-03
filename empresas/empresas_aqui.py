@@ -1,17 +1,22 @@
 from datetime import datetime
 
+from pydantic import BaseModel
 from requests import request
 
 from utils.env import TOKENEMPRESAS
 
 
-class Empresa:
-    def __init__(self, cnpj: str):
+class Empresa(BaseModel):
+    cnpj: str
+    empresa: dict = {}
+
+    def __init__(self, cnpj: str, **kwargs):
+        super().__init__(cnpj=cnpj, **kwargs)
         self.empresa = self.__get_empresa(cnpj)
 
     @property
     def razao_social(self):
-        return self.empresa.get("razao", None)
+        return self.empresa.get("razao")
 
     @property
     def porte(self):
@@ -25,19 +30,19 @@ class Empresa:
 
     @property
     def bairro(self):
-        return self.empresa.get("log_bairro", None)
+        return self.empresa.get("log_bairro")
 
     @property
     def regime_tributario(self):
-        return self.empresa.get("regime_tributario", None)
+        return self.empresa.get("regime_tributario")
 
     @property
     def capital_social(self):
-        return self.empresa.get("capital_social", None)
+        return self.empresa.get("capital_social")
 
     @property
     def natureza_juridica(self):
-        return self.empresa.get("natureza_juridica", None)
+        return self.empresa.get("natureza_juridica")
 
     @property
     def matriz(self):
@@ -48,31 +53,27 @@ class Empresa:
 
     @property
     def municipio(self):
-        return self.empresa.get("log_municipio", None)
+        return self.empresa.get("log_municipio")
 
     @property
     def faturamento(self):
-        return self.empresa.get("faturamento", None)
+        return self.empresa.get("faturamento")
 
     @property
     def cnae(self):
-        return self.empresa.get("cnae_principal", None)
-
-    @property
-    def cep(self):
-        return self.empresa.get("log_cep", None)
+        return self.empresa.get("cnae_principal")
 
     @property
     def uf(self):
-        return self.empresa.get("log_uf", None)
+        return self.empresa.get("log_uf")
 
     @property
     def quadro_funcionarios(self):
-        return self.empresa.get("quadro_funcionarios", None)
+        return self.empresa.get("quadro_funcionarios")
 
     @property
     def data_abertura(self):
-        data_abertura = self.empresa.get("data_abertura", None)
+        data_abertura = self.empresa.get("data_abertura")
         if data_abertura is not None:
             data_abertura = datetime.strptime(data_abertura, "%Y%m%d")
 
