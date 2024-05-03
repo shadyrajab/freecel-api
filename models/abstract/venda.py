@@ -20,7 +20,8 @@ from utils.variables import DDDS
 class VendaRequestModel(Empresa):
     telefone: str
     consultor: str
-    data: str
+    data_input: str
+    data_recebimento: str  # Essa merda aqui é pra preencher automaticamente
     gestor: str
     preco: Optional[float] = None
     plano: str
@@ -60,8 +61,14 @@ class VendaRequestModel(Empresa):
 
         return telefone
 
-    @validator("data")
-    def validate_data(cls, value):
+    @validator("data_input")
+    def validate_data_input(cls, value):
+        # Erro potencial
+        value = datetime.strptime(value, "%d-%m-%Y")
+        return value
+
+    @validator("data_recebimento")
+    def validate_data_recebimento(cls, value):
         # Erro potencial
         value = datetime.strptime(value, "%d-%m-%Y")
         return value
