@@ -3,8 +3,7 @@ from typing import Optional
 import pandas as pd
 from asyncpg.pool import Pool
 
-from models.identify import ID
-from models.inovacao import InovacaoRequestModel
+from models import ID, InovacaoRequestModel
 from utils.queries import REMOVE_INOVACAO_QUERY
 from utils.query_builder import (
     get_vendas_query_builder,

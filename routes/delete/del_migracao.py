@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends
 from authenticator.jwt import authenticate
 from client.client import Client
 from handler import handler_delete_request
-from models.identify import ID
+from models import ID
 
 router = APIRouter(prefix="/migracao", tags=["migração"])
 

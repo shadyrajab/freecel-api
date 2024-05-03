@@ -3,8 +3,7 @@ from typing import Optional
 from asyncpg.pool import Pool
 from pandas import DataFrame
 
-from models.identify import ID
-from models.produtos import Produto
+from models import ID, Produto
 from utils.queries import ADD_PRODUTO_QUERY, GET_PRODUTOS_QUERY, REMOVE_PRODUTO_QUERY
 from utils.query_builder import update_anth_query_builder
 

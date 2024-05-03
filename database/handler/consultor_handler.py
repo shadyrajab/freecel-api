@@ -3,8 +3,7 @@ from typing import Optional
 from asyncpg.pool import Pool
 from pandas import DataFrame
 
-from models.consultor import Vendedor
-from models.identify import ID
+from models import ID, Vendedor
 from utils.queries import (
     ADD_CONSULTOR_QUERY,
     GET_CONSULTORES_QUERY,

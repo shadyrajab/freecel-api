@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pydantic import validator
 
-from .abstract.venda import VendaRequestModel
+from ..abstract.venda import VendaRequestModel
 
 
 class VendaFixaRequestModel(VendaRequestModel):
@@ -21,7 +21,7 @@ class VendaFixaRequestModel(VendaRequestModel):
         campanha = campanha.upper()
         if campanha not in {"MASSIVO", "TOP"}:
             raise ValueError("A campanha informada não existe")
-        
+
         return campanha
 
     @validator("data_conclusao")

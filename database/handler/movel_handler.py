@@ -3,8 +3,7 @@ from typing import Optional
 import pandas as pd
 from asyncpg.pool import Pool
 
-from models.identify import ID
-from models.movel import VendaMovelRequestModel
+from models import ID, VendaMovelRequestModel
 from utils.queries import REMOVE_VENDA_MOVEL
 from utils.query_builder import (
     get_vendas_query_builder,

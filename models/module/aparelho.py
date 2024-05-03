@@ -1,4 +1,4 @@
-from .abstract.venda import VendaRequestModel
+from ..abstract.venda import VendaRequestModel
 
 
 class TrocaAparelhoRequestModel(VendaRequestModel):

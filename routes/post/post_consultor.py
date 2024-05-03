@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends
 from authenticator.jwt import authenticate
 from client.client import Client
 from handler import handler_get_request
-from models.consultor import Vendedor
+from models import Vendedor
 
 router = APIRouter(prefix="/consultores", tags=["consultores"])
 

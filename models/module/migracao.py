@@ -1,6 +1,6 @@
 from typing import Optional
 
-from .abstract.venda import VendaRequestModel
+from ..abstract.venda import VendaRequestModel
 
 
 class MigracaoRequestModel(VendaRequestModel):

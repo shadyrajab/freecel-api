@@ -17,7 +17,7 @@ async def tipos_fixa():
     return TIPOS_FIXA
 
 
-@router.get("tipos_cliente")
+@router.get("/tipos_cliente")
 async def tipos_cliente():
     return TIPOS_CLIENTE
 

@@ -3,8 +3,7 @@ from typing import Optional
 import pandas as pd
 from asyncpg.pool import Pool
 
-from models.fixa import VendaFixaRequestModel
-from models.identify import ID
+from models import ID, VendaFixaRequestModel
 from utils.queries import REMOVE_VENDA_FIXA_QUERY
 from utils.query_builder import (
     get_vendas_query_builder,

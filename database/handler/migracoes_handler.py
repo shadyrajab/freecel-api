@@ -3,8 +3,7 @@ from typing import Optional
 import pandas as pd
 from asyncpg.pool import Pool
 
-from models.identify import ID
-from models.migracao import MigracaoRequestModel
+from models import ID, MigracaoRequestModel
 from utils.queries import REMOVE_MIGRACOES_QUERY
 from utils.query_builder import (
     get_vendas_query_builder,
