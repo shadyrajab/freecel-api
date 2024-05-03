@@ -5,47 +5,7 @@ import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.middleware.gzip import GZipMiddleware
 
-from routes.delete import (
-    del_aparelho,
-    del_consultor,
-    del_fixa,
-    del_inovacao,
-    del_migracao,
-    del_movel,
-    del_produto,
-)
-from routes.get import (
-    get_aparelhos,
-    get_chamadas,
-    get_consultores,
-    get_fixa,
-    get_inovacoes,
-    get_migracoes,
-    get_movel,
-    get_produtos,
-    get_rankings,
-    get_stats,
-    get_utils,
-)
-from routes.post import (
-    post_aparelho,
-    post_consultor,
-    post_fixa,
-    post_inovacao,
-    post_migracao,
-    post_movel,
-    post_produto,
-    post_simulacao,
-)
-from routes.put import (
-    put_aparelho,
-    put_consultor,
-    put_fixa,
-    put_inovacao,
-    put_migracao,
-    put_movel,
-    put_produto,
-)
+from routes import routes
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
@@ -55,45 +15,6 @@ logging.basicConfig(
 
 app = FastAPI()
 app.add_middleware(GZipMiddleware, minimum_size=1000)
-
-routes = [
-    route.router
-    for route in [
-        del_consultor,
-        del_produto,
-        get_chamadas,
-        get_consultores,
-        get_migracoes,
-        get_produtos,
-        get_rankings,
-        get_stats,
-        get_utils,
-        post_consultor,
-        post_produto,
-        post_simulacao,
-        put_consultor,
-        put_migracao,
-        put_produto,
-        post_fixa,
-        del_aparelho,
-        del_fixa,
-        del_inovacao,
-        del_migracao,
-        get_aparelhos,
-        get_fixa,
-        get_inovacoes,
-        del_movel,
-        get_movel,
-        post_movel,
-        put_movel,
-        post_aparelho,
-        post_inovacao,
-        post_migracao,
-        put_aparelho,
-        put_inovacao,
-        put_fixa,
-    ]
-]
 
 
 for route in routes:
