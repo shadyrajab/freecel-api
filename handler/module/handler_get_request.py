@@ -12,6 +12,10 @@ logging.basicConfig(
 )
 
 
+async def handler_get_request(client_method, *user, **kwargs):
+    pass
+
+
 # async def handler_get_(client_method, *user, **kwargs):
 #     function_name = client_method.__name__
 #     try:

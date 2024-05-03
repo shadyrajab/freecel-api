@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 
 from authenticator.jwt import authenticate
 from client.client import Client
-from handler.handler_post_request import handler_post_request
+from handler import handler_post_request
 from models.migracao import MigracaoRequestModel
 
 router = APIRouter(prefix="/migracao", tags=["migração"])

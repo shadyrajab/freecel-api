@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Query
 
 from client.client import Client
-from handler.handler_request import handle_request
+from handler import handler_get_request
 
 router = APIRouter(prefix="/stats", tags=["stats"])
 
@@ -13,7 +13,7 @@ async def stats(
     equipe: str = Query(None, description="Equipe"),
 ):
     async with Client() as client:
-        return await handle_request(
+        return await handler_get_request(
             client.Freecel,
             data_inicio=data_inicio,
             data_fim=data_fim,

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Query
 
 from client.client import Client
-from handler.handler_request import handle_request
+from handler import handler_get_request
 
 router = APIRouter(prefix="/vendas/movel", tags=["vendas/movel"])
 
@@ -20,7 +20,7 @@ async def vendas_movel(
     plano: list = Query(None, description="Planos das Vendas"),
 ):
     async with Client() as client:
-        return await handle_request(
+        return await handler_get_request(
             client.get_vendas_movel,
             data_inicio=data_inicio,
             data_fim=data_fim,
