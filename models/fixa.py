@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Tuple
+from typing import Dict
 
 from pydantic import validator
 
@@ -27,9 +27,3 @@ class VendaFixaRequestModel(VendaRequestModel):
         # Erro potencial
         data_instalacao = datetime.strptime(data_instalacao, "%d-%m-%Y")
         return data_instalacao
-
-    def to_tuple(self) -> Tuple:
-        return tuple(self.__dict__.values())
-
-    def keys_to_tuple(self) -> Tuple:
-        return tuple(self.__dict__.keys())

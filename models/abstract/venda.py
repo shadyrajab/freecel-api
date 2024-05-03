@@ -1,10 +1,11 @@
 import re
 from datetime import datetime
-from typing import Optional
+from typing import Dict, Optional
 
 from pycpfcnpj import cpfcnpj
-from pydantic import BaseModel, EmailStr, validator
+from pydantic import EmailStr, validator
 
+from empresas.empresas_aqui import Empresa
 from utils.utils import (
     EQUIPES,
     STATUS_FIXA,
@@ -16,8 +17,7 @@ from utils.utils import (
 from utils.variables import DDDS
 
 
-class VendaRequestModel(BaseModel):
-    cnpj: str
+class VendaRequestModel(Empresa):
     telefone: str
     consultor: str
     data: str
@@ -93,3 +93,21 @@ class VendaRequestModel(BaseModel):
             raise ValueError(f"O CNPJ ou CPF informado está inválido.")
 
         return cnpj
+
+    def to_dict(self) -> Dict:
+        params = dict(self.__dict__.items())
+        for cls in reversed(self.__class__.__mro__):
+            for attr_name, attr_value in vars(cls).items():
+                if isinstance(attr_value, property):
+                    params[attr_name] = getattr(self, attr_name)
+
+        for param in [
+            "model_extra",
+            "model_fields_set",
+            "empresa",
+            "__fields__",
+            "__fields_set__",
+        ]:
+            del params[param]
+
+        return params
