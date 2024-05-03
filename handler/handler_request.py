@@ -15,7 +15,7 @@ logging.basicConfig(
 async def handle_request(client_method, *user, **kwargs):
     function_name = client_method.__name__
     try:
-        if function_name == "add_venda":
+        if function_name == "add_venda_movel":
             result = await client_method(*user, **kwargs)
         else:
             result = await client_method(**kwargs)

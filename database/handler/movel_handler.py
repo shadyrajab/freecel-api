@@ -14,7 +14,7 @@ class MovelHandlerDatabase:
         self.pool = pool
 
     async def add_venda_movel(self, user: str, venda: VendaMovelRequestModel):
-        values = venda.to_tuple()
+        values = venda.to_dict()
         print(values)
         async with self.pool.acquire() as connection:
             await connection.execute()
