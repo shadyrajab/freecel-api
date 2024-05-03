@@ -1,6 +1,13 @@
 from fastapi import APIRouter
 
-from utils.utils import EQUIPES, SUPERVISORES, TIPOS_FIXA, TIPOS_MIGRACAO, TIPOS_MOVEL
+from utils.utils import (
+    EQUIPES,
+    SUPERVISORES,
+    TIPOS_CLIENTE,
+    TIPOS_FIXA,
+    TIPOS_MIGRACAO,
+    TIPOS_MOVEL,
+)
 
 router = APIRouter(prefix="/utils", tags=["utils"])
 
@@ -8,6 +15,11 @@ router = APIRouter(prefix="/utils", tags=["utils"])
 @router.get("/tipos_fixa")
 async def tipos_fixa():
     return TIPOS_FIXA
+
+
+@router.get("tipos_cliente")
+async def tipos_cliente():
+    return TIPOS_CLIENTE
 
 
 @router.get("/tipo_migracao")
