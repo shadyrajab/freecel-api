@@ -20,7 +20,7 @@ class MigracaoHandlerDatabase:
             await connection.execute(REMOVE_MIGRACOES_QUERY, *values)
 
     async def add_migracao(self, user: str, venda: MigracaoRequestModel):
-        values = venda.to_tuple()
+        values = venda.to_dict()
         print(values)
         async with self.pool.acquire() as connection:
             await connection.execute()

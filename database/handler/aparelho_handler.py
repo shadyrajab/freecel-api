@@ -14,7 +14,7 @@ class AparelhoHandlerDatabase:
         self.pool = pool
 
     async def add_aparelho(self, user: str, venda: TrocaAparelhoRequestModel):
-        values = venda.to_tuple()
+        values = venda.to_dict()
         print(values)
         async with self.pool.acquire() as connection:
             await connection.execute()

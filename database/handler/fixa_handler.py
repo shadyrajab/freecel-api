@@ -14,7 +14,7 @@ class FixaHandlerDatabase:
         self.pool = pool
 
     async def add_venda_fixa(self, venda: VendaFixaRequestModel):
-        values = venda.to_tuple()
+        values = venda.to_dict()
         print(values)
         async with self.pool.acquire() as connection:
             await connection.execute()
