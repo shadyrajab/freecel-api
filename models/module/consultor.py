@@ -1,4 +1,6 @@
-from pydantic import BaseModel, Dict, validator
+from typing import Dict
+
+from pydantic import BaseModel, validator
 
 from utils.utils import EQUIPES
 from utils.variables import CARGOS
@@ -10,14 +12,14 @@ class Vendedor(BaseModel):
     cargo: str
 
     @validator("vinculo")
-    def validate_vinculo(cls, value):
+    def validate_vinculo(cls, value: str):
         if value not in EQUIPES:
             raise ValueError(f"A equipe {value} não existe")
 
         return value.upper()
 
     @validator("cargo")
-    def validate_cargo(cls, value):
+    def validate_cargo(cls, value: str):
         if value not in CARGOS:
             raise ValueError(f"O cargo {value} não existe")
 
