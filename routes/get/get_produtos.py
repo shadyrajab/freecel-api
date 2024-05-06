@@ -9,4 +9,4 @@ router = APIRouter(prefix="/produtos", tags=["produtos"])
 @router.get("/")
 async def produtos():
     async with Client() as client:
-        return await handler_get_request(client.produtos)
+        return await handler_get_request(client.get_produtos)

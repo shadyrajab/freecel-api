@@ -9,7 +9,7 @@ router = APIRouter(prefix="/consultores", tags=["consultores"])
 @router.get("/")
 async def consultores():
     async with Client() as client:
-        return await handler_get_request(client.consultores)
+        return await handler_get_request(client.get_consultores)
 
 
 @router.get("/{nome_consultor}")
