@@ -5,6 +5,7 @@ import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.middleware.gzip import GZipMiddleware
 
+from handler import handler_exception
 from routes import routes
 
 logger = logging.getLogger(__name__)
@@ -23,12 +24,7 @@ for route in routes:
 
 @app.exception_handler(Exception)
 async def exception_handler(request: Request, exc: Exception):
-    logging.error(f"Ocorreu um erro na solicitação: {exc}")
-    return {
-        "status_code": 500,
-        "message": "Ocorreu um erro ao atender sua solicitação.",
-        "error": str(exc),
-    }
+    return await handler_exception(request, exc)
 
 
 if __name__ == "__main__":

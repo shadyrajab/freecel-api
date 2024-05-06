@@ -1,7 +1,7 @@
 from typing import Optional
 
+import pandas as pd
 from asyncpg.pool import Pool
-from pandas import DataFrame
 
 from models import ID, Produto
 from utils.queries import ADD_PRODUTO_QUERY, GET_PRODUTOS_QUERY, REMOVE_PRODUTO_QUERY
@@ -17,7 +17,7 @@ class ProdutosHandlerDataBase:
             statement = await connection.prepare(GET_PRODUTOS_QUERY)
             result = await statement.fetch()
             columns = [desc[0] for desc in statement.get_attributes()]
-            produtos = DataFrame(result, columns=columns)
+            produtos = pd.DataFrame(result, columns=columns)
             return produtos
 
     async def add_produto(self, produto: Produto):

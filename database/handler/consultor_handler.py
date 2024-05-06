@@ -1,7 +1,7 @@
 from typing import Optional
 
+import pandas as pd
 from asyncpg.pool import Pool
-from pandas import DataFrame
 
 from models import ID, Vendedor
 from utils.queries import (
@@ -22,7 +22,7 @@ class ConsultorHandlerDataBase:
             statement = await connection.prepare(GET_CONSULTORES_QUERY)
             result = await statement.fetch()
             columns = [desc[0] for desc in statement.get_attributes()]
-            consultores = DataFrame(result, columns=columns)
+            consultores = pd.DataFrame(result, columns=columns)
             return consultores
 
     async def get_equipe_flavio(self):
@@ -30,7 +30,7 @@ class ConsultorHandlerDataBase:
             statement = await connection.prepare(GET_EQUIPE_FLAVIO)
             result = await statement.fetch()
             columns = [desc[0] for desc in statement.get_attributes()]
-            equipe = DataFrame(result, columns=columns)
+            equipe = pd.DataFrame(result, columns=columns)
             return equipe
 
     async def add_consultor(self, consultor: Vendedor):
