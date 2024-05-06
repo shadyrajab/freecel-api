@@ -16,8 +16,9 @@ class FixaHandlerDatabase:
     def __init__(self, pool: Optional[Pool] = None) -> None:
         self.pool = pool
 
-    async def add_venda_fixa(self, venda: VendaFixaRequestModel):
+    async def add_venda_fixa(self, user: str, venda: VendaFixaRequestModel):
         values = venda.to_dict()
+        values["responsavel"] = user
         QUERY, values = post_vendas_query_builder(database="vendas_fixa", *values)
         async with self.pool.acquire() as connection:
             id = await connection.execute(QUERY, *values)

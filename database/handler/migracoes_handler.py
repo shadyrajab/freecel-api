@@ -23,6 +23,7 @@ class MigracaoHandlerDatabase:
 
     async def add_migracao(self, user: str, venda: MigracaoRequestModel):
         values = venda.to_dict()
+        values["responsavel"] = user
         QUERY, values = post_vendas_query_builder(database="migracoes", *values)
         async with self.pool.acquire() as connection:
             id = await connection.fetchval(QUERY, *values)

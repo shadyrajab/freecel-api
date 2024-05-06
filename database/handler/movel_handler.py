@@ -18,6 +18,7 @@ class MovelHandlerDatabase:
 
     async def add_venda_movel(self, user: str, venda: VendaMovelRequestModel):
         values = venda.to_dict()
+        values["responsavel"] = user
         QUERY, values = post_vendas_query_builder(database="vendas_movel", **values)
         async with self.pool.acquire() as connection:
             id = await connection.fetchval(QUERY, *values)

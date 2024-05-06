@@ -4,7 +4,6 @@ from database.connection import DataBase
 from structures.consultor import Consultor
 from structures.freecel import Freecel
 from structures.ranking import Rankings
-from utils.functions import jsonfy
 
 
 class Client(DataBase):
@@ -26,17 +25,3 @@ class Client(DataBase):
     async def Freecel(self, **filters: str) -> Freecel:
         dataframe = self.__format(await self.get_vendas(**filters))
         return Freecel(dataframe)
-
-    async def vendas(self, **filters: str) -> dict:
-        vendas = await self.get_vendas(**filters)
-        if len(vendas) == 0:
-            return vendas
-        dataframe = self.__format(vendas)
-        return jsonfy(dataframe)
-
-    def __format(self, dataframe: pd.DataFrame) -> pd.DataFrame:
-        dataframe[["receita", "preco", "volume"]] = dataframe[
-            ["receita", "preco", "volume"]
-        ].apply(pd.to_numeric, errors="coerce", downcast="integer")
-
-        return dataframe

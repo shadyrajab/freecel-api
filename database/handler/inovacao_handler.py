@@ -16,8 +16,9 @@ class InovacaoHandlerDatabase:
     def __init__(self, pool: Optional[Pool] = None) -> None:
         self.pool = pool
 
-    async def add_inovacao(self, venda: InovacaoRequestModel):
+    async def add_inovacao(self, user: str, venda: InovacaoRequestModel):
         values = venda.to_dict()
+        values["responsavel"] = user
         QUERY, values = post_vendas_query_builder(database="inovacoes", *values)
         async with self.pool.acquire() as connection:
             id = await connection.execute(QUERY, *values)

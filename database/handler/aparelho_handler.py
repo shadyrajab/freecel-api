@@ -18,6 +18,7 @@ class AparelhoHandlerDatabase:
 
     async def add_aparelho(self, user: str, venda: TrocaAparelhoRequestModel):
         values = venda.to_dict()
+        values["responsavel"] = user
         QUERY, values = post_vendas_query_builder(database="aparelhos", **values)
         async with self.pool.acquire() as connection:
             id = await connection.execute(QUERY, *values)
