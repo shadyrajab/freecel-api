@@ -1,12 +1,13 @@
 from io import StringIO
 from json import load
+from typing import Dict
 
-from pandas import DataFrame
+import pandas as pd
 
-from utils.variables import CATEGORIAS, MONTHS, adabas_mapping
+from utils.variables import CATEGORIAS, adabas_mapping
 
 
-def group_by(dataframe: DataFrame, column: str, sort: str) -> DataFrame:
+def group_by(dataframe: pd.DataFrame, column: str, sort: str) -> pd.DataFrame:
     grouped_dataframe = (
         dataframe.groupby(column, as_index=False)
         .sum(numeric_only=True)
@@ -16,49 +17,17 @@ def group_by(dataframe: DataFrame, column: str, sort: str) -> DataFrame:
     return grouped_dataframe
 
 
-def jsonfy(dataframe: DataFrame):
+def jsonfy(dataframe: pd.DataFrame) -> Dict:
     df = dataframe.to_json(orient="records")
     return load(StringIO(df))
 
 
-def get_adabas(equipe, tipo) -> str:
+def get_adabas(equipe: str, tipo: str) -> str:
     categoria = CATEGORIAS.get(tipo)
-    return adabas_mapping.get((equipe, categoria), None)
+    return adabas_mapping.get((equipe, categoria), "Não Informado")
 
 
-def filter_by(dataframe: DataFrame, **filters: str) -> DataFrame:
-    for _i, (key, value) in enumerate(filters.copy().items()):
-        if value is None:
-            del filters[key]
-
-    if "data_inicio" and "data_fim" in filters.keys():
-        dataframe = dataframe.loc[
-            (dataframe["data"] >= filters.get("data_inicio"))
-            & (dataframe["data"] <= filters.get("data_fim"))
-        ]
-
-        del filters["data_inicio"]
-        del filters["data_fim"]
-
-    for column, value in filters.items():
-        value = (
-            value.upper()
-            if type(value) == str
-            else int(value) if column == "ano" else value
-        )
-        if column == "tipo" and value == "~MIGRAÇÃO":
-            dataframe = dataframe[dataframe[column] != "MIGRAÇÃO"]
-        else:
-            dataframe = dataframe[dataframe[column] == value]
-
-    return dataframe
-
-
-def get_mes(mes) -> str:
-    return MONTHS[mes - 1]
-
-
-def remove_rbar(x):
+def remove_rbar(x) -> str:
     if type(x) is not str:
         return x
     return x.replace("\r", " ")
