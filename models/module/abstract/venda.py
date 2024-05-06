@@ -28,7 +28,7 @@ class VendaRequestModel(Empresa):
     volume: int
     equipe: str
     tipo: str
-    esteira: Optional[str] = "MÓVEL"
+    esteira: str
     email: EmailStr
     ddd: str
     status: str

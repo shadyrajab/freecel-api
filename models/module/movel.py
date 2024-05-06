@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pydantic import validator
 
-from ..abstract.venda import VendaRequestModel
+from .abstract.venda import VendaRequestModel
 
 
 class VendaMovelRequestModel(VendaRequestModel):
