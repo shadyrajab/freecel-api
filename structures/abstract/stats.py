@@ -1,4 +1,8 @@
+from typing import Dict, List, Optional
+
 import pandas as pd
+
+from utils.utils import SUPERVISORES
 
 
 class Stats:
@@ -42,3 +46,25 @@ class Stats:
     @property
     def volume_media(self) -> float:
         return float(self.volume / self.periodo_trabalhado)
+
+    def media_por_consultor(self, tipo: Optional[List[str]] = None) -> float:
+        dataframe = self.dataframe.copy()
+        if tipo:
+            dataframe = dataframe[dataframe["tipo"].isin(tipo)]
+
+        dataframe = dataframe[~dataframe["consultor"].isin(SUPERVISORES)]
+        consultores = dataframe["consultor"].nunique()
+        if consultores == 0:
+            return 0
+
+        media_por_consultor = dataframe["receita"].sum() / consultores
+        return media_por_consultor
+
+    def to_json(self) -> Dict:
+        data = {}
+        for cls in reversed(self.__class__.__mro__):
+            for attr_name, attr_value in vars(cls).items():
+                if isinstance(attr_value, property):
+                    data[attr_name] = getattr(self, attr_name)
+
+        return data

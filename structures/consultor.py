@@ -1,7 +1,9 @@
+from typing import Dict
+
 import pandas as pd
 
-from structures.ranking import Rankings
-from structures.stats import Stats
+from structures.abstract.ranking import Rankings
+from structures.abstract.stats import Stats
 from utils.functions import jsonfy
 
 
@@ -23,14 +25,5 @@ class Consultor(Stats):
         return Rankings(self.dataframe).produtos
 
     @property
-    def vendas(self):
+    def vendas(self) -> Dict:
         return jsonfy(self.dataframe)
-
-    def to_json(self):
-        data = {}
-        for cls in reversed(self.__class__.__mro__):
-            for attr_name, attr_value in vars(cls).items():
-                if isinstance(attr_value, property):
-                    data[attr_name] = getattr(self, attr_name)
-
-        return data
