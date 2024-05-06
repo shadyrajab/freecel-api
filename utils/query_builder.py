@@ -37,7 +37,6 @@ def get_vendas_query_builder(database: str, **filters):
 
     del filters["data_inicio"]
     del filters["data_fim"]
-    del filters["venda"]
 
     conditions = []
     values = []
@@ -56,6 +55,7 @@ def get_vendas_query_builder(database: str, **filters):
                 conditions.append("AND " + "(" + " OR ".join(or_conditions) + ")")
 
     QUERY = (
-        f"SELECT * FROM {database} WHERE data BETWEEN $2 AND $3 {" ".join(conditions)}"
+        f"SELECT * FROM {database} WHERE data_recebimento BETWEEN $1 AND $2 {" ".join(conditions)}"
     )
+
     return QUERY, values
