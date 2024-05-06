@@ -1,7 +1,7 @@
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, Dict, validator
 
-from utils.variables import CARGOS
 from utils.utils import EQUIPES
+from utils.variables import CARGOS
 
 
 class Vendedor(BaseModel):
@@ -22,3 +22,7 @@ class Vendedor(BaseModel):
             raise ValueError(f"O cargo {value} não existe")
 
         return value.upper()
+
+    def to_dict(self) -> Dict:
+        params = dict(self.__dict__.items())
+        return params

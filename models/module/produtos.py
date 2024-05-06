@@ -1,3 +1,5 @@
+from typing import Dict
+
 from pydantic import BaseModel, validator
 
 
@@ -11,3 +13,7 @@ class Produto(BaseModel):
             raise ValueError("O valor do plano não pode ser menor do que 1.")
 
         return value
+
+    def to_dict(self) -> Dict:
+        params = dict(self.__dict__.items())
+        return params
