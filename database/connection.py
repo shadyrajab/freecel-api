@@ -3,10 +3,10 @@ import asyncpg
 from database.handler.aparelho_handler import AparelhoHandlerDatabase
 from database.handler.consultor_handler import ConsultorHandlerDataBase
 from database.handler.fixa_handler import FixaHandlerDatabase
+from database.handler.inovacao_handler import InovacaoHandlerDatabase
 from database.handler.migracoes_handler import MigracaoHandlerDatabase
 from database.handler.movel_handler import MovelHandlerDatabase
 from database.handler.produtos_handler import ProdutosHandlerDataBase
-from database.handler.inovacao_handler import InovacaoHandlerDatabase
 from utils.env import DATABASE, HOST, PASSWORD, USER
 from utils.queries import JWT_QUERY
 
@@ -18,7 +18,7 @@ class DataBase(
     MigracaoHandlerDatabase,
     MovelHandlerDatabase,
     AparelhoHandlerDatabase,
-    InovacaoHandlerDatabase
+    InovacaoHandlerDatabase,
 ):
     async def __aenter__(self):
         self.pool = await asyncpg.create_pool(
