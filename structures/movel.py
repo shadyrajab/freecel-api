@@ -1,9 +1,8 @@
 import pandas as pd
 
+from structures.abstract.ranking import Rankings
+from structures.abstract.stats import Stats
 from utils.variables import ALTAS, MIGRACAO_PREPOS
-
-from ..structures.abstract.ranking import Rankings
-from ..structures.abstract.stats import Stats
 
 
 class Movel(Stats, Rankings):

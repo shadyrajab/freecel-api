@@ -2,8 +2,8 @@ import pandas as pd
 
 from utils.variables import INOVACAO
 
-from ..structures.abstract.ranking import Rankings
-from ..structures.abstract.stats import Stats
+from structures.abstract.ranking import Rankings
+from structures.abstract.stats import Stats
 
 
 class Inovacao(Stats, Rankings):
