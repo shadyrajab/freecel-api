@@ -2,7 +2,7 @@ import pandas as pd
 
 from structures.abstract.ranking import Rankings
 from structures.abstract.stats import Stats
-from utils.variables import ALTAS, MIGRACAO_PREPOS
+from utils.variables import ALTAS, MIGRACAO_PREPOS, PEN
 
 
 class Movel(Stats, Rankings):
@@ -17,3 +17,19 @@ class Movel(Stats, Rankings):
     @property
     def media_consultor_altas(self) -> float:
         return self.media_por_consultor(ALTAS)
+
+    @property
+    def media_consultor_pen(self) -> float:
+        return self.media_por_consultor(PEN)
+
+    @property
+    def ranking_altas(self):
+        return self.get_ranking("consultor", ALTAS)
+
+    @property
+    def ranking_pen(self) -> float:
+        return self.get_ranking("consultor", PEN)
+
+    @property
+    def ranking_migracao_prepos(self) -> float:
+        return self.get_ranking("consultor", MIGRACAO_PREPOS)

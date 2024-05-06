@@ -6,7 +6,6 @@ from structures.fixa import Fixa
 from structures.inovacao import Inovacao
 from structures.migracao import Migracao
 from structures.movel import Movel
-from structures.pen import Pen
 
 
 class Client(DataBase):
@@ -40,8 +39,3 @@ class Client(DataBase):
     async def Migracao(self, **filters: str) -> Migracao:
         dataframe = await self.get_aparelhos(**filters)
         return Migracao(dataframe)
-
-    async def Pen(self, **filters: str) -> Pen:
-        filters.update({"tipo": "INTERNET"})
-        dataframe = await self.get_vendas_movel(**filters)
-        return Pen(dataframe)
