@@ -18,24 +18,36 @@ class Client(DataBase):
 
     async def Consultor(self, **filters: str) -> Consultor:
         dataframe = await self.get_vendas(**filters)
-        return Consultor(dataframe)
+        if isinstance(dataframe, dict):
+            return dataframe
+        return Consultor(dataframe).to_json()
 
     async def Movel(self, **filters: str) -> Movel:
         dataframe = await self.get_vendas_movel(**filters)
-        return Movel(dataframe)
+        if isinstance(dataframe, dict):
+            return dataframe
+        return Movel(dataframe).to_json()
 
     async def Fixa(self, **filters: str) -> Fixa:
         dataframe = await self.get_vendas_fixa(**filters)
-        return Fixa(dataframe)
+        if isinstance(dataframe, dict):
+            return dataframe
+        return Fixa(dataframe).to_json()
 
     async def Inovacao(self, **filters: str) -> Inovacao:
         dataframe = await self.get_aparelhos(**filters)
-        return Inovacao(dataframe)
+        if isinstance(dataframe, dict):
+            return dataframe
+        return Inovacao(dataframe).to_json()
 
     async def Aparelho(self, **filters: str) -> Aparelho:
         dataframe = await self.get_aparelhos(**filters)
-        return Aparelho(dataframe)
+        if isinstance(dataframe, dict):
+            return dataframe
+        return Aparelho(dataframe).to_json()
 
     async def Migracao(self, **filters: str) -> Migracao:
         dataframe = await self.get_aparelhos(**filters)
-        return Migracao(dataframe)
+        if isinstance(dataframe, dict):
+            return dataframe
+        return Migracao(dataframe).to_json()
