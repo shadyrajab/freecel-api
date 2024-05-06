@@ -13,30 +13,27 @@ logging.basicConfig(
 
 
 async def handler_post_request(client_method, user, **kwargs):
-    function_name = client_method.__name__
+    # O que está sendo removido: Venda, Produto, Consultor, etc...
+    act = client_method.__name__.split("-")[1].title()
+
+    del kwargs["empresa"]
+
     try:
-        result = await client_method(user, **kwargs)
-        logging.info(f"{function_name} params {kwargs} by {user}")
+        id = await client_method(**kwargs)
+        message = f"{act} adicionado(a) com sucesso {user}."
+        logging.info(message)
         return JSONResponse(
-            content=jsonable_encoder(
-                {
-                    "status_code": 200,
-                    "message": f"Solicitação {function_name} realizada com sucesso",
-                    "id": result,
-                    "params": kwargs,
-                }
-            ),
+            content=jsonable_encoder({"message": message, "params": kwargs, "id": id}),
             status_code=200,
         )
-
     except Exception as e:
-        logging.error(f"{function_name} params {kwargs} error: {e}")
+        message = f"Erro interno. Por favor contate um administrador."
         return JSONResponse(
             content=jsonable_encoder(
                 {
-                    "message": "Ocorreu um erro ao atender sua solicitação",
-                    "params": kwargs,
+                    "message": message,
                     "exception": str(e),
+                    "params": kwargs,
                 }
             ),
             status_code=500,
