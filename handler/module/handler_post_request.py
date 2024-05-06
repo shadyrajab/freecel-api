@@ -14,13 +14,10 @@ logging.basicConfig(
 
 async def handler_post_request(client_method, user, **kwargs):
     # O que está sendo removido: Venda, Produto, Consultor, etc...
-    act = client_method.__name__.split("-")[1].title()
-
-    del kwargs["empresa"]
-
+    act = client_method.__name__.split("_")[1].title()
     try:
-        id = await client_method(**kwargs)
-        message = f"{act} adicionado(a) com sucesso {user}."
+        id = await client_method(user, **kwargs)
+        message = f"{act} adicionado(a) com sucesso por {user}."
         logging.info(message)
         return JSONResponse(
             content=jsonable_encoder({"message": message, "params": kwargs, "id": id}),
