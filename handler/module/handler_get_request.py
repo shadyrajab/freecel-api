@@ -1,5 +1,7 @@
 import logging
+from typing import Dict, Union
 
+import pandas as pd
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
@@ -16,9 +18,13 @@ logging.basicConfig(
 
 async def handler_get_request(client_method, **kwargs):
     try:
-        data = await client_method(**kwargs)
+        data: Union[pd.DataFrame, Dict] = await client_method(**kwargs)
         return JSONResponse(
-            content=jsonable_encoder(jsonfy(data)),
+            content=(
+                jsonable_encoder(jsonfy(data))
+                if isinstance(data, pd.DataFrame)
+                else jsonable_encoder(data)
+            ),
             status_code=200,
         )
     except Exception as e:
