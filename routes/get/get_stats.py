@@ -5,7 +5,7 @@ from handler import handler_get_request
 
 router = APIRouter(prefix="/stats", tags=["stats"])
 
-STATUS_PARA_CONSTAR_NO_RANKING = ["CONCLUÍDO", "FATURANDO-PORTABILIDADE"]
+STATUS_PARA_CONSTAR_NO_RANKING = ["CONCLUIDO", "FATURANDO-PORTABILIDADE"]
 
 
 @router.get("/movel")

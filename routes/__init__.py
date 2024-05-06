@@ -16,7 +16,6 @@ from .get import (
     get_migracoes,
     get_movel,
     get_produtos,
-    get_rankings,
     get_stats,
     get_utils,
 )
@@ -56,7 +55,6 @@ __all__ = [
     get_migracoes,
     get_movel,
     get_produtos,
-    get_rankings,
     get_stats,
     get_utils,
     post_aparelho,

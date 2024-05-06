@@ -7,12 +7,15 @@ from utils.utils import SUPERVISORES
 
 class Stats:
     def __init__(self, dataframe: pd.DataFrame) -> None:
+        dataframe["receita"] = dataframe["preco"] * dataframe["volume"]
+        dataframe["data_recebimento"] = pd.to_datetime(dataframe["data_recebimento"])
+        
         self.dataframe = dataframe
 
     @property
     def periodo_trabalhado(self) -> int:
         dataframe = self.dataframe.copy()
-        dataframe["periodo"] = dataframe["data"].dt.strftime("%m/%Y")
+        dataframe["periodo"] = dataframe["data_recebimento"].dt.strftime("%m/%Y")
         meses_trabalhados = dataframe["periodo"].nunique()
         if meses_trabalhados <= 1:
             return 22
