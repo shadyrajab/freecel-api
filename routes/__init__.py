@@ -18,6 +18,7 @@ from .get import (
     get_produtos,
     get_stats,
     get_utils,
+    get_vendas,
 )
 from .post import (
     post_aparelho,
@@ -72,6 +73,7 @@ __all__ = [
     put_migracao,
     put_movel,
     put_produto,
+    get_vendas,
 ]
 
 routes = [route.router for route in __all__]

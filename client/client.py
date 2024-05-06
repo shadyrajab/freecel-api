@@ -1,8 +1,8 @@
 from database.connection import DataBase
-from structures.abstract.ranking import Rankings
 from structures.aparelho import Aparelho
 from structures.consultor import Consultor
 from structures.fixa import Fixa
+from structures.geral import Geral
 from structures.inovacao import Inovacao
 from structures.migracao import Migracao
 from structures.movel import Movel
@@ -51,3 +51,9 @@ class Client(DataBase):
         if isinstance(dataframe, dict):
             return dataframe
         return Migracao(dataframe).to_json()
+
+    async def Geral(self, **filters: str) -> Geral:
+        dataframe = await self.get_vendas_geral(**filters)
+        if isinstance(dataframe, dict):
+            return dataframe
+        return Geral(dataframe).to_json()
