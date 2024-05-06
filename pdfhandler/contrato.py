@@ -56,7 +56,6 @@ async def read_contract_pdf(contrato):
         if "\nID\nComposição\nDDD\nQtde.\nNegociação\nConta\n" in page.extract_text():
             desc_composicao = i + 1
 
-    print(desc_composicao)
     return (
         read_termo_complementar(termo_complementar),
         read_desc_composicao(contrato, desc_composicao),
