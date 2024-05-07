@@ -44,11 +44,11 @@ async def esteira():
     return ESTEIRA
 
 
-@router.get("status_fixa")
+@router.get("/status_fixa")
 async def status_fixa():
     return STATUS_FIXA
 
 
-@router.get("status_movel")
+@router.get("/status_movel")
 async def status_movel():
     return STATUS_MOVEL
