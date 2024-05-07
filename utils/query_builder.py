@@ -2,6 +2,12 @@ from datetime import datetime
 
 COLUMNS_TO_SELECT = "id, adabas, bairro, capital_social, cnae, cnpj, consultor, data_abertura, data_input, data_recebimento, ddd, email, equipe, esteira, faturamento, gestor, matriz, municipio, n_pedido, natureza_juridica, observacao, plano, porte, preco, quadro_funcionarios, razao_social, regime_Tributario, responsavel, status, telefone, tipo, uf, volume"
 
+
+def delete_vendas_query_builder(database: str, id):
+    QUERY = f"DELETE FROM {database} WHERE id = ($1)"
+    values = (id.id, )
+    return QUERY, values
+
 def post_vendas_query_builder(database: str, **values):
     colunas = ", ".join(values.keys())
     values = values.values()

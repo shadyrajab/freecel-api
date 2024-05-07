@@ -35,7 +35,7 @@ class Client(DataBase):
         return Fixa(dataframe).to_json()
 
     async def Inovacao(self, **filters: str) -> Inovacao:
-        dataframe = await self.get_aparelhos(**filters)
+        dataframe = await self.get_inovacoes(**filters)
         if isinstance(dataframe, dict):
             return dataframe
         return Inovacao(dataframe).to_json()
@@ -47,7 +47,7 @@ class Client(DataBase):
         return Aparelho(dataframe).to_json()
 
     async def Migracao(self, **filters: str) -> Migracao:
-        dataframe = await self.get_aparelhos(**filters)
+        dataframe = await self.get_migracoes(**filters)
         if isinstance(dataframe, dict):
             return dataframe
         return Migracao(dataframe).to_json()

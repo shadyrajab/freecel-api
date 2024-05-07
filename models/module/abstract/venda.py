@@ -23,7 +23,7 @@ class VendaRequestModel(Empresa):
     data_input: str
     data_recebimento: Optional[Union[datetime, str]] = datetime.now()
     gestor: str
-    preco: Optional[float] = None
+    preco: Optional[float] = 0.0
     plano: str
     volume: int
     equipe: str

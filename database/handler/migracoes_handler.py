@@ -1,46 +1,25 @@
 from typing import Optional
 
-import pandas as pd
 from asyncpg.pool import Pool
 
 from models import ID, MigracaoRequestModel
-from utils.queries import REMOVE_MIGRACOES_QUERY
-from utils.query_builder import (
-    get_vendas_query_builder,
-    post_vendas_query_builder,
-    update_anth_query_builder,
-)
+
+from .commom.vendas_handler import VendaHandlerDatabase
 
 
-class MigracaoHandlerDatabase:
+class MigracaoHandlerDatabase(VendaHandlerDatabase):
     def __init__(self, pool: Optional[Pool] = None) -> None:
         self.pool = pool
+        super().__init__(pool)
 
     async def remove_migracao(self, id: ID):
-        values = (id.id,)
-        async with self.pool.acquire() as connection:
-            await connection.execute(REMOVE_MIGRACOES_QUERY, *values)
+        return await self.remove_venda(database="migracoes", id=id)
 
     async def add_migracao(self, user: str, venda: MigracaoRequestModel):
-        values = venda.to_dict()
-        values["responsavel"] = user
-        QUERY, values = post_vendas_query_builder(database="migracoes", *values)
-        async with self.pool.acquire() as connection:
-            id = await connection.fetchval(QUERY, *values)
-            return id
+        return await self.add_venda(database="migracoes", user=user, venda=venda)
 
     async def get_migracoes(self, **filters):
-        QUERY, values = get_vendas_query_builder(database="migracoes", **filters)
-        async with self.pool.acquire() as connection:
-            result = await connection.fetch(QUERY, *values)
-            if len(result) == 0:
-                return {"message": "Não foram encontrados dados para sua solicitação."}
-
-            columns = result[0].keys()
-            vendas = pd.DataFrame(result, columns=columns)
-            return vendas
+        return await self.get_vendas(database="migracoes", **filters)
 
     async def update_migracao(self, **params):
-        QUERY, values = update_anth_query_builder(database="migracoes", **params)
-        async with self.pool.acquire() as connection:
-            await connection.execute(QUERY, *values)
+        return await self.update_venda(database="migracoes", **params)

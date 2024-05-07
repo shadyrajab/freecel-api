@@ -40,6 +40,17 @@ class DataBase(
             return result if result else None
 
     async def get_vendas_geral(self, **filters) -> pd.DataFrame:
+        QUERY, values = self.get_union_query(**filters)
+        async with self.pool.acquire() as connection:
+            result = await connection.fetch(QUERY, *values)
+            if len(result) == 0:
+                return {"message": "Não foram encontrados dados para sua solicitação."}
+
+            columns = result[0].keys()
+            vendas = pd.DataFrame(result, columns=columns)
+            return vendas
+
+    def get_union_query(self, **filters):
         MOVEL_QUERY, values = get_vendas_query_builder(
             database="vendas_movel", **filters
         )
@@ -50,11 +61,5 @@ class DataBase(
         QUERY = " UNION ALL ".join(
             [MOVEL_QUERY, FIXA_QUERY, MIGRACAO_QUERY, INOVACAO_QUERY, APARELHO_QUERY]
         ).replace("*", COLUMNS_TO_SELECT)
-        async with self.pool.acquire() as connection:
-            result = await connection.fetch(QUERY, *values)
-            if len(result) == 0:
-                return {"message": "Não foram encontrados dados para sua solicitação."}
 
-            columns = result[0].keys()
-            vendas = pd.DataFrame(result, columns=columns)
-            return vendas
+        return QUERY, values
