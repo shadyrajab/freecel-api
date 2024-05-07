@@ -8,10 +8,10 @@ from pydantic import EmailStr, validator
 from empresas.empresas_aqui import Empresa
 from utils.utils import (
     EQUIPES,
+    ESTEIRA,
     STATUS_FIXA,
     STATUS_MOVEL,
     TIPOS_FIXA,
-    TIPOS_MIGRACAO,
     TIPOS_MOVEL,
 )
 from utils.variables import DDDS
@@ -34,6 +34,14 @@ class VendaRequestModel(Empresa):
     status: str
     n_pedido: str
     observacao: str
+
+    @validator("esteira")
+    def validate_esteira(cls, esteira: str):
+        esteira = esteira.upper()
+        if esteira not in ESTEIRA:
+            raise ValueError(f"A esteira {esteira} não existe")
+
+        return esteira
 
     @validator("ddd")
     def validate_ddd(cls, value):
@@ -85,7 +93,7 @@ class VendaRequestModel(Empresa):
 
     @validator("tipo")
     def validate_tipo(cls, value):
-        if value.upper() not in TIPOS_MOVEL + TIPOS_FIXA + TIPOS_MIGRACAO:
+        if value.upper() not in TIPOS_MOVEL + TIPOS_FIXA:
             raise ValueError(f"Não existe nenhum tipo chamado {value}")
 
         return value.upper()

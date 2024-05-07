@@ -7,7 +7,6 @@ from utils.utils import (
     STATUS_MOVEL,
     SUPERVISORES,
     TIPOS_FIXA,
-    TIPOS_MIGRACAO,
     TIPOS_MOVEL,
 )
 
@@ -17,11 +16,6 @@ router = APIRouter(prefix="/utils", tags=["utils"])
 @router.get("/tipos_fixa")
 async def tipos_fixa():
     return TIPOS_FIXA
-
-
-@router.get("/tipo_migracao")
-async def tipos_migracao():
-    return TIPOS_MIGRACAO
 
 
 @router.get("/tipos_movel")

@@ -1,10 +1,7 @@
 from database.connection import DataBase
-from structures.aparelho import Aparelho
 from structures.consultor import Consultor
 from structures.fixa import Fixa
 from structures.geral import Geral
-from structures.inovacao import Inovacao
-from structures.migracao import Migracao
 from structures.movel import Movel
 
 
@@ -33,24 +30,6 @@ class Client(DataBase):
         if isinstance(dataframe, dict):
             return dataframe
         return Fixa(dataframe).to_json()
-
-    async def Inovacao(self, **filters: str) -> Inovacao:
-        dataframe = await self.get_inovacoes(**filters)
-        if isinstance(dataframe, dict):
-            return dataframe
-        return Inovacao(dataframe).to_json()
-
-    async def Aparelho(self, **filters: str) -> Aparelho:
-        dataframe = await self.get_aparelhos(**filters)
-        if isinstance(dataframe, dict):
-            return dataframe
-        return Aparelho(dataframe).to_json()
-
-    async def Migracao(self, **filters: str) -> Migracao:
-        dataframe = await self.get_migracoes(**filters)
-        if isinstance(dataframe, dict):
-            return dataframe
-        return Migracao(dataframe).to_json()
 
     async def Geral(self, **filters: str) -> Geral:
         dataframe = await self.get_vendas_geral(**filters)

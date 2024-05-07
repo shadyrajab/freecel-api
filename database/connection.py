@@ -1,11 +1,8 @@
 import asyncpg
 import pandas as pd
 
-from database.handler.aparelho_handler import AparelhoHandlerDatabase
 from database.handler.consultor_handler import ConsultorHandlerDataBase
 from database.handler.fixa_handler import FixaHandlerDatabase
-from database.handler.inovacao_handler import InovacaoHandlerDatabase
-from database.handler.migracoes_handler import MigracaoHandlerDatabase
 from database.handler.movel_handler import MovelHandlerDatabase
 from database.handler.produtos_handler import ProdutosHandlerDataBase
 from utils.env import DATABASE, HOST, PASSWORD, USER
@@ -17,10 +14,7 @@ class DataBase(
     ConsultorHandlerDataBase,
     ProdutosHandlerDataBase,
     FixaHandlerDatabase,
-    MigracaoHandlerDatabase,
     MovelHandlerDatabase,
-    AparelhoHandlerDatabase,
-    InovacaoHandlerDatabase,
 ):
     async def __aenter__(self):
         self.pool = await asyncpg.create_pool(
@@ -51,15 +45,8 @@ class DataBase(
             return vendas
 
     def get_union_query(self, **filters):
-        MOVEL_QUERY, values = get_vendas_query_builder(
-            database="vendas_movel", **filters
-        )
-        FIXA_QUERY, _ = get_vendas_query_builder(database="vendas_fixa", **filters)
-        MIGRACAO_QUERY, _ = get_vendas_query_builder(database="migracoes", **filters)
-        INOVACAO_QUERY, _ = get_vendas_query_builder(database="inovacoes", **filters)
-        APARELHO_QUERY, _ = get_vendas_query_builder(database="aparelhos", **filters)
-        QUERY = " UNION ALL ".join(
-            [MOVEL_QUERY, FIXA_QUERY, MIGRACAO_QUERY, INOVACAO_QUERY, APARELHO_QUERY]
-        ).replace("*", COLUMNS_TO_SELECT)
+        MOVEL, values = get_vendas_query_builder(database="vendas_movel", **filters)
+        FIXA, _ = get_vendas_query_builder(database="vendas_fixa", **filters)
+        QUERY = " UNION ALL ".join([MOVEL, FIXA]).replace("*", COLUMNS_TO_SELECT)
 
         return QUERY, values
