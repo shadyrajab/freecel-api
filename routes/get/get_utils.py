@@ -2,8 +2,10 @@ from fastapi import APIRouter
 
 from utils.utils import (
     EQUIPES,
+    ESTEIRA,
+    STATUS_FIXA,
+    STATUS_MOVEL,
     SUPERVISORES,
-    TIPOS_CLIENTE,
     TIPOS_FIXA,
     TIPOS_MIGRACAO,
     TIPOS_MOVEL,
@@ -15,11 +17,6 @@ router = APIRouter(prefix="/utils", tags=["utils"])
 @router.get("/tipos_fixa")
 async def tipos_fixa():
     return TIPOS_FIXA
-
-
-@router.get("/tipos_cliente")
-async def tipos_cliente():
-    return TIPOS_CLIENTE
 
 
 @router.get("/tipo_migracao")
@@ -40,3 +37,18 @@ async def supervisores():
 @router.get("/equipes")
 async def equipes():
     return EQUIPES
+
+
+@router.get("/esteira")
+async def esteira():
+    return ESTEIRA
+
+
+@router.get("status_fixa")
+async def status_fixa():
+    return STATUS_FIXA
+
+
+@router.get("status_movel")
+async def status_movel():
+    return STATUS_MOVEL
