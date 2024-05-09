@@ -22,12 +22,12 @@ class UpdateVendaMovelParams(UpdateVendaParams):
     valor_inovacao: Optional[float] = Field(None, description="Valor da Inovação")
     valor_atual: Optional[float] = Field(None, description="Valor Atual")
     valor_renovacao: Optional[float] = Field(None, description="Valor da Renovação")
-    valor_inovacao: Optional[float] = Field(None, description="Valor da Inovação")
     pacote_inovacao: Optional[str] = Field(None, description="Pacote Inovação")
-    volume_inovacao: Optional[int] = Field(None, description="Volume Inovação")
+    qtd_renovacao: Optional[int] = Field(None, description="Volume Inovação")
     m: Optional[int] = Field(None, description="Valor de M")
     tipo_m: Optional[str] = Field(None, description="O tipo de M")
     volume_migracao: Optional[int] = Field(None, description="Quantidade de Migração")
+    ov: Optional[int] = Field(None, description="Ov da Venda") 
 
 
 class UpdateVendaFixaParams(UpdateVendaParams):
