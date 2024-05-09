@@ -11,7 +11,15 @@ class UpdateProdutoParams(BaseModel):
     preco: Optional[float] = Field(None, description="Preço do produto")
 
 
-class UpdateMigracaoParams(UpdateVendaParams):
+class UpdateVendaMovelParams(UpdateVendaParams):
+    data_ativacao: Optional[str] = Field(None, description="Data da Ativação")
+    data_entrega: Optional[str] = Field(None, description="Data de Entrega")
+    historico: Optional[str] = Field(None, description="Histórico")
+    qtd_aparelho: Optional[int] = Field(None, description="Quantidade de aparelhos")
+    valor_aparelho: Optional[float] = Field(None, description="Valor do aparelho")
+    pacote_inovacao: Optional[str] = Field(None, description="Pacote de Inovação")
+    qtd_inovacao: Optional[int] = Field(None, description="Quantidade de Inovação")
+    valor_inovacao: Optional[float] = Field(None, description="Valor da Inovação")
     valor_atual: Optional[float] = Field(None, description="Valor Atual")
     valor_renovacao: Optional[float] = Field(None, description="Valor da Renovação")
     valor_inovacao: Optional[float] = Field(None, description="Valor da Inovação")
@@ -20,12 +28,6 @@ class UpdateMigracaoParams(UpdateVendaParams):
     m: Optional[int] = Field(None, description="Valor de M")
     tipo_m: Optional[str] = Field(None, description="O tipo de M")
     volume_migracao: Optional[int] = Field(None, description="Quantidade de Migração")
-
-
-class UpdateVendaMovelParams(UpdateVendaParams):
-    data_ativacao: Optional[str] = Field(None, description="Data da Ativação")
-    data_entrega: Optional[str] = Field(None, description="Data de Entrega")
-    historico: Optional[str] = Field(None, description="Histórico")
 
 
 class UpdateVendaFixaParams(UpdateVendaParams):
@@ -37,17 +39,6 @@ class UpdateVendaFixaParams(UpdateVendaParams):
     instancia: Optional[str] = Field(None, description="Data de Instância")
     internet_mbps: Optional[int] = Field(None, description="Banda Larga")
     linhas: Optional[int] = Field(None, description="Quantidade de Linhas")
-
-
-class UpdateAparelhoParams(UpdateVendaParams):
-    qtd_aparelho: Optional[int] = Field(None, description="Quantidade de aparelhos")
-    valor_aparelho: Optional[float] = Field(None, description="Valor do aparelho")
-
-
-class UpdateInovacaoParams(UpdateVendaParams):
-    pacote_inovacao: Optional[str] = Field(None, description="Pacote de Inovação")
-    qtd_inovacao: Optional[int] = Field(None, description="Quantidade de Inovação")
-    valor_inovacao: Optional[float] = Field(None, description="Valor da Inovação")
 
 
 class UpdateConsultorParams(BaseModel):
