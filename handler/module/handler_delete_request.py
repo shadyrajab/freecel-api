@@ -16,7 +16,7 @@ async def handler_delete_request(client_method, user: str, **kwargs: dict):
     id = kwargs.get("id")
 
     # O que está sendo removido: Venda, Produto, Consultor, etc...
-    act = client_method.__name__.split("-")[1].title()
+    act = client_method.__name__.split("_")[1].title()
     try:
         await client_method(id)
         message = f"{act} de ID {id} removido(a) com sucesso por {user}."

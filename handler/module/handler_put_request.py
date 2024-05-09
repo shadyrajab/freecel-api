@@ -14,7 +14,7 @@ logging.basicConfig(
 
 async def handler_put_request(client_method, user, **kwargs):
     # O que está sendo removido: Venda, Produto, Consultor, etc...
-    act = client_method.__name__.split("-")[1].title()
+    act = client_method.__name__.split("_")[1].title()
     try:
         message = f"{act} atualizado(a) com sucesso {user}."
         logging.info(message)
