@@ -13,7 +13,14 @@ class FixaHandlerDatabase(VendaHandlerDatabase):
         super().__init__(pool)
 
     async def add_venda_fixa(self, user: str, venda: VendaFixaRequestModel):
-        return await self.add_venda(database="vendas_fixa", user=user, venda=venda)
+        vendas = await self.add_venda(database="vendas_fixa", user=user, venda=venda)
+
+        for index, row in vendas.iterrows():
+            ddd = str(row["ddd"])
+            if not (ddd.startswith("6") or ddd.startswith("9")):
+                vendas.at[index, "receita"] = float(vendas.at[index, "receita"]) * 0.3
+
+        return vendas
 
     async def remove_venda_fixa(self, id: ID):
         return await self.remove_venda(database="vendas_fixa", id=id)

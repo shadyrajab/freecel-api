@@ -16,7 +16,13 @@ class MovelHandlerDatabase(VendaHandlerDatabase):
         return await self.add_venda(database="vendas_movel", user=user, venda=venda)
 
     async def get_vendas_movel(self, **filters):
-        return await self.get_vendas(database="vendas_movel", **filters)
+        vendas = await self.get_vendas(database="vendas_movel", **filters)
+        for index, row in vendas.iterrows():
+            ddd = str(row["ddd"])
+            if not (ddd.startswith("6") or ddd.startswith("9")):
+                vendas.at[index, "receita"] = float(vendas.at[index, "receita"]) * 0.3
+
+        return vendas
 
     async def remove_venda_movel(self, id: ID):
         return await self.remove_venda(database="vendas_movel", id=id)
