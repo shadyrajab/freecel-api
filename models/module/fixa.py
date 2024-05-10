@@ -8,7 +8,7 @@ from .abstract.venda import VendaRequestModel
 class VendaFixaRequestModel(VendaRequestModel):
     base_movel: bool
     campanha: str
-    cep: str
+    cep: int
     data_conclusao: str
     data_instalacao: str
     instancia: str

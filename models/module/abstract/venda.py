@@ -21,7 +21,7 @@ class VendaRequestModel(Empresa):
     telefone: str
     consultor: str
     data_input: str
-    data_recebimento: Optional[Union[datetime, str]] = datetime.now()
+    data_recebimento: Optional[str] = datetime.now().strftime("%d-%m-%Y")
     gestor: str
     preco: Optional[float] = 0.0
     plano: str

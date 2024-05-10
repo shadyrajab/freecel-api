@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 from pydantic import validator
 
@@ -7,16 +8,16 @@ from .abstract.venda import VendaRequestModel
 
 class VendaMovelRequestModel(VendaRequestModel):
     data_ativacao: str
-    ov: int
-    qtd_aparelho: int
-    valor_aparelho: float
-    m: int
-    tipo_m: str
-    valor_atual: float
-    valor_renovacao: float
-    pacote_inovacao: str
-    qtd_inovacao: int
-    valor_inovacao: float
+    ov: Optional[int] = None
+    qtd_aparelho: Optional[int] = None
+    valor_aparelho: Optional[float] = None
+    m: Optional[int] = None
+    tipo_m: Optional[str] = None
+    valor_atual: Optional[float] = None
+    valor_renovacao: Optional[float] = None
+    pacote_inovacao: Optional[str] = None
+    qtd_inovacao: Optional[int] = None
+    valor_inovacao: Optional[float] = None
 
     @validator("data_ativacao")
     def validate_data_ativacao(cls, data_ativacao) -> datetime:
