@@ -14,7 +14,6 @@ class FixaHandlerDatabase(VendaHandlerDatabase):
 
     async def add_venda_fixa(self, user: str, venda: VendaFixaRequestModel):
         vendas = await self.add_venda(database="vendas_fixa", user=user, venda=venda)
-
         for index, row in vendas.iterrows():
             ddd = str(row["ddd"])
             if not (ddd.startswith("6") or ddd.startswith("9")):
