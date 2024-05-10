@@ -1,6 +1,6 @@
 import re
 from datetime import datetime
-from typing import Dict, Optional, Union
+from typing import Dict, Optional
 
 from pycpfcnpj import cpfcnpj
 from pydantic import EmailStr, validator
@@ -33,7 +33,8 @@ class VendaRequestModel(Empresa):
     ddd: str
     status: str
     n_pedido: str
-    observacao: str
+    observacao: Optional[str] = None
+    adabas: str
 
     @validator("esteira")
     def validate_esteira(cls, esteira: str):
