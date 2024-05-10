@@ -38,7 +38,7 @@ class VendaHandlerDatabase:
             return vendas
 
     async def remove_venda(self, database: str, id: ID):
-        QUERY, values = delete_vendas_query_builder(database=database, **id)
+        QUERY, values = delete_vendas_query_builder(database=database, id=id)
         async with self.pool.acquire() as connection:
             await connection.execute(QUERY, *values)
 
