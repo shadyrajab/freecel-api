@@ -23,12 +23,9 @@ class Rankings:
         if tipo:
             dataframe = dataframe[dataframe["tipo"].isin(tipo)]
 
-        quantidade_de_vendas = dataframe[column].value_counts().reset_index()
-        quantidade_de_vendas.columns = [column, "clientes"]
-
-        ranking = dataframe.groupby(column, as_index=False).sum(numeric_only=True)
+        dataframe['receita'] = dataframe['receita'].astype(float)
+        ranking = dataframe.groupby(column, as_index=False).sum(numeric_only=True)[[column,'receita', 'volume']]
         if column == "consultor":
             ranking = ranking[~ranking["consultor"].isin(SUPERVISORES)]
 
-        final_dataframe = pd.merge(ranking, quantidade_de_vendas, on=column)
-        return jsonfy(final_dataframe)
+        return jsonfy(ranking)
