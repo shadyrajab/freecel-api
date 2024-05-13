@@ -7,7 +7,7 @@ from .abstract.venda import VendaRequestModel
 
 
 class VendaMovelRequestModel(VendaRequestModel):
-    data_ativacao: str
+    data_ativacao: Optional[str] = None
     ov: Optional[int] = None
     qtd_aparelho: Optional[int] = None
     valor_aparelho: Optional[float] = None
@@ -23,6 +23,8 @@ class VendaMovelRequestModel(VendaRequestModel):
     @validator("data_ativacao")
     def validate_data_ativacao(cls, data_ativacao) -> datetime:
         # Erro potencial
+        if data_ativacao is None:
+            return data_ativacao
         data_ativacao = datetime.strptime(data_ativacao, "%d-%m-%Y")
         return data_ativacao
 
