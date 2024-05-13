@@ -51,6 +51,7 @@ class UpdateVendaFixaParams(UpdateVendaParams):
     instancia: Optional[str] = Field(None, description="Data de Instância")
     internet_mbps: Optional[int] = Field(None, description="Banda Larga")
     linhas: Optional[int] = Field(None, description="Quantidade de Linhas")
+    esteira: Optional[str] = Field(None, description="Esteira")
 
     @validator("data_conclusao")
     def validate_data_conclusao(cls, value):
