@@ -3,8 +3,8 @@ from typing import Dict
 from pydantic import BaseModel, validator
 
 
-class Produto(BaseModel):
-    nome: str
+class Plano(BaseModel):
+    plano: str
     preco: float
 
     @validator("preco")

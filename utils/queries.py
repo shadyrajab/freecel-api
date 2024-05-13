@@ -1,13 +1,13 @@
-REMOVE_PRODUTO_QUERY = "DELETE FROM produtos WHERE id = ($1)"
-ADD_PRODUTO_QUERY = "INSERT INTO produtos (nome, preco) VALUES ($1, $2) RETURNING id"
-GET_PRODUTOS_QUERY = "SELECT * FROM produtos"
+REMOVE_PLANO_QUERY = "DELETE FROM planos WHERE id = ($1)"
+ADD_PLANO_QUERY = "INSERT INTO planos (nome, preco) VALUES ($1, $2) RETURNING id"
+GET_PLANOS_QUERY = "SELECT * FROM planos"
 REMOVE_CONSULTOR_QUERY = "DELETE FROM consultores WHERE id = ($1)"
 ADD_CONSULTOR_QUERY = (
     "INSERT INTO consultores (nome, vinculo, cargo) VALUES ($1, $2, $3) RETURNING id"
 )
 GET_CONSULTORES_QUERY = "SELECT * FROM consultores"
 JWT_QUERY = "SELECT nome FROM uuids WHERE uuid = $1"
-GET_PRECO_QUERY = "SELECT preco FROM produtos WHERE nome = $1"
+GET_PRECO_QUERY = "SELECT preco FROM planos WHERE nome = $1"
 GET_EQUIPE_FLAVIO = "SELECT * FROM equipe_flavio"
 REMOVE_VENDA_FIXA_QUERY = "DELETE FROM vendas_fixa WHERE ID = ($1)"
 REMOVE_INOVACAO_QUERY = "DELETE FROM inovacoes WHERE ID = ($1)"

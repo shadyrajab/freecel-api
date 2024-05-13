@@ -4,7 +4,7 @@ import pandas as pd
 from database.handler.consultor_handler import ConsultorHandlerDataBase
 from database.handler.fixa_handler import FixaHandlerDatabase
 from database.handler.movel_handler import MovelHandlerDatabase
-from database.handler.produtos_handler import ProdutosHandlerDataBase
+from database.handler.planos_handler import PlanosHandlerDataBase
 from utils.env import DATABASE, HOST, PASSWORD, USER
 from utils.queries import JWT_QUERY
 from utils.query_builder import COLUMNS_TO_SELECT
@@ -12,7 +12,7 @@ from utils.query_builder import COLUMNS_TO_SELECT
 
 class DataBase(
     ConsultorHandlerDataBase,
-    ProdutosHandlerDataBase,
+    PlanosHandlerDataBase,
     FixaHandlerDatabase,
     MovelHandlerDatabase,
 ):
