@@ -11,6 +11,7 @@ from utils.query_builder import (
     post_vendas_query_builder,
     update_anth_query_builder,
 )
+from utils.variables import MIGRACAO
 
 
 class VendaHandlerDatabase:
@@ -45,9 +46,12 @@ class VendaHandlerDatabase:
             for index, row in vendas.iterrows():
                 ddd = str(row["ddd"])
                 if not (ddd.startswith("6") or ddd.startswith("9")):
-                    vendas.at[index, "receita"] = (
-                        float(vendas.at[index, "receita"]) * 0.3
-                    )
+                    if row["tipo"] in MIGRACAO:
+                        vendas.at[index, "receita"] = 0
+                    else:
+                        vendas.at[index, "receita"] = (
+                            float(vendas.at[index, "receita"]) * 0.3
+                        )
 
             return vendas
 
