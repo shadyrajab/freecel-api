@@ -28,6 +28,7 @@ class UpdateVendaMovelParams(UpdateVendaParams):
     tipo_m: Optional[str] = Field(None, description="O tipo de M")
     volume_migracao: Optional[int] = Field(None, description="Quantidade de Migração")
     ov: Optional[int] = Field(None, description="Ov da Venda") 
+    responsavel_input: Optional[str] = Field(None, description="Responsável pelo Input")
 
 
 class UpdateVendaFixaParams(UpdateVendaParams):
