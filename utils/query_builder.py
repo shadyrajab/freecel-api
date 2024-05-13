@@ -1,6 +1,41 @@
 from datetime import datetime
 
-COLUMNS_TO_SELECT = "id, adabas, bairro, capital_social, cnae, cnpj, consultor, data_abertura, data_input, data_recebimento, ddd, email, equipe, esteira, faturamento, gestor, matriz, municipio, n_pedido, natureza_juridica, observacao, plano, porte, preco, quadro_funcionarios, razao_social, regime_Tributario, responsavel, status, telefone, tipo, uf, volume"
+COLUMNS_TO_SELECT = [
+    "id", 
+    "adabas", 
+    "bairro", 
+    "capital_social", 
+    "cnae", 
+    "cnpj", 
+    "consultor", 
+    "data_abertura", 
+    "data_input", 
+    "data_recebimento", 
+    "ddd", 
+    "email", 
+    "equipe", 
+    "esteira", 
+    "faturamento", 
+    "gestor", 
+    "matriz", 
+    "municipio", 
+    "n_pedido", 
+    "natureza_juridica", 
+    "observacao", 
+    "plano", 
+    "porte", 
+    "preco", 
+    "quadro_funcionarios", 
+    "razao_social", 
+    "regime_tributario", 
+    "responsavel", 
+    "status", 
+    "telefone", 
+    "tipo", 
+    "uf", 
+    "volume",
+    "receita"
+]
 
 
 def delete_vendas_query_builder(database: str, id):
@@ -15,6 +50,13 @@ def post_vendas_query_builder(database: str, **values):
     QUERY = f"INSERT INTO {database} ({colunas}) VALUES ({placeholders}) RETURNING id;"
 
     return QUERY, tuple(values)
+
+# def get_union_query(**filters):
+#     MOVEL, values = get_vendas_query_builder(database="vendas_movel", **filters)
+#     FIXA, _ = get_vendas_query_builder(database="vendas_fixa", **filters)
+#     QUERY = " UNION ALL ".join([MOVEL, FIXA]).replace("*", COLUMNS_TO_SELECT)
+
+#     return QUERY, values
 
 
 def update_anth_query_builder(database: str, **params):
