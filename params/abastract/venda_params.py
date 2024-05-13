@@ -1,6 +1,7 @@
+from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, validator
 
 
 class UpdateVendaParams(BaseModel):
@@ -17,3 +18,8 @@ class UpdateVendaParams(BaseModel):
     equipe: Optional[str] = Field(None, description="O nome da equipe")
     adabas: Optional[str] = Field(None, description="ADABAS da venda")
     data_input: Optional[str] = Field(None, description="Data de Input")
+
+    @validator("data_input")
+    def validate_data_input(cls, value):
+        value = datetime.strptime(value, "%d-%m-%Y")
+        return value

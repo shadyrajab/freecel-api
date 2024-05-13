@@ -1,6 +1,7 @@
+from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 
 from .abastract.venda_params import UpdateVendaParams
 
@@ -27,8 +28,18 @@ class UpdateVendaMovelParams(UpdateVendaParams):
     m: Optional[int] = Field(None, description="Valor de M")
     tipo_m: Optional[str] = Field(None, description="O tipo de M")
     volume_migracao: Optional[int] = Field(None, description="Quantidade de Migração")
-    ov: Optional[int] = Field(None, description="Ov da Venda") 
+    ov: Optional[int] = Field(None, description="Ov da Venda")
     responsavel_input: Optional[str] = Field(None, description="Responsável pelo Input")
+
+    @validator("data_entrega")
+    def validate_data_entrega(cls, value):
+        value = datetime.strptime(value, "%d-%m-%Y")
+        return value
+
+    @validator("data_ativacao")
+    def validate_data_ativacao(cls, value):
+        value = datetime.strptime(value, "%d-%m-%Y")
+        return value
 
 
 class UpdateVendaFixaParams(UpdateVendaParams):
@@ -40,6 +51,16 @@ class UpdateVendaFixaParams(UpdateVendaParams):
     instancia: Optional[str] = Field(None, description="Data de Instância")
     internet_mbps: Optional[int] = Field(None, description="Banda Larga")
     linhas: Optional[int] = Field(None, description="Quantidade de Linhas")
+
+    @validator("data_conclusao")
+    def validate_data_conclusao(cls, value):
+        value = datetime.strptime(value, "%d-%m-%Y")
+        return value
+
+    @validator("data_instalacao")
+    def validate_data_instalacao(cls, value):
+        value = datetime.strptime(value, "%d-%m-%Y")
+        return value
 
 
 class UpdateConsultorParams(BaseModel):
