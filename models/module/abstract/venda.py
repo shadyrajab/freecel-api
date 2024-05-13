@@ -20,7 +20,7 @@ from utils.variables import DDDS
 class VendaRequestModel(Empresa):
     telefone: str
     consultor: str
-    data_input: str
+    data_input: Optional[str] = None
     data_recebimento: Optional[str] = datetime.now().strftime("%d-%m-%Y")
     gestor: str
     plano: str

@@ -18,7 +18,7 @@ class VendaMovelRequestModel(VendaRequestModel):
     pacote_inovacao: Optional[str] = None
     qtd_inovacao: Optional[int] = None
     valor_inovacao: Optional[float] = None
-    responsavel_input: str
+    responsavel_input: Optional[str] = None
 
     @validator("data_ativacao")
     def validate_data_ativacao(cls, data_ativacao) -> datetime:
