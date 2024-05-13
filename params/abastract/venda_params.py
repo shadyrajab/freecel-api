@@ -13,6 +13,6 @@ class UpdateVendaParams(BaseModel):
     tipo: Optional[str] = Field(None, description="Tipo da Venda")
     status: Optional[str] = Field(None, description="Status da Venda")
     email: Optional[EmailStr] = Field(None, description="Email do Cliente")
-    numero_pedido: Optional[str] = Field(None, description="Número do Pedido")
+    n_pedido: Optional[str] = Field(None, description="Número do Pedido")
     equipe: Optional[str] = Field(None, description="O nome da equipe")
     adabas: Optional[str] = Field(None, description="ADABAS da venda")
