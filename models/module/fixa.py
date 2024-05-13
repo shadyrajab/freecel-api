@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 from pydantic import validator
 
@@ -6,7 +7,7 @@ from .abstract.venda import VendaRequestModel
 
 
 class VendaFixaRequestModel(VendaRequestModel):
-    base_movel: bool
+    base_movel: Optional[bool] = False
     campanha: str
     cep: int
     data_conclusao: str
