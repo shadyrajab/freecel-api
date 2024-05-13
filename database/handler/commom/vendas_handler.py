@@ -37,7 +37,7 @@ class VendaHandlerDatabase:
         async with self.pool.acquire() as connection:
             result = await connection.fetch(QUERY, *values)
             if len(result) == 0:
-                return {"message": "Não foram encontrados dados para sua solicitação."}
+                return pd.DataFrame()
 
             columns = result[0].keys()
             vendas = pd.DataFrame(result, columns=columns)

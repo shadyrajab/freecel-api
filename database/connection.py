@@ -38,4 +38,7 @@ class DataBase(
         vendas_fixa = await self.get_vendas(database="vendas_fixa", **filters)
 
         vendas = pd.concat([vendas_movel, vendas_fixa])
+        if len(vendas.columns) == 0:
+            return vendas
+        
         return vendas[COLUMNS_TO_SELECT]
