@@ -48,7 +48,6 @@ def post_vendas_query_builder(database: str, **values):
     values = values.values()
     placeholders = ', '.join([f'${i+1}' for i in range(len(values))])
     QUERY = f"INSERT INTO {database} ({colunas}) VALUES ({placeholders}) RETURNING id;"
-
     return QUERY, tuple(values)
 
 # def get_union_query(**filters):

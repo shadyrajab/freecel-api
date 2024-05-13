@@ -1,9 +1,10 @@
-from typing import Any, Optional
+from typing import Optional, Union
 
 import pandas as pd
 from asyncpg.pool import Pool
 
-from models import ID
+from models import ID, VendaFixaRequestModel, VendaMovelRequestModel
+from utils.queries import GET_PRECO_QUERY
 from utils.query_builder import (
     delete_vendas_query_builder,
     get_vendas_query_builder,
@@ -16,9 +17,15 @@ class VendaHandlerDatabase:
     def __init__(self, pool: Optional[Pool] = None) -> None:
         self.pool = pool
 
-    async def add_venda(self, database: str, user: str, venda: Any):
+    async def add_venda(
+        self,
+        database: str,
+        user: str,
+        venda: Union[VendaMovelRequestModel, VendaFixaRequestModel],
+    ):
         values = venda.to_dict()
         values["responsavel"] = user
+        values["preco"] = await self.get_preco(venda.plano)
         QUERY, values = post_vendas_query_builder(database=database, **values)
         async with self.pool.acquire() as connection:
             id = await connection.fetchval(QUERY, *values)
@@ -38,7 +45,9 @@ class VendaHandlerDatabase:
             for index, row in vendas.iterrows():
                 ddd = str(row["ddd"])
                 if not (ddd.startswith("6") or ddd.startswith("9")):
-                    vendas.at[index, "receita"] = float(vendas.at[index, "receita"]) * 0.3
+                    vendas.at[index, "receita"] = (
+                        float(vendas.at[index, "receita"]) * 0.3
+                    )
 
             return vendas
 
@@ -51,3 +60,9 @@ class VendaHandlerDatabase:
         QUERY, values = update_anth_query_builder(database=database, **params)
         async with self.pool.acquire() as connection:
             await connection.execute(QUERY, *values)
+
+    async def get_preco(self, plano: str):
+        async with self.pool.acquire() as connection:
+            preco = await connection.fetch(GET_PRECO_QUERY, plano)
+
+        return preco[0]["preco"]
