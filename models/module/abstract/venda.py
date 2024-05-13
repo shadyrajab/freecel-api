@@ -72,7 +72,6 @@ class VendaRequestModel(Empresa):
 
     @validator("data_input")
     def validate_data_input(cls, value):
-        # Erro potencial
         value = datetime.strptime(value, "%d-%m-%Y")
         return value
 

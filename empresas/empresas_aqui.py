@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 from requests import request
 
 from utils.env import TOKENEMPRESAS
@@ -13,6 +13,12 @@ class Empresa(BaseModel):
     def __init__(self, cnpj: str, **kwargs):
         super().__init__(cnpj=cnpj, **kwargs)
         self.empresa = self.__get_empresa(cnpj)
+
+    
+    @validator("cnpj")
+    def validate_cnpj(cls, cnpj: str):
+        cnpj = cnpj.replace('-', '').replace('/', '').replace('.', '')
+        return cnpj
 
     @property
     def razao_social(self):
