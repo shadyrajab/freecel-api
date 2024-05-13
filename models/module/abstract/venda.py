@@ -23,7 +23,6 @@ class VendaRequestModel(Empresa):
     data_input: str
     data_recebimento: Optional[str] = datetime.now().strftime("%d-%m-%Y")
     gestor: str
-    preco: Optional[float] = 0.0
     plano: str
     volume: int
     equipe: str
