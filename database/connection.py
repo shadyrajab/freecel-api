@@ -7,7 +7,6 @@ from database.handler.movel_handler import MovelHandlerDatabase
 from database.handler.planos_handler import PlanosHandlerDataBase
 from utils.env import DATABASE, HOST, PASSWORD, USER
 from utils.queries import JWT_QUERY
-from utils.query_builder import COLUMNS_TO_SELECT
 
 
 class DataBase(
@@ -34,11 +33,4 @@ class DataBase(
             return result if result else None
 
     async def get_vendas_geral(self, **filters) -> pd.DataFrame:
-        vendas_movel = await self.get_vendas(database="vendas_movel", **filters)
-        vendas_fixa = await self.get_vendas(database="vendas_fixa", **filters)
-
-        vendas = pd.concat([vendas_movel, vendas_fixa])
-        if len(vendas.columns) == 0:
-            return vendas
-        
-        return vendas[COLUMNS_TO_SELECT]
+        return await self.get_vendas(database="pedidos", **filters)
