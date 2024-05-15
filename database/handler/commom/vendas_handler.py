@@ -4,7 +4,7 @@ import pandas as pd
 from asyncpg.pool import Pool
 
 from models import ID, VendaFixaRequestModel, VendaMovelRequestModel
-from utils.queries import GET_PRECO_QUERY
+from utils.queries import GET_CONSULTOR_QUERY, GET_PRECO_QUERY
 from utils.query_builder import (
     delete_vendas_query_builder,
     get_vendas_query_builder,
@@ -27,6 +27,8 @@ class VendaHandlerDatabase:
         values = venda.to_dict()
         values["responsavel"] = user
         values["preco"] = await self.get_preco(venda.plano)
+        values["vinculo"], values["equipe"] = await self.get_revenda(venda.consultor)
+        
         QUERY, values = post_vendas_query_builder(database=database, **values)
         async with self.pool.acquire() as connection:
             id = await connection.fetchval(QUERY, *values)
@@ -67,6 +69,14 @@ class VendaHandlerDatabase:
 
     async def get_preco(self, plano: str):
         async with self.pool.acquire() as connection:
-            preco = await connection.fetch(GET_PRECO_QUERY, plano)
+            plano = await connection.fetch(GET_PRECO_QUERY, plano)
 
-        return preco[0]["preco"]
+        return plano[0]["preco"]
+
+    async def get_revenda(self, consultor: str):
+        async with self.pool.acquire() as connection:
+            consultor = await connection.fetch(GET_CONSULTOR_QUERY, consultor)
+
+        vinculo = consultor[0]["vinculo"]
+        equipe = consultor[0]["equipe"]
+        return vinculo, equipe
