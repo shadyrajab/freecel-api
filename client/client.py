@@ -14,7 +14,7 @@ class Client(DataBase):
         await super().__aexit__(exc_type, exc, tb)
 
     async def Consultor(self, **filters: str) -> Consultor:
-        dataframe = await self.get_vendas(**filters)
+        dataframe = await self.get_vendas_geral(**filters)
         if isinstance(dataframe, dict):
             return dataframe
         return Consultor(dataframe).to_json()
