@@ -35,7 +35,6 @@ class Rankings:
 
     def get_ranking(self, column: str, tipo: Optional[List] = None) -> pd.DataFrame:
         dataframe = self.dataframe.copy()
-        print(dataframe.info())
         if tipo:
             dataframe = dataframe[dataframe["tipo"].isin(tipo)]
 
