@@ -21,3 +21,14 @@ def remove_rbar(x) -> str:
     if type(x) is not str:
         return x
     return x.replace("\r", " ")
+
+
+def filter_by(dataframe: pd.DataFrame, **filters) -> pd.DataFrame:
+    for column, value in filters.items():
+        if value is not None:
+            if type(value) is list:
+                dataframe = dataframe[dataframe[column].isin(value)]
+            else:
+                dataframe = dataframe[dataframe[column] == value]
+
+    return dataframe
