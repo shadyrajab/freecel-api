@@ -12,24 +12,24 @@ class Fixa(Stats, Rankings):
 
     @property
     def media_consultor_fixa(self) -> float:
-        return self.media_por_consultor(FIXA)
+        return self.get_media("consultor", "receita", esteira=FIXA)
 
     @property
     def media_consultor_vvn(self) -> float:
-        return self.media_por_consultor(VVN)
+        return self.get_media("consultor", "receita", esteira=VVN)
 
     @property
     def media_consultor_avancada(self) -> float:
-        return self.media_por_consultor(AVANCADA)
+        return self.get_media("consultor", "receita", esteira=AVANCADA)
 
     @property
     def ranking_fixa(self):
-        return self.get_ranking("consultor", FIXA)
+        return self.get_ranking("consultor", esteira=FIXA)
 
     @property
     def ranking_vvn(self):
-        return self.get_ranking("consultor", VVN)
+        return self.get_ranking("consultor", esteira=VVN)
 
     @property
     def ranking_avancada(self):
-        return self.get_ranking("consultor", AVANCADA)
+        return self.get_ranking("consultor", esteira=AVANCADA)

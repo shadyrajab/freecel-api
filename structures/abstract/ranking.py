@@ -1,8 +1,6 @@
-from typing import List, Optional
-
 import pandas as pd
 
-from utils.functions import jsonfy
+from utils.functions import filter_by, jsonfy
 
 
 class Rankings:
@@ -20,7 +18,7 @@ class Rankings:
     @property
     def ranking_vinculos(self) -> pd.DataFrame:
         return self.get_ranking("vinculo")
-    
+
     @property
     def ranking_equipes(self) -> pd.DataFrame:
         return self.get_ranking("equipe")
@@ -28,18 +26,15 @@ class Rankings:
     @property
     def ranking_tipos(self) -> pd.DataFrame:
         return self.get_ranking("tipo")
-    
+
     @property
     def ranking_status(self) -> pd.DataFrame:
         return self.get_ranking("status")
 
-    def get_ranking(self, column: str, tipo: Optional[List] = None) -> pd.DataFrame:
-        dataframe = self.dataframe.copy()
-        if tipo:
-            dataframe = dataframe[dataframe["tipo"].isin(tipo)]
-
+    def get_ranking(self, target: str, **filters) -> pd.DataFrame:
+        dataframe = filter_by(self.dataframe.copy(), **filters)
         dataframe["receita"] = dataframe["receita"].astype(float)
-        ranking = dataframe.groupby(column, as_index=False).sum(numeric_only=True)[
-            [column, "receita", "volume"]
+        ranking = dataframe.groupby(target, as_index=False).sum(numeric_only=True)[
+            [target, "receita", "volume"]
         ]
         return jsonfy(ranking)

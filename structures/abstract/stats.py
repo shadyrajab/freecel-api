@@ -1,15 +1,13 @@
-from typing import Dict, List, Optional
+from typing import Dict
 
 import pandas as pd
 
-from utils.utils import SUPERVISORES
+from utils.functions import filter_by
 
 
 class Stats:
     def __init__(self, dataframe: pd.DataFrame) -> None:
-        dataframe["receita"] = dataframe["preco"] * dataframe["volume"]
         dataframe["data_recebimento"] = pd.to_datetime(dataframe["data_recebimento"])
-        
         self.dataframe = dataframe
 
     @property
@@ -50,18 +48,10 @@ class Stats:
     def volume_media(self) -> float:
         return float(self.volume / self.periodo_trabalhado)
 
-    def media_por_consultor(self, tipo: Optional[List[str]] = None) -> float:
-        dataframe = self.dataframe.copy()
-        if tipo:
-            dataframe = dataframe[dataframe["tipo"].isin(tipo)]
-
-        dataframe = dataframe[~dataframe["consultor"].isin(SUPERVISORES)]
-        consultores = dataframe["consultor"].nunique()
-        if consultores == 0:
-            return 0
-
-        media_por_consultor = dataframe["receita"].sum() / consultores
-        return media_por_consultor
+    def get_media(self, target: str, metric: str, **filters) -> float:
+        dataframe = filter_by(self.dataframe.copy(), **filters)
+        unique = dataframe[target].nunique()
+        return (dataframe[metric].sum() / unique) if unique != 0 else unique
 
     def to_json(self) -> Dict:
         data = {}
