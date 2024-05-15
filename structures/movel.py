@@ -12,15 +12,15 @@ class Movel(Stats, Rankings):
 
     @property
     def media_consultor_migracao_prepos(self) -> float:
-        return self.get_media("consultor", tipo=MIGRACAO_PREPOS)
+        return self.get_media("consultor", "receita", tipo=MIGRACAO_PREPOS)
 
     @property
     def media_consultor_altas(self) -> float:
-        return self.get_media("consultor", tipo=ALTAS)
+        return self.get_media("consultor", "receita", tipo=ALTAS)
 
     @property
     def media_consultor_pen(self) -> float:
-        return self.get_media("consultor", tipo=PEN)
+        return self.get_media("consultor", "receita", tipo=PEN)
 
     @property
     def ranking_altas(self):
