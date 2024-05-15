@@ -5,14 +5,13 @@ from handler import handler_get_request
 
 router = APIRouter(prefix="/stats", tags=["stats"])
 
-STATUS_PARA_CONSTAR_NO_RANKING = ["CONCLUIDO", "FATURANDO-PORTABILIDADE"]
-
 
 @router.get("/movel")
 async def movel(
     data_inicio: str = Query(..., description="Data Inicial"),
     data_fim: str = Query(..., description="Data Final"),
     equipe: str = Query(None, description="Equipe"),
+    status: list = Query(None, description="Status para constar no Ranking"),
 ):
     async with Client() as client:
         return await handler_get_request(
@@ -20,7 +19,7 @@ async def movel(
             data_inicio=data_inicio,
             data_fim=data_fim,
             equipe=equipe,
-            status=STATUS_PARA_CONSTAR_NO_RANKING,
+            status=status,
         )
 
 
@@ -29,6 +28,7 @@ async def fixa(
     data_inicio: str = Query(..., description="Data Inicial"),
     data_fim: str = Query(..., description="Data Final"),
     equipe: str = Query(None, description="Equipe"),
+    status: list = Query(None, description="Status para constar no Ranking"),
 ):
     async with Client() as client:
         return await handler_get_request(
@@ -36,7 +36,7 @@ async def fixa(
             data_inicio=data_inicio,
             data_fim=data_fim,
             equipe=equipe,
-            status=STATUS_PARA_CONSTAR_NO_RANKING,
+            status=status,
         )
 
 
@@ -45,6 +45,7 @@ async def geral(
     data_inicio: str = Query(..., description="Data Inicial"),
     data_fim: str = Query(..., description="Data Final"),
     equipe: str = Query(None, description="Equipe"),
+    status: list = Query(None, description="Status para constar no Ranking"),
 ):
     async with Client() as client:
         return await handler_get_request(
@@ -52,5 +53,5 @@ async def geral(
             data_inicio=data_inicio,
             data_fim=data_fim,
             equipe=equipe,
-            status=STATUS_PARA_CONSTAR_NO_RANKING,
+            status=status,
         )
