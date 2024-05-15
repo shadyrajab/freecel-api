@@ -6,14 +6,7 @@ from pycpfcnpj import cpfcnpj
 from pydantic import EmailStr, validator
 
 from empresas.empresas_aqui import Empresa
-from utils.utils import (
-    EQUIPES,
-    ESTEIRA,
-    STATUS_FIXA,
-    STATUS_MOVEL,
-    TIPOS_FIXA,
-    TIPOS_MOVEL,
-)
+from utils.utils import ESTEIRA, STATUS_FIXA, STATUS_MOVEL, TIPOS_FIXA, TIPOS_MOVEL
 from utils.variables import DDDS
 
 
@@ -25,7 +18,6 @@ class VendaRequestModel(Empresa):
     gestor: str
     plano: str
     volume: int
-    equipe: str
     tipo: str
     esteira: Optional[str] = "MÓVEL"
     email: EmailStr
@@ -82,13 +74,6 @@ class VendaRequestModel(Empresa):
             value = datetime.strptime(value, "%d-%m-%Y")
 
         return value
-
-    @validator("equipe")
-    def validate_equipe(cls, value):
-        if value.upper() not in EQUIPES:
-            raise ValueError(f"A equipe {value} não existe")
-
-        return value.upper()
 
     @validator("tipo")
     def validate_tipo(cls, value):
