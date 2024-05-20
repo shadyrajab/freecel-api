@@ -8,3 +8,7 @@ class Geral(Fixa, Movel):
     def __init__(self, dataframe: pd.DataFrame) -> None:
         self.dataframe = dataframe
         super().__init__(dataframe)
+
+    @property
+    def media_consultor_geral(self) -> float:
+        return self.get_media("consultor", "receita")
