@@ -10,7 +10,7 @@ router = APIRouter(prefix="/stats", tags=["stats"])
 async def movel(
     data_inicio: str = Query(..., description="Data Inicial"),
     data_fim: str = Query(..., description="Data Final"),
-    equipe: str = Query(None, description="Equipe"),
+    equipe: list = Query(None, description="Equipe"),
     status: list = Query(None, description="Status para constar no Ranking"),
 ):
     async with Client() as client:
@@ -27,7 +27,7 @@ async def movel(
 async def fixa(
     data_inicio: str = Query(..., description="Data Inicial"),
     data_fim: str = Query(..., description="Data Final"),
-    equipe: str = Query(None, description="Equipe"),
+    equipe: list = Query(None, description="Equipe"),
     status: list = Query(None, description="Status para constar no Ranking"),
 ):
     async with Client() as client:
@@ -44,7 +44,7 @@ async def fixa(
 async def geral(
     data_inicio: str = Query(..., description="Data Inicial"),
     data_fim: str = Query(..., description="Data Final"),
-    equipe: str = Query(None, description="Equipe"),
+    equipe: list = Query(None, description="Equipe"),
     status: list = Query(None, description="Status para constar no Ranking"),
 ):
     async with Client() as client:
