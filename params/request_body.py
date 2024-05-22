@@ -52,6 +52,7 @@ class UpdateVendaFixaParams(UpdateVendaParams):
     internet_mbps: Optional[int] = Field(None, description="Banda Larga")
     linhas: Optional[int] = Field(None, description="Quantidade de Linhas")
     esteira: Optional[str] = Field(None, description="Esteira")
+    deb_aut: Optional[bool] = Field(None, description="Débito automático")
 
     @validator("data_conclusao")
     def validate_data_conclusao(cls, value):
