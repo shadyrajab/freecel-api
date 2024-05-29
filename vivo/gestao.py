@@ -1,24 +1,35 @@
-import threading
 from datetime import datetime, time
 
 import pandas as pd
 import requests
 
 from utils.env import PAYLOAD
+from utils.functions import jsonfy
+
+LOGIN_URL = "https://vivogestao.vivoempresas.com.br/Portal/api/datapackcompanyinfo"
+RELATORIO_URL = (
+    "https://vivogestao.vivoempresas.com.br/Portal/api/voicereports?"
+    "action=getCallHistory&msisdn={telefone}&startDate={startDate}&endDate={endDate}"
+    "&startRow=1&fetchSize=10000&sessionId={sessionId}&remoteHost=gateway"
+    "&remoteIp={remoteIp}&acessLogin=santosegomes"
+)
 
 
 class VivoGestaoChamadas:
-    def __init__(self, data_inicio: str, data_fim: str, consultores: pd.DataFrame):
-        self.data_inicio = datetime.strptime(data_inicio, "%d-%m-%Y")
-        self.data_fim = datetime.strptime(data_fim, "%d-%m-%Y")
+    def __init__(self, data_inicio: str, data_fim: str, telefone: str, consultor: str):
+        data_inicio = datetime.strptime(data_inicio, "%d-%m-%Y")
+        data_fim = datetime.strptime(data_fim, "%d-%m-%Y")
+
+        self.start_date = int(
+            datetime.combine(data_inicio, time.min).timestamp() * 1000
+        )
+        self.end_date = int(datetime.combine(data_fim, time.max).timestamp() * 1000 - 1)
+
         self.session_id, self.remote_ip = self.__login_vivo_gestao()
-        self.consultores = consultores
+        self.telefone = telefone
+        self.consultor = consultor
 
-        self.threads = []
-        self.records = []
-
-        self.__create_threads()
-        self.__run_threads()
+        self.records = self.__get_records()
 
     def __login_vivo_gestao(self):
         URL = "https://vivogestao.vivoempresas.com.br/Portal/api/datapackcompanyinfo"
@@ -26,39 +37,18 @@ class VivoGestaoChamadas:
         data = response.json()
         return data["sessionId"], data["remoteIp"]
 
-    def __create_threads(self):
-        start_date = (
-            int(datetime.combine(self.data_inicio, time.min).timestamp()) * 1000
+    def __get_records(self):
+        url = RELATORIO_URL.format(
+            telefone=self.telefone,
+            startDate=self.start_date,
+            endDate=self.end_date,
+            sessionId=self.session_id,
+            remoteIp=self.remote_ip,
         )
-        end_date = int(datetime.combine(self.data_fim, time.max).timestamp()) * 1000 - 1
-        for _index, row in self.consultores.iterrows():
-            telefone = row["telefone"]
-            consultor = row["nome"]
-            URL = f"https://vivogestao.vivoempresas.com.br/Portal/api/voicereports?action=getCallHistory&msisdn={telefone}&startDate={start_date}&endDate={end_date}&startRow=1&fetchSize=50&sessionId={self.session_id}&remoteHost=gateway&remoteIp={self.remote_ip}&acessLogin=santosegomes"
-
-            thread = threading.Thread(
-                target=self.__get_total_record_count,
-                args=(
-                    URL,
-                    consultor,
-                    telefone,
-                ),
-            )
-
-            thread.start()
-            self.threads.append(thread)
-
-    def __run_threads(self):
-        for thread in self.threads:
-            thread.join()
-
-    def __get_total_record_count(self, url: str, consultor: str, telefone: str):
         response = requests.get(url)
-        data = response.json()
-        result = {
-            "CONSULTOR": consultor,
-            "TELEFONE": telefone,
-            "CHAMADAS": data["totalRecordCount"],
-        }
+        result = pd.DataFrame(response.json()['result'])
 
-        self.records.append(result)
+        result["Consultor"] = self.consultor
+        result["Telefone"] = self.telefone
+
+        return jsonfy(result)
