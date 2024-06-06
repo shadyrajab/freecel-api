@@ -16,7 +16,7 @@ class VendaFixaRequestModel(VendaRequestModel):
     internet_mbps: int
     linhas: int
     endereco: str
-    deb_aut: bool
+    deb_aut: Optional[bool] = False
 
     @validator("campanha")
     def validate_campanha(cls, campanha) -> str:
