@@ -91,7 +91,6 @@ class Empresa(BaseModel):
     def __get_empresa(self, cnpj: str):
         url = f"https://www.empresaqui.com.br/api/{TOKENEMPRESAS}/{cnpj}"
         response = request("GET", url=url)
-        print(response.json())
         if response.status_code == 200 and response.text:
             return response.json()
 
