@@ -8,6 +8,7 @@ from utils.functions import filter_by
 class Stats:
     def __init__(self, dataframe: pd.DataFrame) -> None:
         dataframe["data_recebimento"] = pd.to_datetime(dataframe["data_recebimento"])
+        dataframe["receita"] = dataframe["receita"].astype(float)
         self.dataframe = dataframe
 
     @property
