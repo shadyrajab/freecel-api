@@ -11,8 +11,7 @@ class VendaMovelRequestModel(VendaRequestModel):
     ov: Optional[int] = None
     qtd_aparelho: Optional[int] = None
     valor_aparelho: Optional[float] = None
-    m: Optional[int] = None
-    tipo_m: Optional[str] = None
+    m: Optional[list] = None
     valor_atual: Optional[float] = None
     valor_renovacao: Optional[float] = None
     pacote_inovacao: Optional[str] = None
@@ -27,11 +26,3 @@ class VendaMovelRequestModel(VendaRequestModel):
             return data_ativacao
         data_ativacao = datetime.strptime(data_ativacao, "%d-%m-%Y")
         return data_ativacao
-
-    @validator("tipo_m")
-    def validate_tipo_m(cls, tipo_m) -> str:
-        tipo_m = tipo_m.upper()
-        if tipo_m not in ["PADRÃO", "UP", "DOWN"]:
-            raise ValueError(f"O tipo de M {tipo_m} não existe.")
-
-        return tipo_m
