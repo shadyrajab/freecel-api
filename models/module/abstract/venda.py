@@ -23,7 +23,7 @@ class VendaRequestModel(Empresa):
     email: EmailStr
     ddd: str
     status: str
-    n_pedido: Optional[str] = None
+    n_pedido: Optional[str] = ''
     observacao: Optional[str] = None
     adabas: str
 

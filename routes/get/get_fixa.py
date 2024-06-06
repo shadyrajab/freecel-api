@@ -19,6 +19,7 @@ async def vendas_fixa(
     status: list = Query(None, description="Status da Venda"),
     responsavel: str = Query(None, description="Responsável pela Venda"),
     plano: list = Query(None, description="Planos das Vendas"),
+    n_pedido: str = Query(None, description="Número de pedido"),
 ):
     async with Client() as client:
         return await handler_get_request(
@@ -34,4 +35,5 @@ async def vendas_fixa(
             status=status,
             responsavel=responsavel,
             plano=plano,
+            n_pedido=n_pedido,
         )
