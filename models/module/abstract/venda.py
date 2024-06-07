@@ -26,6 +26,7 @@ class VendaRequestModel(Empresa):
     n_pedido: Optional[str] = ''
     observacao: Optional[str] = None
     adabas: str
+    m: Optional[list] = []
 
     @validator("esteira")
     def validate_esteira(cls, esteira: str):

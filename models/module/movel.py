@@ -11,7 +11,6 @@ class VendaMovelRequestModel(VendaRequestModel):
     ov: Optional[int] = None
     qtd_aparelho: Optional[int] = None
     valor_aparelho: Optional[float] = None
-    m: Optional[list] = []
     valor_atual: Optional[float] = None
     valor_renovacao: Optional[float] = None
     pacote_inovacao: Optional[str] = None
