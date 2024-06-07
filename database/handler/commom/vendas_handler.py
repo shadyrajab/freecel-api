@@ -26,9 +26,11 @@ class VendaHandlerDatabase:
     ):
         values = venda.to_dict()
         values["responsavel"] = user
-        values["preco"] = await self.get_preco(venda.plano)
+        if values["esteira"] == "MÓVEL":
+            values["preco"] = await self.get_preco(venda.plano)
+            
         values["vinculo"], values["equipe"] = await self.get_revenda(venda.consultor)
-        
+
         QUERY, values = post_vendas_query_builder(database=database, **values)
         async with self.pool.acquire() as connection:
             id = await connection.fetchval(QUERY, *values)

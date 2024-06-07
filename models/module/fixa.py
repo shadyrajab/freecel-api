@@ -12,6 +12,7 @@ class VendaFixaRequestModel(VendaRequestModel):
     cep: int
     data_conclusao: Optional[str] = None
     data_instalacao: Optional[str] = None
+    preco: float
     instancia: str
     internet_mbps: int
     linhas: int
