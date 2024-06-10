@@ -50,18 +50,18 @@ class VendaRequestModel(Empresa):
 
         return value
 
-    @validator("telefone")
-    def validate_telefone(cls, value):
-        telefone = re.sub(r"[^0-9]", "", value)
-        if len(telefone) != 11 or telefone[0:2] not in DDDS:
-            raise ValueError(
-                """
-                O número de telefone informado está inválido. Informe o número DDD e os 9 dígitos 
-                do telefone.
-            """
-            )
+    # @validator("telefone")
+    # def validate_telefone(cls, value):
+    #     telefone = re.sub(r"[^0-9]", "", value)
+    #     if len(telefone) != 11 or telefone[0:2] not in DDDS:
+    #         raise ValueError(
+    #             """
+    #             O número de telefone informado está inválido. Informe o número DDD e os 9 dígitos 
+    #             do telefone.
+    #         """
+    #         )
 
-        return telefone
+    #     return telefone
 
     @validator("data_input")
     def validate_data_input(cls, value):
