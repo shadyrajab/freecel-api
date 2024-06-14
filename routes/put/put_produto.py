@@ -5,7 +5,7 @@ from client.client import Client
 from handler import handler_put_request
 from params.request_body import UpdateProdutoParams
 
-router = APIRouter(prefix="/produtos", tags=["produtos"])
+router = APIRouter(prefix="/planos", tags=["planos"])
 
 
 @router.put("/")

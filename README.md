@@ -57,3 +57,30 @@ pip install -r requirements.txt
 ```sh
 uvicorn main:app --reload
 ```
+
+# Acessando a API e executando requests:
+
+Você pode acessar o SWAGER da API através desse link: http://127.0.0.1:8000/docs
+
+
+### Endpoints:
+
+- **/consultores** - GET/POST/DELETE consultores ao banco de dados da Freecel;
+- **/consultores/{nome_consultor}** - GET métricas de desempenho de um consultor e todas as suas vendas;
+- **/vendas/fixa** - GET/POST/DELETE vendas da esteira fixa;
+- **/vendas/movel** - GET/POST/DELETE vendas da esteira móvel;
+- **/vendas/geral8** - GET vendas de todas as esteiras;
+- **/planos** - GET/POST/PUT/DELETE planos da Vivo;
+
+- **/chamadas** - GET chamadas de todos os consultores da Freecel. Automatiza o processo de ir ao Vivo Gestão fazer a contagem de ligações de cada consultor;
+
+- **/stats/{esteira}** - GET métricas e rankings de vendas por esteira;
+
+- **/simulacao** - POST faz análise de contrato de maneira automatizada. Lê todos os PDFS e transforma em planilhas, depois retorna as análises necessárias para o BKO;
+
+- **/utils** - GET variáveis para serem utilizadas pelo front-end;
+
+
+### Front-end:
+
+O Front-end do projeto pode ser encontrado nesse link: https://github.com/shadyrajab
