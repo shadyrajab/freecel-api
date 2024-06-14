@@ -83,4 +83,4 @@ Você pode acessar o SWAGER da API através desse link: http://127.0.0.1:8000/do
 
 ### Front-end:
 
-O Front-end do projeto pode ser encontrado nesse link: https://github.com/shadyrajab
+O Front-end do projeto pode ser encontrado nesse link: https://github.com/shadyrajab/freecel-dashboard
