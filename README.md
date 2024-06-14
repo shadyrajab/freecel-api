@@ -34,7 +34,26 @@ de testes.
 - [PyPDF2](https://pypi.org/project/PyPDF2/) - Biblioteca para manipulação de arquivos PDF.
 - [reportlab](https://www.reportlab.com/) - Biblioteca para gerar documentos PDF com Python.
 
+### Pré-requisitos
 
-## Executar o projeto:
+- Python 3.7 ou superior
+- Pip (gerenciador de pacotes do Python)
 
+### Instalação e execução
 
+1. Clone o repositório para sua máquina local:
+
+```sh
+git clone https://github.com/shadyrajab/freecel-api.git
+cd abertura-conta-bancaria
+```
+
+2. Instale as dependências:
+```sh
+pip install -r requirements.txt
+```
+
+3. Executando a Aplicação
+```sh
+uvicorn main:app --reload
+```
