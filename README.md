@@ -45,7 +45,6 @@ de testes.
 
 ```sh
 git clone https://github.com/shadyrajab/freecel-api.git
-cd abertura-conta-bancaria
 ```
 
 2. Instale as dependências:
