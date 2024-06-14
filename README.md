@@ -84,3 +84,6 @@ Você pode acessar o SWAGER da API através desse link: http://127.0.0.1:8000/do
 ### Front-end:
 
 O Front-end do projeto pode ser encontrado nesse link: https://github.com/shadyrajab/freecel-dashboard
+[streamlit-Home-2024-06-14-15-06-50.webm](https://github.com/shadyrajab/freecel-api/assets/65933264/33de120b-20c4-4888-8c92-f1643a490400)
+
+
