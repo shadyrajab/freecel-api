@@ -68,7 +68,7 @@ Você pode acessar o SWAGER da API através desse link: http://127.0.0.1:8000/do
 - **/consultores/{nome_consultor}** - GET métricas de desempenho de um consultor e todas as suas vendas;
 - **/vendas/fixa** - GET/POST/DELETE vendas da esteira fixa;
 - **/vendas/movel** - GET/POST/DELETE vendas da esteira móvel;
-- **/vendas/geral8** - GET vendas de todas as esteiras;
+- **/vendas/geral** - GET vendas de todas as esteiras;
 - **/planos** - GET/POST/PUT/DELETE planos da Vivo;
 
 - **/chamadas** - GET chamadas de todos os consultores da Freecel. Automatiza o processo de ir ao Vivo Gestão fazer a contagem de ligações de cada consultor;
